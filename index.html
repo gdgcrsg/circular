@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GDGCRSG ভর্তি ফরম</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      background: #f1f5f9;
+      color: #1e293b;
+    }
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 20px;
+      background: #0f172a;
+      color: #fff;
+      border-bottom: 4px solid #1d4ed8;
+      flex-wrap: wrap;
+    }
+    .header .logo {
+      height: 70px;
+      width: 70px;
+      border-radius: 50%;
+      border: 2px solid #fff;
+      background: #fff;
+      padding: 5px;
+    }
+    .header h1 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+    .header p {
+      font-size: 0.9rem;
+      margin: 0;
+      opacity: 0.8;
+    }
+    /* Search */
+    .search-box {
+      text-align: center;
+      margin: 20px;
+    }
+    .search-box input {
+      width: 70%;
+      max-width: 400px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+    /* Grid for cards */
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+    }
+    .card img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #1d4ed8;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      margin: 8px 0 5px;
+      font-size: 1.1rem;
+      color: #0f172a;
+    }
+    .card p {
+      margin: 4px 0;
+      font-size: 0.9rem;
+      color: #334155;
+    }
+    .label {
+      font-weight: bold;
+      color: #1e40af;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 750px;
+      width: 100%;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #e2e8f0;
+      margin-bottom: 15px;
+      padding-bottom: 8px;
+    }
+    .close {
+      font-size: 1.5rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    /* Table inside modal */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f8fafc;
+      color: #1e3a8a;
+      width: 35%;
+    }
+    td {
+      color: #334155;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg2uoDdiCRQlbsyEYYACg2oAtkXr0VCXFRJi3vsEtKoOy4RA5mqlA04784903v09kSCp3YTV2vzJBsIaK0NnpKdtoVgT8vY4btXjxtfWRhUP-VzFL8KkColwJaTD9Pb9jq3cW_wdrlkx69s9MGDX3VMyjqlZS3xmIJfzLW4tz97eTf7ecDpgP_gnOZDwT8/s1024/1000038009.png" alt="Logo">
+    <div>
+      <h1>Gurudayal Govt. College Rover Scout Group - সহচর ভর্তি আবেদন</h1>
+      <p>"নতুন সদস্য, নতুন আশা, অসীম সম্ভাবনা!" 🌟</p>
+    </div>
+  </header>
+
+  <!-- Search -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 যেকোনো তথ্য দিয়ে সার্চ করুন...">
+  </div>
+
+  <div class="container" id="cardsContainer"></div>
+
+  <!-- Modal -->
+  <div class="modal" id="profileModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalName"></h2>
+        <span class="close" onclick="closeModal()">&times;</span>
+      </div>
+      <div id="modalDetails"></div>
+    </div>
+  </div>
+
+  <script>
+    const sheetURL = "https://docs.google.com/spreadsheets/d/1xUqDLo96syqjPIfzaTR5UnL47XCYW4iVpTF9YURB6EY/export?format=tsv";
+
+    let allData = [];
+    let headers = [];
+
+    async function loadData() {
+      const response = await fetch(sheetURL);
+      const text = await response.text();
+      const rows = text.trim().split("\n").map(r => r.split("\t"));
+      headers = rows[0];
+      allData = rows.slice(1);
+      renderCards(allData);
+    }
+
+    function renderCards(data) {
+      const container = document.getElementById("cardsContainer");
+      container.innerHTML = "";
+
+      data.forEach(row => {
+        const obj = {};
+        headers.forEach((h, i) => obj[h] = row[i]);
+
+        // কার্ডে দেখানোর তথ্য
+        const photo = obj["আপনার ছবি"];
+        const formNo = obj["ফরম নম্বর (রোভার ডেন থেকে সরাসরি ভর্তি ফরম সংগ্রহ করে থাকলে ফরমে উপর-বাম কর্ণারে ফরম নম্বর উল্লেখ রয়েছে) ফরম নম্বর না থাকলে এই বক্স খালি রাখুন।"];
+        const name = obj["নাম (বাংলায়)"];
+        const mobile = obj["মোবাইল নম্বর"]?.slice(-11);
+        const email = obj["Your email"];
+        const className = obj["শ্রেণি"];
+        const year = obj["শিক্ষাবর্ষ"];
+        const collegeId = obj["কলেজ আইডি নম্বর"];
+        const dept = obj["বিভাগ"];
+
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${photo}" alt="${name}">
+          <h3>${name || "নাম নেই"}</h3>
+          ${formNo ? `<p><span class="label">Form No:</span> ${formNo}</p>` : ""}
+          ${mobile ? `<p><span class="label">Mobile:</span> ${mobile}</p>` : ""}
+          ${email ? `<p><span class="label">Email:</span> ${email}</p>` : ""}
+          ${className ? `<p><span class="label">Class:</span> ${className}</p>` : ""}
+          ${year ? `<p><span class="label">Academic Year:</span> ${year}</p>` : ""}
+          ${collegeId ? `<p><span class="label">College ID:</span> ${collegeId}</p>` : ""}
+          ${dept ? `<p><span class="label">Division:</span> ${dept}</p>` : ""}
+        `;
+        card.onclick = () => showProfile(obj, name);
+        container.appendChild(card);
+      });
+    }
+
+    function showProfile(obj, name) {
+      const modal = document.getElementById("profileModal");
+      document.getElementById("modalName").textContent = name;
+      const details = document.getElementById("modalDetails");
+
+      let table = "<table>";
+      for (const [key, value] of Object.entries(obj)) {
+        if (value && key !== "আপনার ছবি" && key !== "জন্ম নিবন্ধন নম্বর/NID" && key !== "জন্ম নিবন্ধন নম্বর/NID (1)") {
+          table += `<tr><th>${key}</th><td>${value}</td></tr>`;
+        }
+      }
+      table += "</table>";
+      details.innerHTML = table;
+
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("profileModal").style.display = "none";
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById("profileModal");
+      if (event.target === modal) closeModal();
+    };
+
+    // Search filter
+    document.getElementById("searchInput").addEventListener("input", function() {
+      const query = this.value.toLowerCase();
+      const filtered = allData.filter(row =>
+        row.some(col => col.toLowerCase().includes(query))
+      );
+      renderCards(filtered);
+    });
+
+    loadData();
+  </script>
+<div class="footer">
+  <p>
+    © <span id="year"></span> | All Rights Reserved <br>
+    <a href="https://www.facebook.com/groups/gdcrover/?ref=share&mibextid=NSMWBT" target="_blank">
+      Gurudayal Govt. College Rover Scout Group
+    </a>
+  </p>
+  <div class="developer">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCDeXufBywGlGcvjFv5OaZNnGnIFboYZgUyo9NPcDt7SH5dWhG6Kv7wOtGMm5uBfA-2RCI41U0IWscQhEPQ9_6mHg192N68FaFDDE4HIfb8zXw6Ubafj329ToS6mYTqHo8Wu8aRidwjczDQZ4Id_t7K-E32b8ZthoHTIH3r86pWwfOmFdNvgcQOOeHBDc/s2000/1000038033.png" alt="Md. Ashfaqur Rahman Tanim">
+    <div>
+      <strong>Developed by</strong><br>
+      Md. Ashfaqur Rahman Tanim<br>Rover Mate (Unit-3)
+    </div>
+  </div>
+</div>
+
+<style>
+  .footer {
+    background: #f8f9fa;
+    padding: 20px 10px;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 14px;
+    color: #333;
+    border-top: 1px solid #ddd;
+    margin-top: 30px;
+  }
+
+  .footer a {
+    color: #0d6efd;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    color: #0a58ca;
+  }
+
+  .developer {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 13px;
+    color: #444;
+  }
+
+  .developer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    object-fit: cover;
+  }
+
+  .developer strong {
+    color: #000;
+  }
+</style>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+
+</body>
+</html>
