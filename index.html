@@ -1,243 +1,1204 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GDGCRSG ভর্তি ফরম</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: "Segoe UI", sans-serif; background: #f1f5f9; color: #1e293b; line-height: 1.5; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - ভর্তি</title>
+    <meta name="description" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে নতুন রোভারদের ভর্তি চলছে। অনলাইনে আবেদন করুন এবং স্কাউটিংয়ের রোমাঞ্চকর জগতে প্রবেশ করুন।">
+    <meta name="keywords" content="রোভার স্কাউট, গুরুদয়াল কলেজ, ভর্তি, স্কাউটিং, কিশোরগঞ্জ, সরকারি কলেজ, আবেদন">
+    <meta name="author" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ">
+    <meta property="og:title" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - ভর্তি">
+    <meta property="og:description" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে নতুন রোভারদের ভর্তি চলছে। অনলাইনে আবেদন করুন এবং স্কাউটিংয়ের রোমাঞ্চকর জগতে প্রবেশ করুন।">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="YOUR_WEBSITE_URL_HERE">
+    <meta property="og:image" content="YOUR_LOGO_IMAGE_URL_HERE">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="YOUR_FAVICON_URL_HERE" type="image/x-icon">
 
-  .header {
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 15px;
-    padding: 20px; background: #0f172a; color: #fff; border-bottom: 4px solid #1d4ed8; text-align: center;
-  }
-  .header .logo { height: 70px; width: 70px; border-radius: 50%; border: 2px solid #fff; background: #fff; padding: 5px; }
-  .header h1 { font-size: clamp(1.2rem, 2vw, 1.6rem); }
-  .header p { font-size: clamp(0.8rem, 1.5vw, 1rem); opacity: 0.8; }
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Montserrat:wght@400;600;700&display=swap');
 
-  .search-box { text-align: center; margin: 20px; }
-  .search-box input {
-    width: 80%; max-width: 400px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 1rem;
-  }
+        :root {
+            --primary-color: #28a745; /* Scout Green */
+            --secondary-color: #0056b3; /* Darker Blue */
+            --accent-color: #ffc107; /* Scout Yellow */
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --bg-light: #f4f7f6;
+            --bg-dark: #2c3e50;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition-speed: 0.3s ease-in-out;
+        }
 
-  .container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    padding: 20px;
-    align-items: stretch; /* সব কার্ড একই উচ্চতায় */
-  }
-  .card {
-    background: #fff;
-    border-radius: 16px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    padding: 20px;
-    text-align: center;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    /* ফিক্স */
-    word-wrap: break-word;
-    overflow-wrap: break-word;
-    word-break: break-word;
-  }
-  .card:hover { transform: translateY(-5px); box-shadow: 0 8px 16px rgba(0,0,0,0.15); }
-  .card img {
-    width: 90px; height: 90px; border-radius: 50%; object-fit: cover; border: 3px solid #1d4ed8; margin-bottom: 10px;
-  }
-  .card h3 {
-    margin: 8px 0 5px;
-    font-size: 1.1rem;
-    color: #0f172a;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-  }
-  .card p {
-    margin: 4px 0;
-    font-size: 0.9rem;
-    color: #334155;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-  }
-  .label { font-weight: bold; color: #1e40af; }
+        html {
+            scroll-behavior: smooth;
+        }
 
-  .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; padding: 20px; }
-  .modal-content { background: #fff; border-radius: 12px; max-width: 750px; width: 100%; padding: 20px; overflow-y: auto; max-height: 90vh; }
-  .modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #e2e8f0; margin-bottom: 15px; padding-bottom: 8px; }
-  .close { font-size: 1.5rem; cursor: pointer; font-weight: bold; }
-  table { width: 100%; border-collapse: collapse; }
-  th, td { padding: 10px; text-align: left; border-bottom: 1px solid #e2e8f0; }
-  th { background: #f8fafc; color: #1e3a8a; width: 35%; }
-  td { color: #334155; }
+        body {
+            font-family: 'Hind Siliguri', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--bg-light);
+            overflow-x: hidden;
+        }
 
-  .footer { background: #f8f9fa; padding: 20px 10px; text-align: center; font-size: 14px; color: #333; border-top: 1px solid #ddd; margin-top: 30px; }
-  .footer a { color: #0d6efd; text-decoration: none; font-weight: 500; }
-  .footer a:hover { color: #0a58ca; text-decoration: underline; }
-  .developer { margin-top: 15px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px; font-size: 13px; color: #444; }
-  .developer img { width: 40px; height: 40px; border-radius: 50%; border: 2px solid #ddd; object-fit: cover; }
-  .developer strong { color: #000; }
+        /* Utility Classes */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
 
-  /* --- Password Overlay --- */
-  #passwordScreen {
-    position: fixed; top:0; left:0; width:100%; height:100%;
-    background: #0f172a; display:flex; justify-content:center; align-items:center; flex-direction:column; z-index:2000; color:#fff; text-align:center; padding: 20px;
-  }
-  #passwordScreen h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: 10px; }
-  #passwordScreen p { font-size: clamp(1rem, 2vw, 1.2rem); margin-bottom: 15px; }
-  #passwordScreen input { padding:10px; border-radius:5px; border:none; margin-bottom: 10px; font-size:1rem; width:100%; max-width:300px; }
-  #passwordScreen button { padding:10px 20px; border:none; border-radius:5px; background:#1d4ed8; color:#fff; cursor:pointer; font-size:1rem; }
-  #errorMsg { color:red; margin-top:10px; display:none; font-size:0.9rem; }
+        .text-center {
+            text-align: center;
+        }
 
-  @media (max-width:768px){
-    .container { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); }
-  }
-</style>
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 14px 28px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color var(--transition-speed), transform var(--transition-speed);
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.5px;
+        }
+
+        .btn:hover {
+            background-color: #218838; /* Darker green */
+            transform: translateY(-3px);
+            box-shadow: var(--box-shadow);
+        }
+        .facebook-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: #1877f2; /* Facebook blue */
+            color: white;
+            border-radius: 50%; /* গোলাকার করবে */
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .facebook-icon:hover {
+            background-color: #0d65d9; /* Darker blue on hover */
+            transform: scale(1.1);
+        }
+
+        .facebook-icon i {
+            font-size: 18px;
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+        }
+
+        .btn-secondary:hover {
+            background-color: #004085;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-dark);
+            color: var(--light-text-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: background-color var(--transition-speed);
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-text-color);
+            text-decoration: none;
+            transition: transform var(--transition-speed);
+        }
+        
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 10px;
+            
+        }
+
+        @keyframes rotateLogo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+        }
+
+        .navbar ul li {
+            margin-left: 30px;
+        }
+
+        .navbar ul li a {
+            color: var(--light-text-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-family: 'Montserrat', sans-serif;
+            padding: 5px 0;
+            position: relative;
+            transition: color var(--transition-speed);
+        }
+
+        .navbar ul li a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: width var(--transition-speed);
+        }
+
+        .navbar ul li a:hover::after {
+            width: 100%;
+        }
+
+        .navbar ul li a:hover {
+            color: var(--primary-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+            z-index: 1001;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--light-text-color);
+            margin: 4px 0;
+            transition: all var(--transition-speed);
+        }
+
+        /* Hero Section */
+        .hero {
+  width: 100%;
+  max-width: 1920px;
+  aspect-ratio: 4 / 3; /* 1920x1440 অনুপাত */
+  background: 
+    linear-gradient(
+      to bottom,
+      rgba(0, 153, 0, 0.0) 0%,    /* উপরে transparent green */
+      rgba(0, 60, 0, 0.0) 50%,   /* মাঝামাঝি light green overlay */
+      rgba(0, 100, 0, 0.4) 100%   /* নিচে dark green */
+    ),
+    url('https://i.postimg.cc/C5KD8MGs/retouch-2025091612125693.jpg')
+    no-repeat center center / cover;
+  color: var(--light-text-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s ease; /* Smooth transition */
+}
+
+
+
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            left: -50px;
+            right: -50px;
+            bottom: -50px;
+            background: rgba(40, 167, 69, 0.1); /* Subtle green overlay */
+            filter: blur(20px);
+            z-index: 0;
+            animation: heroOverlayPulse 10s infinite alternate;
+        }
+
+        @keyframes heroOverlayPulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            100% { transform: scale(1.1); opacity: 0.2; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: fadeInTop 1s forwards var(--transition-speed);
+        }
+
+        @keyframes fadeInTop {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--accent-color);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero p {
+            color: #fff; /* হোয়াইট টেক্সট */
+  text-shadow: 
+    4px 4px 6px rgba(0, 0, 0, 0.9),   /* হরাইজন্টাল + ভার্টিকাল + blur + opacity */
+    -4px -4px 6px rgba(0, 0, 0, 0.9); /* দুই পাশে আরও শেডো */
+  font-size: 1.5rem; /* চাইলে বড় বা ছোট করা যায় */
+  font-weight: 600;
+}
+
+        /* About Section */
+        .about, .activities, .contact {
+            padding: 80px 0;
+            background-color: var(--bg-light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about:nth-child(even), .activities:nth-child(even) {
+            background-color: #e9ecef;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 50px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            color: var(--secondary-color);
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .about-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+            transform: translateX(-50px);
+            opacity: 0;
+            animation: slideInLeft 1s forwards;
+        }
+        .about-image img {
+            width: 100%;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transition: transform 0.5s ease-in-out;
+        }
+        .about-image img:hover {
+            transform: scale(1.03) rotate(2deg);
+        }
+
+        .about-text {
+            flex: 2;
+            min-width: 300px;
+            transform: translateX(50px);
+            opacity: 0;
+            animation: slideInRight 1s forwards;
+        }
+
+        @keyframes slideInLeft {
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes slideInRight {
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .about-text h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Admission Section */
+        .admission {
+            background-color: var(--primary-color);
+            color: var(--light-text-color);
+            padding: 80px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+            margin-top: -100px; /* Overlap with previous section */
+            padding-top: 180px; /* Adjust for overlap */
+            padding-bottom: 120px;
+        }
+
+        .admission-content {
+            position: relative;
+            z-index: 1;
+            transform: translateY(30px);
+            opacity: 0;
+            animation: fadeInBottom 1s forwards 0.5s;
+        }
+
+        @keyframes fadeInBottom {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .admission h2 {
+            color: var(--accent-color);
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .admission p {
+            font-size: 1.3rem;
+            margin-bottom: 40px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .admission .btn {
+            background-color: var(--accent-color);
+            color: var(--secondary-color);
+            padding: 16px 35px;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: pulseButton 2s infinite;
+        }
+
+        .admission .btn:hover {
+            background-color: #e0a800; /* Darker yellow */
+            color: var(--bg-dark);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            animation: none;
+        }
+
+        @keyframes pulseButton {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(255, 193, 7, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+
+        .special-note {
+            background-color: rgba(255, 255, 255, 0.15);
+            padding: 25px;
+            border-radius: var(--border-radius);
+            margin-top: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--light-text-color);
+            animation: slideInUp 1s forwards 1s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        /* Activities Section */
+        .activities-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .activity-card {
+            background-color: #fff;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1s forwards;
+        }
+
+        .activity-card:nth-child(1) { animation-delay: 0.2s; }
+        .activity-card:nth-child(2) { animation-delay: 0.4s; }
+        .activity-card:nth-child(3) { animation-delay: 0.6s; }
+        .activity-card:nth-child(4) { animation-delay: 0.8s; }
+
+        @keyframes fadeInUp {
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .activity-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .activity-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            transition: transform var(--transition-speed);
+        }
+
+        .activity-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .activity-card-content {
+            padding: 25px;
+        }
+
+        .activity-card-content h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .activity-card-content p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Contact Section */
+        .contact {
+            background-color: var(--bg-dark);
+            color: var(--light-text-color);
+            clip-path: polygon(0 10%, 100% 0, 100% 100%, 0 100%);
+            margin-top: -100px;
+            padding-top: 180px;
+        }
+
+        .contact .section-title {
+            color: var(--accent-color);
+        }
+        .contact .section-title::after {
+            background-color: var(--light-text-color);
+        }
+
+        .contact-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        .contact-info, .contact-form-wrapper {
+            flex: 1;
+            min-width: 300px;
+            background-color: rgba(255, 255, 255, 0.08);
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            transform: scale(0.95);
+            opacity: 0;
+            animation: zoomIn 1s forwards;
+        }
+
+        .contact-info { animation-delay: 0.2s; }
+        .contact-form-wrapper { animation-delay: 0.4s; }
+
+        @keyframes zoomIn {
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .contact-info h3, .contact-form-wrapper h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .contact-info p i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .contact-form .form-group {
+            margin-bottom: 20px;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--light-text-color);
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: var(--border-radius);
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--light-text-color);
+            font-family: 'Hind Siliguri', sans-serif;
+            font-size: 1rem;
+            transition: border-color var(--transition-speed), background-color var(--transition-speed);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            background-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+        }
+
+        .contact-form textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .contact-form .btn {
+            width: 100%;
+            background-color: var(--primary-color);
+        }
+        .contact-form .btn:hover {
+            background-color: #218838;
+        }
+
+        /* Rover Team Section */
+        .rover-team {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .rover-team h4 {
+            color: var(--accent-color);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .team-members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .team-member-card {
+            background-color: rgba(255, 255, 255, 0.12);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: transform var(--transition-speed), background-color var(--transition-speed);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-member-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            background-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .team-member-card img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-bottom: 15px;
+            box-shadow: 0 0 0 5px rgba(255, 193, 7, 0.3);
+            transition: transform 0.4s ease-in-out, border-color 0.4s ease-in-out;
+        }
+
+        .team-member-card:hover img {
+            transform: scale(1.05) rotate(3deg);
+            border-color: var(--accent-color);
+        }
+
+        .team-member-card h5 {
+            color: var(--light-text-color);
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+
+        .team-member-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        
+        .team-member-card a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-speed);
+        }
+
+        .team-member-card a:hover {
+            color: var(--accent-color);
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #1a252f;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer p {
+            margin-bottom: 10px;
+        }
+
+        .social-links a {
+            color: var(--light-text-color);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            transition: color var(--transition-speed), transform var(--transition-speed);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            .hero p {
+                font-size: 1.2rem;
+            }
+            .about-content {
+                flex-direction: column;
+            }
+            .about-image, .about-text {
+                transform: none;
+                opacity: 1;
+                animation: none;
+            }
+            .about-image {
+                order: -1; /* Image first on mobile */
+            }
+            .admission h2 {
+                font-size: 2.5rem;
+            }
+            .admission p {
+                font-size: 1.1rem;
+            }
+            .contact-content {
+                flex-direction: column;
+            }
+            .contact-info, .contact-form-wrapper {
+                transform: none;
+                opacity: 1;
+                animation: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 90px; /* Adjust based on logo height */
+                left: 0;
+                width: 100%;
+                background-color: var(--bg-dark);
+                box-shadow: var(--box-shadow);
+                padding: 20px 0;
+                opacity: 0;
+                transform: translateY(-20px);
+                transition: opacity var(--transition-speed), transform var(--transition-speed);
+            }
+
+            .navbar.active {
+                display: flex;
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .navbar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar ul li {
+                margin: 15px 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(7px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-7px) rotate(-45deg);
+            }
+
+            .hero {
+                height: 70vh;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .hero p {
+                font-size: 1rem;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+            .admission {
+                clip-path: polygon(0 0, 100% 5%, 100% 100%, 0 95%);
+                padding-top: 100px;
+                padding-bottom: 80px;
+            }
+            .contact {
+                clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+                padding-top: 100px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 50px;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .section-title {
+                font-size: 1.8rem;
+            }
+            .admission h2 {
+                font-size: 2rem;
+            }
+            .admission p {
+                font-size: 1rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Font Awesome for Icons */
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+    </style>
 </head>
 <body>
 
-<!-- Password Overlay -->
-<div id="passwordScreen">
-  <h2>Access Restricted</h2>
-  <p>Enter the password to continue:</p>
-  <input type="password" id="passwordInput" placeholder="Password">
-  <button onclick="checkPassword()">Enter</button>
-  <p id="errorMsg">Wrong password!</p>
-</div>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEic19wSZLLUVZwlSOvcsnmlEtZWPu21blnfBWwpbL-QppSdtngt5-PqThIi2EFFOANk0vShth2xZQAqTazMSYD-e_UBnnDTMFDkQHMYWzqTj6_qGoEOkHF99IneAj9WFySQqi90Rwu7dMlEKo-R8oi0rbWxjSrLldhbN5hJyZPULKFsHrF0jdZtr-LfOcg/s2000/1000040482.png" alt="রোভার স্কাউট লোগো">
+                <p style="font-size: 21px;">গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</p>
+            </a>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="#hero">হোম</a></li>
+                    <li><a href="#about">আমাদের সম্পর্কে</a></li>
+                    <li><a href="#activities">কার্যক্রম</a></li>
+                    <li><a href="#admission">ভর্তি</a></li>
+                    <li><a href="#contact">যোগাযোগ</a></li>
+                </ul>
+            </nav>
+            <div class="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
 
-<header class="header">
-  <img class="logo" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg2uoDdiCRQlbsyEYYACg2oAtkXr0VCXFRJi3vsEtKoOy4RA5mqlA04784903v09kSCp3YTV2vzJBsIaK0NnpKdtoVgT8vY4btXjxtfWRhUP-VzFL8KkColwJaTD9Pb9jq3cW_wdrlkx69s9MGDX3VMyjqlZS3xmIJfzLW4tz97eTf7ecDpgP_gnOZDwT8/s1024/1000038009.png" alt="Logo">
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <div class="container hero-content">
+            <h1>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</h1>
+            <p>
+  সাহসিকতা, সেবা ও নেতৃত্বের এক নতুন দিগন্তে স্বাগতম। আপনার উজ্জ্বল ভবিষ্যতের পথচলায় আমরা সঙ্গী!
+</p><br><br>
+            <a href="#admission" class="btn">ভর্তি আবেদন করুন</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container text-center">
+            <h2 class="section-title">আমাদের সম্পর্কে</h2>
+            <div class="about-content">
+                <div class="about-image">
+                    <img src="https://i.postimg.cc/C5KD8MGs/retouch-2025091612125693.jpg" alt="রোভার স্কাউট ক্যাম্প">
+                </div>
+                <div class="about-text">
+                    <h3>সেবা, শৃঙ্খলা ও আদর্শের প্রতীক</h3>
+                    <p>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ দীর্ঘ বছর ধরে শিক্ষার্থীদের মাঝে আত্মবিশ্বাস, নেতৃত্ব এবং সামাজিক দায়বদ্ধতা বিকাশে কাজ করে যাচ্ছে। স্কাউটিংয়ের মূলনীতি মেনে আমরা দেশ ও দশের সেবায় সর্বদা প্রস্তুত।</p>
+                    <p>আমাদের রোভাররা বিভিন্ন সামাজিক কার্যক্রমে অংশগ্রহণ করে, দুর্যোগ মোকাবিলায় স্বেচ্ছাসেবক হিসেবে কাজ করে এবং পরিবেশ রক্ষায় অবদান রাখে। আমরা বিশ্বাস করি, স্কাউটিং একটি জীবন দর্শন যা একজন মানুষকে সুনাগরিক হিসেবে গড়ে তোলে।</p>
+                    <p>আমাদের গ্রুপে যোগ দিয়ে আপনি আপনার সুপ্ত প্রতিভাকে বিকশিত করার সুযোগ পাবেন এবং নতুন নতুন দক্ষতা অর্জন করবেন যা আপনার ভবিষ্যৎ জীবনে কাজে লাগবে।</p>
+                    <a href="#activities" class="btn btn-secondary">আমাদের কার্যক্রম দেখুন</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Admission Section -->
+    <section id="admission" class="admission">
+        <div class="container admission-content">
+            <h2>নতুন রোভারদের ভর্তি চলছে!</h2>
+            <p>আপনি যদি চ্যালেঞ্জ নিতে প্রস্তুত থাকেন এবং সমাজের জন্য কিছু করতে চান, তাহলে গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে আপনাকে স্বাগতম। অনলাইন ফরম পূরণ করে আপনার স্কাউটিং যাত্রা শুরু করুন!</p>
+            <div data-fillout-id="wqKCAzmCe8us" data-fillout-embed-type="popup" data-fillout-button-text="ভর্তি ফরম পূরণ করুন" data-fillout-dynamic-resize data-fillout-inherit-parameters data-fillout-popup-size="medium"></div>
+
+            <div style="
+  display: flex;
+  flex-direction: column; /* vertical alignment */
+  align-items: center; /* horizontal center */
+  justify-content: center; /* vertical center inside the box */
+  text-align: center; /* text center */
+  gap: 12px;
+  background: rgba(255, 230, 230, 0.95);
+  border-left: 6px solid #ff0000;
+  color: #b30000;
+  padding: 20px 25px;
+  margin-top: 50px;
+  border-radius: 10px;
+  font-weight: 500;
+  line-height: 1.6;
+  filter: none !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+  isolation: isolate;
+">
+  <div style="font-size: 30px; line-height: 1;">⚠️</div>
   <div>
-    <h1>Gurudayal Govt. College Rover Scout Group - সহচর ভর্তি আবেদন</h1>
-    <p>"নতুন সদস্য, নতুন আশা, অসীম সম্ভাবনা!" 🌟</p>
-  </div>
-</header>
-
-<div class="search-box">
-  <input type="text" id="searchInput" placeholder="🔍 যেকোনো তথ্য দিয়ে সার্চ করুন...">
-</div>
-
-<div class="container" id="cardsContainer"></div>
-
-<div class="modal" id="profileModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h2 id="modalName"></h2>
-      <span class="close" onclick="closeModal()">&times;</span>
-    </div>
-    <div id="modalDetails"></div>
+    <p style="margin: 0;"><strong>বিশেষ দ্রষ্টব্য:</strong> অনলাইন ভর্তি ফরম পূরণ করার পর আপনার ভর্তি নিশ্চিত করতে অনুগ্রহ করে গুরুদয়াল সরকারি কলেজ রোভার ডেনে যোগাযোগ করুন।</p>
+    <p style="margin: 5px 0 0 0;">যোগাযোগের সময়: প্রতিদিন সকাল ১০টা থেকে বিকাল ৪টা (সাপ্তাহিক ও সরকারি ছুটির দিন ব্যতীত)</p>
   </div>
 </div>
 
-<div class="footer">
-  <p>© <span id="year"></span> | All Rights Reserved <br>
-    <a href="https://www.facebook.com/groups/gdcrover/?ref=share&mibextid=NSMWBT" target="_blank">
-      Gurudayal Govt. College Rover Scout Group
+
+        </div>
+    </section>
+
+    <!-- Activities Section -->
+    <section id="activities" class="activities">
+        <div class="container text-center">
+            <h2 class="section-title">আমাদের কার্যক্রম</h2>
+            <div class="activities-grid">
+                <div class="activity-card">
+                    <img src="https://i.postimg.cc/BQgSbByP/Picsart-25-10-06-18-48-26-104.png" alt="ক্যাম্পিং ও আউটডোর কার্যকলাপ">
+                    <div class="activity-card-content">
+                        <h3>ক্যাম্পিং ও আউটডোর</h3>
+                        <p>রোভাররা প্রকৃতির মাঝে ক্যাম্পিং, হাইকিং এবং বিভিন্ন আউটডোর কার্যক্রমে অংশ নেয়, যা তাদের শারীরিক ও মানসিক সুস্থতা বিকাশে সহায়তা করে।</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1589998059171-ee2925bb09f7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="সামাজিক সেবা কার্যক্রম">
+                    <div class="activity-card-content">
+                        <h3>সামাজিক সেবা</h3>
+                        <p>আমরা রক্তদান কর্মসূচি, বৃক্ষরোপণ, পরিচ্ছন্নতা অভিযান এবং দুর্যোগে ত্রাণ বিতরণের মতো সামাজিক সেবামূলক কাজে সক্রিয়ভাবে অংশগ্রহণ করি।</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1522204523234-8729aa67e2e6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="নেতৃত্ব প্রশিক্ষণ">
+                    <div class="activity-card-content">
+                        <h3>নেতৃত্ব ও দক্ষতা উন্নয়ন</h3>
+                        <p>রোভারদের নেতৃত্ব, যোগাযোগ, দলগত কাজ এবং সিদ্ধান্ত গ্রহণের দক্ষতা বাড়ানোর জন্য নিয়মিত প্রশিক্ষণ ও কর্মশালার আয়োজন করা হয়।</p>
+                    </div>
+                </div>
+                <div class="activity-card">
+                    <img src="https://images.unsplash.com/photo-1510531704581-5b92838bc377?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1770&q=80" alt="সাংস্কৃতিক ও অ্যাডভেঞ্চার">
+                    <div class="activity-card-content">
+                        <h3>সাংস্কৃতিক ও অ্যাডভেঞ্চার</h3>
+                        <p>বিভিন্ন সাংস্কৃতিক অনুষ্ঠান, অ্যাডভেঞ্চারমূলক খেলাধুলা এবং ভ্রমণের মাধ্যমে রোভাররা নিজেদের মধ্যে বন্ধন সুদৃঢ় করে এবং আনন্দ উপভোগ করে।</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container text-center">
+            <h2 class="section-title">যোগাযোগ করুন</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>আমাদের সাথে যোগাযোগ</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> গুরুদয়াল সরকারি কলেজ, কিশোরগঞ্জ, বাংলাদেশ</p>
+                    <p style="font-size: 16px;">
+    <i class="fas fa-envelope" style="margin-right: 5px;"></i>
+    <a href="mailto:gdgckishoreganj@gmail.com" style="color: white; text-decoration: none;">
+        gdgckishoreganj@gmail.com
     </a>
-  </p>
-  <div class="developer">
-    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCDeXufBywGlGcvjFv5OaZNnGnIFboYZgUyo9NPcDt7SH5dWhG6Kv7wOtGMm5uBfA-2RCI41U0IWscQhEPQ9_6mHg192N68FaFDDE4HIfb8zXw6Ubafj329ToS6mYTqHo8Wu8aRidwjczDQZ4Id_t7K-E32b8ZthoHTIH3r86pWwfOmFdNvgcQOOeHBDc/s2000/1000038033.png" alt="Md. Ashfaqur Rahman Tanim">
-    <div>
-      <strong>Developed by</strong><br>
-      Md. Ashfaqur Rahman Tanim<br>Rover Mate (Unit-3)
+</p>
+
+
+
+                    <p><i class="fas fa-clock"></i> অফিস সময়: সকাল ১০টা - বিকাল ২টা (রবি-বৃহস্পতি)</p>
+                    <div class="social-links">
+                        <a href="https://www.facebook.com/groups/gdcrover/?ref=share&mibextid=NSMWBT" 
+       target="_blank" 
+       aria-label="Facebook"
+       class="facebook-icon">
+        <i class="fab fa-facebook-f"></i>
+    </a>
+
+                    </div>
+
+                    <div class="rover-team">
+                        <h4>আমাদের সিনিয়র রোভার মেটগণ</h4>
+                        <div class="team-members-grid">
+                            <div class="team-member-card">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjelpHiiCH7Nb_17DRzTo6zqzTAdMu8OnLd0WwcBFNoZ0mI-fRTwiO7JyEuhIUfHDRemYiyGhJfZGdN-nv3axjEy1p7o-xE3kO5NsMVpjoy8B883mx0a0dEXfkfXRfBxna8diOex5ZYE7YUj_1uRnIXXQynASvXPYivhFlGIpNfa6o3jhmfrRGH1xLtPKE/s1536/1000040493.png" alt="ফাহিম হল রাব্বি">
+                                <h5>ফাহিম হল রাব্বি</h5>
+                                <p>সিনিয়র রোভার মেট (ইউনিট-১)</p>
+                                <a href="tel:+8801816726497">01816726497</a>
+                            </div>
+                            <div class="team-member-card">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEit3A18SY0zBXL0ymdQyoCXwcZHWBivIINRwmWYPa88v_9td4oeA5kFJZ6mRtUvCTWLqVmkNKZBVgilouwTuWnEoWNfFwOgGbSHZ6P2ALfVO62vPFfOom4wG8T4V04yob8SSayQnf5A6deksrFQ9YIO9kJdyOvajI5aTFDBzgjSQBWKJdwLt2kHnFj3mPc/s1536/1000040494.png" alt="রাদিতুল ইসলাম">
+                                <h5>রাদিতুল ইসলাম</h5>
+                                <p>সিনিয়র রোভার মেট (ইউনিট-২)</p>
+                                <a href="tel:+8801986687507">01986687507</a>
+                            </div>
+                            <div class="team-member-card">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh5zcChuj4F2Z5y9e4_2L4sGwbgY5zVsLkz0M2vn5acJ64VWlFhC6-9fvyk-8voULXeBStOl-zwCQLPNvlE_3bEIz3stVW_yrm5nHvFVa_ds43DOpGgikfDk08mC843Oj4chVA-76TdSrInwh73_1VbXBxICgHy2MQNXTlQh_rHS_LdkdddE6BpwTRMM8I/s1536/1000040495.png" alt="রেজাউল ইসলাম রাতুল">
+                                <h5>রেজাউল ইসলাম রাতুল</h5>
+                                <p>সিনিয়র রোভার মেট (ইউনিট-৩)</p>
+                                <a href="tel:+8801887116980">01887116980</a>
+                            </div>
+                            <div class="team-member-card">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhxfmDKd_z_115pMw1BtPzlJNktiZzbD6J_S_5-NMDBDJjPzv23TT3rjVjy4zgHOfKqABFV6UsWZKbwWN4jWE_KXN9EDNWN_qIGYSdVfjc-5KL6p01ib7FFGZOY3eyzoHZnNEIOBkIF7bquuijotviTnG2dDtrabcm3NBLp6a1sadAc3oyih0apmU9-PvE/s1536/1000040492.png" alt="শামীমা আক্তার অন্না">
+                                <h5>শামীমা আক্তার অন্না</h5>
+                                <p>সিনিয়র রোভার মেট (গার্ল-ইন রোভার)</p>
+                                <a href="tel:+8801948856924">01948856924</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-wrapper">
+  <h3>আমাদের বার্তা পাঠান</h3>
+
+  <form id="contactForm" class="contact-form" action="https://formspree.io/f/mdkwdbvz" method="POST">
+    <div class="form-group">
+      <label for="name">আপনার নাম</label>
+      <input type="text" id="name" name="name" placeholder="আপনার পুরো নাম লিখুন" required>
     </div>
-  </div>
+
+    <div class="form-group">
+      <label for="email">আপনার ইমেইল</label>
+      <input type="email" id="email" name="email" placeholder="আপনার ইমেইল লিখুন" required>
+    </div>
+
+    <div class="form-group">
+      <label for="subject">বিষয়</label>
+      <input type="text" id="subject" name="subject" placeholder="বার্তার বিষয় লিখুন" required>
+    </div>
+
+    <div class="form-group">
+      <label for="message">আপনার বার্তা</label>
+      <textarea id="message" name="message" placeholder="আপনার বার্তা এখানে লিখুন" required></textarea>
+    </div>
+
+    <button type="submit" class="btn">বার্তা পাঠান</button>
+  </form>
+
+  <!-- ধন্যবাদ বার্তা -->
+  <p id="thankYouMessage" style="display:none; color:green; font-weight:bold; margin-top:15px;">
+    ✅ ধন্যবাদ! আপনার বার্তাটি সফলভাবে পাঠানো হয়েছে।
+  </p>
 </div>
+        </div>
+    </section>
 
-<script>
-document.getElementById("year").textContent = new Date().getFullYear();
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ। সর্বস্বত্ব সংরক্ষিত।</p>
+            <!-- Image -->
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCDeXufBywGlGcvjFv5OaZNnGnIFboYZgUyo9NPcDt7SH5dWhG6Kv7wOtGMm5uBfA-2RCI41U0IWscQhEPQ9_6mHg192N68FaFDDE4HIfb8zXw6Ubafj329ToS6mYTqHo8Wu8aRidwjczDQZ4Id_t7K-E32b8ZthoHTIH3r86pWwfOmFdNvgcQOOeHBDc/s2000/1000038033.png" 
+             alt="Rover Md. Ashfaqur Rahman Tanim" 
+             style="width: 80px; height: auto; border-radius: 50%;">
 
-const sheetURL = "https://docs.google.com/spreadsheets/d/1xUqDLo96syqjPIfzaTR5UnL47XCYW4iVpTF9YURB6EY/export?format=tsv";
-let allData = [];
-let headers = [];
+        <!-- Developer Info -->
+        <p style="margin: 5px 0; font-weight: 600;">
+            Developed by<p style="margin: 5px 0; font-weight: 600;"><strong>Rover Md. Ashfaqur Rahman Tanim</strong><br>
+            Rover Mate (Unit-3)<br> Gurudayal Govt. College Rover Scout Group
+        </p>
+        </div>
+    </footer>
 
-async function loadData() {
-  const response = await fetch(sheetURL);
-  const text = await response.text();
-  const rows = text.trim().split("\n").map(r => r.split("\t"));
-  headers = rows[0];
-  allData = rows.slice(1);
-  renderCards(allData);
-}
+    <script src="https://server.fillout.com/embed/v1/"></script>
+    <script>
+        // Hamburger menu functionality
+        const hamburger = document.querySelector('.hamburger');
+        const navbar = document.querySelector('.navbar');
+        const navLinks = document.querySelectorAll('.navbar ul li a');
 
-function renderCards(data) {
-  const container = document.getElementById("cardsContainer");
-  container.innerHTML = "";
-  data.forEach(row => {
-    const obj = {};
-    headers.forEach((h, i) => obj[h] = row[i]);
-    const photo = obj["আপনার ছবি"] || "https://via.placeholder.com/90";
-    const name = obj["নাম (বাংলায়)"] || "নাম নেই";
-    const formNo = obj["ফরম নম্বর (রোভার ডেন থেকে সরাসরি ভর্তি ফরম সংগ্রহ করে থাকলে ফরমে উপর-বাম কর্ণারে ফরম নম্বর উল্লেখ রয়েছে) ফরম নম্বর না থাকলে এই বক্স খালি রাখুন।"];
-    const mobile = obj["মোবাইল নম্বর"]?.slice(-11);
-    const email = obj["Your email"];
-    const className = obj["শ্রেণি"];
-    const year = obj["শিক্ষাবর্ষ"];
-    const collegeId = obj["কলেজ আইডি নম্বর"];
-    const dept = obj["বিভাগ"];
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${photo}" alt="${name}">
-      <h3>${name}</h3>
-      ${formNo ? `<p><span class="label">Form No:</span> ${formNo}</p>` : ""}
-      ${mobile ? `<p><span class="label">Mobile:</span> ${mobile}</p>` : ""}
-      ${email ? `<p><span class="label">Email:</span> ${email}</p>` : ""}
-      ${className ? `<p><span class="label">Class:</span> ${className}</p>` : ""}
-      ${year ? `<p><span class="label">Academic Year:</span> ${year}</p>` : ""}
-      ${collegeId ? `<p><span class="label">College ID:</span> ${collegeId}</p>` : ""}
-      ${dept ? `<p><span class="label">Division:</span> ${dept}</p>` : ""}
-    `;
-    card.onclick = () => showProfile(obj, name);
-    container.appendChild(card);
-  });
-}
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navbar.classList.toggle('active');
+            document.body.classList.toggle('no-scroll'); /* Prevent scrolling when menu is open */
+        });
 
-function showProfile(obj, name) {
-  const modal = document.getElementById("profileModal");
-  document.getElementById("modalName").textContent = name;
-  let table = "<table>";
-  for (const [key, value] of Object.entries(obj)) {
-    if (value && key !== "আপনার ছবি" && !key.includes("জন্ম নিবন্ধন")) {
-      table += `<tr><th>${key}</th><td>${value}</td></tr>`;
-    }
-  }
-  table += "</table>";
-  document.getElementById("modalDetails").innerHTML = table;
-  modal.style.display = "flex";
-}
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navbar.classList.remove('active');
+                document.body.classList.remove('no-scroll');
+            });
+        });
 
-function closeModal() { document.getElementById("profileModal").style.display = "none"; }
-window.onclick = e => { if(e.target === document.getElementById("profileModal")) closeModal(); }
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-document.getElementById("searchInput").addEventListener("input", function() {
-  const query = this.value.toLowerCase();
-  const filtered = allData.filter(row => row.some(col => col.toLowerCase().includes(query)));
-  renderCards(filtered);
-});
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
 
-loadData();
+        // Sticky header background change on scroll
+        const header = document.querySelector('.header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.backgroundColor = 'rgba(44, 62, 80, 0.95)'; /* Slightly transparent dark */
+            } else {
+                header.style.backgroundColor = 'var(--bg-dark)';
+            }
+        });
 
-/* --- Password Protection --- */
-const passwordScreen = document.getElementById("passwordScreen");
-const passwordInput = document.getElementById("passwordInput");
-const errorMsg = document.getElementById("errorMsg");
-const PASSWORD = "gdc36";
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-function checkPassword() {
-  if(passwordInput.value === PASSWORD) {
-    passwordScreen.style.display = "none";
-  } else {
-    errorMsg.style.display = "block";
-  }
-}
+        // Intersection Observer for animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
 
-passwordInput.addEventListener("keypress", function(e){
-  if(e.key === "Enter") checkPassword();
-});
-</script>
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationPlayState = 'running';
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
 
+        document.querySelectorAll('.about-image, .about-text, .admission-content, .special-note, .activity-card, .contact-info, .contact-form-wrapper, .team-member-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Contact Form Submission
+        const form = document.getElementById('contactForm');
+        const thankYou = document.getElementById('thankYouMessage');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent page refresh
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: { 'Accept': 'application/json' }
+                });
+
+                if (response.ok) {
+                    form.reset(); // Clear form
+                    thankYou.style.display = 'block'; // Show thank you message
+                    setTimeout(() => {
+                        thankYou.style.display = 'none'; // Hide after a few seconds
+                    }, 5000);
+                } else {
+                    // Handle errors from Formspree
+                    const errorData = await response.json();
+                    alert(`দুঃখিত! বার্তাটি পাঠানো যায়নি। (${errorData.errors ? errorData.errors.map(err => err.message).join(', ') : 'unknown error'})`);
+                }
+            } catch (error) {
+                console.error('Form submission error:', error);
+                alert('নেটওয়ার্ক সমস্যা বা অন্য কোনো কারণে বার্তাটি পাঠানো যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।');
+            }
+        });
+    </script>
 </body>
 </html>
