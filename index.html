@@ -10,7 +10,7 @@
     <meta property="og:title" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - ভর্তি">
     <meta property="og:description" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে নতুন রোভারদের ভর্তি চলছে। অনলাইনে আবেদন করুন এবং স্কাউটিংয়ের রোমাঞ্চকর জগতে প্রবেশ করুন।">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="YOUR_WEBSITE_URL_HERE">
+    <meta property="og:url" content="https://gdgcrsg.github.io/circular/">
     <meta property="og:image" content="YOUR_LOGO_IMAGE_URL_HERE">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" href="YOUR_FAVICON_URL_HERE" type="image/x-icon">
@@ -221,30 +221,27 @@
 
         /* Hero Section */
         .hero {
-  width: 100%;
-  max-width: 1920px;
-  aspect-ratio: 4 / 3; /* 1920x1440 অনুপাত */
-  background: 
-    linear-gradient(
-      to bottom,
-      rgba(0, 153, 0, 0.0) 0%,    /* উপরে transparent green */
-      rgba(0, 60, 0, 0.0) 50%,   /* মাঝামাঝি light green overlay */
-      rgba(0, 100, 0, 0.4) 100%   /* নিচে dark green */
-    ),
-    url('https://i.postimg.cc/C5KD8MGs/retouch-2025091612125693.jpg')
-    no-repeat center center / cover;
-  color: var(--light-text-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  transition: background 0.5s ease; /* Smooth transition */
-}
-
-
-
+            width: 100%;
+            max-width: 1920px;
+            aspect-ratio: 4 / 3; /* 1920x1440 অনুপাত */
+            background: 
+                linear-gradient(
+                    to bottom,
+                    rgba(0, 153, 0, 0.0) 0%,    /* উপরে transparent green */
+                    rgba(0, 60, 0, 0.0) 50%,   /* মাঝামাঝি light green overlay */
+                    rgba(0, 100, 0, 0.4) 100%   /* নিচে dark green */
+                ),
+                url('https://i.postimg.cc/C5KD8MGs/retouch-2025091612125693.jpg')
+                no-repeat center center / cover;
+            color: var(--light-text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: background 0.5s ease; /* Smooth transition */
+        }
 
         .hero::before {
             content: '';
@@ -288,12 +285,12 @@
 
         .hero p {
             color: #fff; /* হোয়াইট টেক্সট */
-  text-shadow: 
-    4px 4px 6px rgba(0, 0, 0, 0.9),   /* হরাইজন্টাল + ভার্টিকাল + blur + opacity */
-    -4px -4px 6px rgba(0, 0, 0, 0.9); /* দুই পাশে আরও শেডো */
-  font-size: 1.5rem; /* চাইলে বড় বা ছোট করা যায় */
-  font-weight: 600;
-}
+            text-shadow: 
+                4px 4px 6px rgba(0, 0, 0, 0.9),   /* হরাইজন্টাল + ভার্টিকাল + blur + opacity */
+                -4px -4px 6px rgba(0, 0, 0, 0.9); /* দুই পাশে আরও শেডো */
+            font-size: 1.5rem; /* চাইলে বড় বা ছোট করা যায় */
+            font-weight: 600;
+        }
 
         /* About Section */
         .about, .activities, .contact {
@@ -447,16 +444,34 @@
         }
 
         .special-note {
-            background-color: rgba(255, 255, 255, 0.15);
-            padding: 25px;
-            border-radius: var(--border-radius);
+            display: flex;
+            flex-direction: column; /* vertical alignment */
+            align-items: center; /* horizontal center */
+            justify-content: center; /* vertical center inside the box */
+            text-align: center; /* text center */
+            gap: 12px;
+            background: rgba(255, 230, 230, 0.95);
+            border-left: 6px solid #ff0000;
+            color: #b30000;
+            padding: 20px 25px;
             margin-top: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--light-text-color);
+            border-radius: 10px;
+            font-weight: 500;
+            line-height: 1.6;
+            filter: none !important;
+            text-shadow: none !important;
+            box-shadow: none !important;
+            isolation: isolate;
             animation: slideInUp 1s forwards 1s;
             opacity: 0;
             transform: translateY(20px);
+        }
+        .special-note p {
+            margin: 0;
+            color: #b30000;
+        }
+        .special-note p strong {
+            color: #b30000;
         }
 
         /* Activities Section */
@@ -833,7 +848,10 @@
 
         @media (max-width: 480px) {
             .logo img {
-                height: 50px;
+                height: 40px; /* Smaller logo on very small screens */
+            }
+            .logo p {
+                font-size: 1.2rem !important; /* Adjust font size for logo text */
             }
             .hero h1 {
                 font-size: 2rem;
@@ -923,7 +941,6 @@
             <h2>নতুন রোভারদের ভর্তি চলছে!</h2>
             <p>আপনি যদি চ্যালেঞ্জ নিতে প্রস্তুত থাকেন এবং সমাজের জন্য কিছু করতে চান, তাহলে গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে আপনাকে স্বাগতম। অনলাইন ফরম পূরণ করে আপনার স্কাউটিং যাত্রা শুরু করুন!</p>
             <div data-fillout-id="wqKCAzmCe8us" data-fillout-embed-type="popup" data-fillout-button-text="ভর্তি ফরম পূরণ করুন" data-fillout-dynamic-resize data-fillout-inherit-parameters data-fillout-popup-size="medium"></div>
-
             <div style="
   display: flex;
   flex-direction: column; /* vertical alignment */
@@ -950,8 +967,6 @@
     <p style="margin: 5px 0 0 0;">যোগাযোগের সময়: প্রতিদিন সকাল ১০টা থেকে বিকাল ৪টা (সাপ্তাহিক ও সরকারি ছুটির দিন ব্যতীত)</p>
   </div>
 </div>
-
-
         </div>
     </section>
 
@@ -1001,14 +1016,11 @@
                     <h3>আমাদের সাথে যোগাযোগ</h3>
                     <p><i class="fas fa-map-marker-alt"></i> গুরুদয়াল সরকারি কলেজ, কিশোরগঞ্জ, বাংলাদেশ</p>
                     <p style="font-size: 16px;">
-    <i class="fas fa-envelope" style="margin-right: 5px;"></i>
-    <a href="mailto:gdgckishoreganj@gmail.com" style="color: white; text-decoration: none;">
-        gdgckishoreganj@gmail.com
-    </a>
-</p>
-
-
-
+                        <i class="fas fa-envelope" style="margin-right: 5px;"></i>
+                        <a href="mailto:gdgckishoreganj@gmail.com" style="color: white; text-decoration: none;">
+                            gdgckishoreganj@gmail.com
+                        </a>
+                    </p>
                     <p><i class="fas fa-clock"></i> অফিস সময়: সকাল ১০টা - বিকাল ২টা (রবি-বৃহস্পতি)</p>
                     <div class="social-links">
                         <a href="https://www.facebook.com/groups/gdcrover/?ref=share&mibextid=NSMWBT" 
@@ -1017,8 +1029,7 @@
        class="facebook-icon">
         <i class="fab fa-facebook-f"></i>
     </a>
-
-                    </div>
+    </div>
 
                     <div class="rover-team">
                         <h4>আমাদের সিনিয়র রোভার মেটগণ</h4>
@@ -1051,37 +1062,32 @@
                     </div>
                 </div>
                 <div class="contact-form-wrapper">
-  <h3>আমাদের বার্তা পাঠান</h3>
-
-  <form id="contactForm" class="contact-form" action="https://formspree.io/f/mdkwdbvz" method="POST">
-    <div class="form-group">
-      <label for="name">আপনার নাম</label>
-      <input type="text" id="name" name="name" placeholder="আপনার পুরো নাম লিখুন" required>
-    </div>
-
-    <div class="form-group">
-      <label for="email">আপনার ইমেইল</label>
-      <input type="email" id="email" name="email" placeholder="আপনার ইমেইল লিখুন" required>
-    </div>
-
-    <div class="form-group">
-      <label for="subject">বিষয়</label>
-      <input type="text" id="subject" name="subject" placeholder="বার্তার বিষয় লিখুন" required>
-    </div>
-
-    <div class="form-group">
-      <label for="message">আপনার বার্তা</label>
-      <textarea id="message" name="message" placeholder="আপনার বার্তা এখানে লিখুন" required></textarea>
-    </div>
-
-    <button type="submit" class="btn">বার্তা পাঠান</button>
-  </form>
-
-  <!-- ধন্যবাদ বার্তা -->
-  <p id="thankYouMessage" style="display:none; color:green; font-weight:bold; margin-top:15px;">
-    ✅ ধন্যবাদ! আপনার বার্তাটি সফলভাবে পাঠানো হয়েছে।
-  </p>
-</div>
+                    <h3>আমাদের বার্তা পাঠান</h3>
+                    <form id="contactForm" class="contact-form" action="https://formspree.io/f/mdkwdbvz" method="POST">
+                        <div class="form-group">
+                            <label for="name">আপনার নাম</label>
+                            <input type="text" id="name" name="name" placeholder="আপনার পুরো নাম লিখুন" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">আপনার ইমেইল</label>
+                            <input type="email" id="email" name="email" placeholder="আপনার ইমেইল লিখুন" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">বিষয়</label>
+                            <input type="text" id="subject" name="subject" placeholder="বার্তার বিষয় লিখুন" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">আপনার বার্তা</label>
+                            <textarea id="message" name="message" placeholder="আপনার বার্তা এখানে লিখুন" required></textarea>
+                        </div>
+                        <button type="submit" class="btn">বার্তা পাঠান</button>
+                    </form>
+                    <!-- ধন্যবাদ বার্তা -->
+                    <p id="thankYouMessage" style="display:none; color:green; font-weight:bold; margin-top:15px;">
+                        ✅ ধন্যবাদ! আপনার বার্তাটি সফলভাবে পাঠানো হয়েছে।
+                    </p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -1090,15 +1096,15 @@
         <div class="container">
             <p>&copy; <span id="currentYear"></span> গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ। সর্বস্বত্ব সংরক্ষিত।</p>
             <!-- Image -->
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCDeXufBywGlGcvjFv5OaZNnGnIFboYZgUyo9NPcDt7SH5dWhG6Kv7wOtGMm5uBfA-2RCI41U0IWscQhEPQ9_6mHg192N68FaFDDE4HIfb8zXw6Ubafj329ToS6mYTqHo8Wu8aRidwjczDQZ4Id_t7K-E32b8ZthoHTIH3r86pWwfOmFdNvgcQOOeHBDc/s2000/1000038033.png" 
-             alt="Rover Md. Ashfaqur Rahman Tanim" 
-             style="width: 80px; height: auto; border-radius: 50%;">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhCDeXufBywGlGcvjFv5OaZNnGnIFboYZgUyo9NPcDt7SH5dWhG6Kv7wOtGMm5uBfA-2RCI41U0IWscQhEPQ9_6mHg192N68FaFDDE4HIfb8zXw6Ubafj329ToS6mYTqHo8Wu8aRidwjczDQZ4Id_t7K-E32b8ZthoHTIH3r86pWwfOmFdNvgcQOOeHBDc/s2000/1000038033.png" 
+                 alt="Rover Md. Ashfaqur Rahman Tanim" 
+                 style="width: 80px; height: auto; border-radius: 50%;">
 
-        <!-- Developer Info -->
-        <p style="margin: 5px 0; font-weight: 600;">
-            Developed by<p style="margin: 5px 0; font-weight: 600;"><strong>Rover Md. Ashfaqur Rahman Tanim</strong><br>
-            Rover Mate (Unit-3)<br> Gurudayal Govt. College Rover Scout Group
-        </p>
+            <!-- Developer Info -->
+            <p style="margin: 5px 0; font-weight: 600;">
+                Developed by<p style="margin: 5px 0; font-weight: 600;"><strong>Rover Md. Ashfaqur Rahman Tanim</strong><br>
+                Rover Mate (Unit-3)<br> Gurudayal Govt. College Rover Scout Group
+            </p>
         </div>
     </footer>
 
