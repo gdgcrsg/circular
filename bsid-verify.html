@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSID যাচাই - বাংলাদেশ স্কাউটস</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEic19wSZLLUVZwlSOvcsnmlEtZWPu21blnfBWwpbL-QppSdtngt5-PqThIi2EFFOANk0vShth2xZQAqTazMSYD-e_UBnnDTMFDkQHMYWzqTj6_qGoEOkHF99IneAj9WFySQqi90Rwu7dMlEKo-R8oi0rbWxjSrLldhbN5hJyZPULKFsHrF0jdZtr-LfOcg/s2000/1000040482.png" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4a467a;
+            --primary-dark: #36315d;
+            --primary-light: #f0eff8;
+            --secondary-color: #2c3e50;
+            --accent-color: #ff9a3d;
+            --light-bg: #f8f9fa;
+            --dark-bg: #1a1a2e;
+            --text-color: #333;
+            --border-color: #e1e5eb;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            --radius: 12px;
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Hind Siliguri', 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f5f3ff 0%, #f0f4ff 50%, #f8f5ff 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            overflow-x: hidden;
+        }
+        
+        .scout-verify-container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        
+        .header-main {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        
+        .header-main h1 {
+            font-size: 3.2rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            position: relative;
+            display: inline-block;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .header-main h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            border-radius: 2px;
+        }
+        
+        .header-main p {
+            font-size: 1.2rem;
+            color: #5a6c7d;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .secondary_sc_content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .secondary_sc_content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        
+        .section-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .section-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%234a467a' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+        
+        .section-header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .section-header .lead {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+        }
+        
+        .section-header .lead i {
+            margin-right: 15px;
+            font-size: 32px;
+            background: rgba(255, 255, 255, 0.2);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+        
+        .section-header .lead:hover i {
+            background: rgba(255, 255, 255, 0.3);
+            transform: rotate(10deg) scale(1.1);
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 12px;
+            font-size: 17px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-group label i {
+            margin-right: 10px;
+            color: var(--primary-color);
+        }
+        
+        .input-container {
+            position: relative;
+            transition: var(--transition);
+        }
+        
+        .input-container i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            font-size: 20px;
+            z-index: 3;
+            transition: var(--transition);
+        }
+        
+        .form-control {
+            padding-left: 60px;
+            height: 60px;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 18px;
+            transition: var(--transition);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+            background: white;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(74, 70, 122, 0.15);
+            transform: translateY(-2px);
+        }
+        
+        .form-control:focus + i {
+            color: var(--primary-dark);
+            transform: translateY(-50%) scale(1.2);
+        }
+        
+        .btn-verify {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            height: 60px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            transition: var(--transition);
+            box-shadow: 0 6px 20px rgba(74, 70, 122, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-verify::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+        
+        .btn-verify:hover::before {
+            left: 100%;
+        }
+        
+        .btn-verify:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 25px rgba(74, 70, 122, 0.4);
+            color: white;
+        }
+        
+        .btn-verify i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .info-section {
+            background: linear-gradient(135deg, #f0eff8 0%, #f8f7ff 100%);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+        
+        .info-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .info-section h5 {
+            color: var(--secondary-color);
+            font-weight: 700;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 20px;
+        }
+        
+        .info-section h5 i {
+            color: var(--primary-color);
+            margin-right: 12px;
+            font-size: 24px;
+        }
+        
+        .info-section p {
+            color: #5a6c7d;
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+        
+        .steps-container {
+            margin: 40px 0;
+            position: relative;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        .steps::before {
+            content: "";
+            position: absolute;
+            top: 35px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+            z-index: 1;
+            border-radius: 3px;
+        }
+        
+        .step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .step-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(74, 70, 122, 0.3);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .step-icon::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(30deg);
+            transition: var(--transition);
+        }
+        
+        .step:hover .step-icon {
+            transform: scale(1.15) rotate(5deg);
+            box-shadow: 0 12px 25px rgba(74, 70, 122, 0.4);
+        }
+        
+        .step:hover .step-icon::after {
+            transform: rotate(60deg);
+        }
+        
+        .step p {
+            font-size: 16px;
+            text-align: center;
+            color: var(--secondary-color);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        
+        .step:hover p {
+            color: var(--primary-color);
+            transform: translateY(5px);
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            text-align: center;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .stat-item {
+            padding: 25px 20px;
+            flex: 1;
+            min-width: 200px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .stat-number {
+            font-size: 42px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #5a6c7d;
+            font-weight: 500;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 25px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid var(--primary-color);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(74, 70, 122, 0.03) 100%);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feature-card:hover::before {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            font-size: 42px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+        
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .feature-desc {
+            font-size: 15px;
+            color: #5a6c7d;
+            line-height: 1.6;
+        }
+        
+        .quick-links-container {
+            margin: 40px 0;
+        }
+        
+        .quick-links-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .quick-links-title i {
+            margin-right: 12px;
+            color: var(--primary-color);
+        }
+        
+        .quick-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .quick-link {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            padding: 15px 20px;
+            font-size: 16px;
+            color: var(--secondary-color);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .quick-link:hover {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(74, 70, 122, 0.3);
+            border-color: var(--primary-color);
+        }
+        
+        .quick-link i {
+            margin-right: 12px;
+            font-size: 20px;
+        }
+        
+        .er-section {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 40px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .er-section p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .er-section a {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .er-section a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer Styles - Updated for Purple Theme */
+        .footer {
+            background: linear-gradient(135deg, #2c1b5e 0%, #4a467a 50%, #2c1b5e 100%);
+            color: rgba(255, 255, 255, 0.85);
+            padding: 60px 0 40px;
+            text-align: center;
+            font-size: 1rem;
+            position: relative;
+            overflow: hidden;
+            margin-top: 40px;
+            border-radius: 0 0 var(--radius) var(--radius);
+        }
+        
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color), var(--primary-color));
+            background-size: 200% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        
+        .footer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(255, 154, 61, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .footer-logo-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .footer-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            padding: 0px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3),
+                        inset 0 0 20px rgba(255, 255, 255, 0.05);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .footer-logo::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            right: -1px;
+            bottom: -1px;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color), var(--primary-dark));
+            border-radius: 50%;
+            z-index: -1;
+            animation: rotate 10s linear infinite;
+        }
+        
+        .footer-logo:hover {
+            transform: scale(1.05) rotate(5deg);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4),
+                        0 0 30px rgba(74, 70, 122, 0.2),
+                        inset 0 0 20px rgba(255, 255, 255, 0.1);
+        }
+        
+        .footer-text {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        
+        .footer-text p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .org-name {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.1em;
+            text-shadow: 0 0 10px rgba(255, 154, 61, 0.3);
+        }
+        
+        .developer-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        
+        .developer-title {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .developer-title::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--accent-color), transparent);
+        }
+        
+        .developer-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #fff;
+            margin: 10px 0 5px;
+            background: linear-gradient(90deg, var(--accent-color), #ffb347);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px rgba(255, 154, 61, 0.3);
+        }
+        
+        .developer-role {
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 500;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            font-size: 1.3rem;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .social-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--social-color), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .social-link:hover::before {
+            opacity: 0.3;
+        }
+        
+        .social-link.whatsapp { --social-color: #25D366; }
+        .social-link.facebook { --social-color: #1877F2; }
+        .social-link.instagram { --social-color: #E4405F; }
+        .social-link.linkedin { --social-color: #0A66C2; }
+        .social-link.youtube { --social-color: #FF0000; }
+        
+        .social-link.whatsapp:hover { background: #25D366; }
+        .social-link.facebook:hover { background: #1877F2; }
+        .social-link.instagram:hover { background: #E4405F; }
+        .social-link.linkedin:hover { background: #0A66C2; }
+        .social-link.youtube:hover { background: #FF0000; }
+        
+        .copyright {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+        }
+        
+        .scout-badge {
+            margin-top: 20px;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .loading-spinner {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            width: 90%;
+            max-width: 400px;
+            animation: fadeInUp 0.5s ease forwards;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .loading-spinner i {
+            font-size: 60px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .loading-spinner h5 {
+            color: white;
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .loading-spinner p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+        }
+        
+        .particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .particle {
+            position: absolute;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-1000px) rotate(720deg); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        @media (max-width: 992px) {
+            .header-main h1 {
+                font-size: 2.5rem;
+            }
+            
+            .steps {
+                flex-direction: column;
+                gap: 40px;
+            }
+            
+            .steps::before {
+                display: none;
+            }
+            
+            .step {
+                flex-direction: row;
+                text-align: left;
+                gap: 20px;
+                padding: 0;
+            }
+            
+            .step-icon {
+                margin-bottom: 0;
+                width: 60px;
+                height: 60px;
+                font-size: 20px;
+            }
+            
+            .step p {
+                text-align: left;
+                font-size: 18px;
+            }
+            
+            .form-container {
+                padding: 30px;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-links {
+                justify-content: center;
+            }
+            
+            .quick-link {
+                min-width: 100%;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-main h1 {
+                font-size: 2rem;
+            }
+            
+            .header-main p {
+                font-size: 1rem;
+            }
+            
+            .section-header .lead {
+                font-size: 24px;
+            }
+            
+            .section-header .lead i {
+                width: 50px;
+                height: 50px;
+                font-size: 24px;
+            }
+            
+            .form-control {
+                height: 55px;
+                font-size: 16px;
+                padding-left: 50px;
+            }
+            
+            .btn-verify {
+                height: 55px;
+                font-size: 16px;
+            }
+            
+            .stat-number {
+                font-size: 36px;
+            }
+            
+            .footer {
+                padding: 40px 0 30px;
+            }
+            
+            .footer-logo {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .social-links {
+                gap: 15px;
+            }
+            
+            .social-link {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+            
+            .developer-section {
+                padding: 20px;
+            }
+            
+            .developer-name {
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+            
+            .footer-logo {
+                width: 90px;
+                height: 90px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- পার্টিকেল ব্যাকগ্রাউন্ড -->
+    <div class="particles" id="particles"></div>
+    
+    <div class="scout-verify-container">
+        <div class="header-main">
+            <h1><i class="fas fa-scroll"></i>বাংলাদেশ স্কাউটস আইডি যাচাই</h1>
+            <p>আপনার স্কাউট আইডি (BSID) এর সঠিকতা যাচাই করুন। সরকারী স্কাউট ডাটাবেসের সাথে সরাসরি সংযোগের মাধ্যমে দ্রুত ও নির্ভুল তথ্য পাওয়ার সুবিধা নিন।</p>
+        </div>
+        
+        <div class="secondary_sc_content">
+            <div class="section-header">
+                <div class="section-header-content">
+                    <div class="lead">
+                        <i class="fas fa-user-check"></i>স্কাউট আইডি যাচাই করুন
+                    </div>
+                    <div class="scout-badge">
+    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg-U-eh8UMSl9P0MuFGpYXfF9htW-g2EFUPde52oZDBf39IU0Ym5VpLVVI2N4NOtaSQ9J4wUMyj39FLAsuHfJIAv1jZVCS1HL35wx29VkTpQyVFkYcL3_MyR1gFrmppeHBCAJ2VYg6d_arRpIWcaJ_mkkLcyR0N-FpxteafqlDY4B3wkwoIynf0t0rPlXA/s500/1000033253.png" 
+         alt="Bangladesh Scouts Logo" 
+         style="width: 30px; height: 30px; vertical-align: middle;">
+    <span style="margin-left: 10px; font-weight: 600;">বাংলাদেশ স্কাউটস</span>
+</div>
+                </div>
+            </div>
+
+            <div class="form-container">
+                <form action="http://service.scouts.gov.bd/user-verify" id="infovalidation" method="get" accept-charset="utf-8">
+                    <div class="container">
+                        <div class="row result">
+                            <div class="col-lg-8 col-md-7">
+                                <div class="form-group">
+                                    <label for="scoutID"><i class="fas fa-id-card"></i>আপনার স্কাউট আইডি লিখুন দয়া করে*</label>
+                                    <div class="input-container">
+                                        <i class="fas fa-id-card"></i>
+                                        <input type="text" name="scoutID" class="form-control" value="" id="scoutID" placeholder="উদাহরণ: BS1234" style="text-transform: uppercase;" required>
+                                    </div>
+                                    <small class="form-text text-muted mt-2" style="display: block;">
+                                        <i class="fas fa-lightbulb"></i> স্কাউট আইডি সাধারণত ৬ অক্ষরের হয়।
+                                    </small>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-5">
+                                <div class="form-group" style="margin-top: 30px;">
+                                    <button type="submit" class="btn-verify text-white btn-block">
+                                        <i class="fas fa-search"></i>যাচাই করুন
+                                    </button>   
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- পরিসংখ্যান -->
+                <div class="stats-container">
+                    <div class="stat-item">
+                        <div class="stat-number">১,৮৫,০০০+</div>
+                        <div class="stat-label">নিবন্ধিত স্কাউট</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">১০০%</div>
+                        <div class="stat-label">সফল যাচাই হার</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">২৪/২৪</div>
+                        <div class="stat-label">সেবা প্রাপ্তি</div>
+                    </div>
+                    
+                </div>
+                
+                <!-- ধাপসমূহ -->
+                <div class="steps-container">
+                    <h3 class="text-center mb-4" style="color: var(--secondary-color); font-weight: 700;">যাচাই প্রক্রিয়া</h3>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-icon">১</div>
+                            <p>আইডি লিখুন</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">২</div>
+                            <p>যাচাই করুন</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">৩</div>
+                            <p>তথ্য পান</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-icon">৪</div>
+                            <p>ডাউনলোড করুন</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- বৈশিষ্ট্য কার্ড -->
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="feature-title">সুরক্ষিত যাচাই</div>
+                        <div class="feature-desc">আপনার তথ্য সম্পূর্ণ গোপনীয়তা ও সুরক্ষার সাথে যাচাই করা হবে</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bolt"></i>
+                        </div>
+                        <div class="feature-title">দ্রুত প্রক্রিয়া</div>
+                        <div class="feature-desc">কয়েক সেকেন্ডের মধ্যে যাচাই সম্পন্ন হবে</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <div class="feature-title">২৪/২৪ সেবা</div>
+                        <div class="feature-desc">যেকোনো সময়, যেকোনো স্থান থেকে সেবা গ্রহণ করুন</div>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-title">মোবাইল বান্ধব</div>
+                        <div class="feature-desc">সকল ডিভাইস থেকে সুবিধামতো ব্যবহার করুন</div>
+                    </div>
+                </div>
+                
+                <!-- তথ্য বিভাগ -->
+                <div class="info-section">
+                    <h5><i class="fas fa-info-circle"></i>গুরুত্বপূর্ণ তথ্য ও নির্দেশনা</h5>
+                    <p>আপনার স্কাউট আইডি ছয় অক্ষরের হতে হবে (উদাহরণ: BS1234)। যদি আপনার আইডি সম্পর্কে কোনো সমস্যা হয়, তাহলে আপনার স্কাউট অফিসে সরাসরি যোগাযোগ করুন বা বাংলাদেশ স্কাউটস হেল্পলাইন নম্বরে কল করুন। প্রতিটি স্কাউট আইডি সরকারি ডাটাবেসে নিবন্ধিত এবং অনন্য।</p>
+                </div>
+                
+                <!-- দ্রুত লিঙ্ক -->
+                <div class="quick-links-container">
+                    <div class="quick-links-title">
+                        <i class="fas fa-external-link-alt"></i>দ্রুত লিঙ্কসমূহ
+                    </div>
+                    <div class="quick-links">
+                        <a href="http://service.scouts.gov.bd/user-manual" class="quick-link" target="_blank">
+                            <i class="fas fa-download"></i>ব্যবহারকারী ম্যানুয়াল
+                        </a>
+                        <a href="http://service.scouts.gov.bd/faqs" class="quick-link" target="_blank">
+                            <i class="fas fa-question-circle"></i>প্রশ্নোত্তর (FAQ)
+                        </a>
+                        <a href="http://service.scouts.gov.bd/contact" class="quick-link" target="_blank">
+                            <i class="fas fa-phone-alt"></i>যোগাযোগ করুন
+                        </a>
+                        <a href="http://service.scouts.gov.bd/scout-group-application" class="quick-link" target="_blank">
+                            <i class="fas fa-file-alt"></i>রেজিষ্ট্রেশন ফর্ম
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer Section -->
+            <footer class="footer">
+                <div class="container">
+                    <div class="footer-content">
+                        <div class="footer-logo-section">
+                            <img src="https://i.ibb.co/JjMqt4NF/1000050047.png" 
+                                 alt="Rover Md. Ashfaqur Rahman Tanim" 
+                                 class="footer-logo">
+                            
+                            <div class="footer-text">
+                                <p>&copy; <span id="currentYear"></span> <span class="org-name">গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</span>। সর্বস্বত্ব সংরক্ষিত</p>
+                            </div>
+                        </div>
+                        
+                        <div class="developer-section">
+                            <div class="developer-title">ডেভেলপার</div>
+                            
+                            <div class="developer-name">Rover Md. Ashfaqur Rahman Tanim</div>
+                            <div class="developer-role">Rover Mate (Unit-3)<br>Gurudayal Govt. College Rover Scout Group</div>
+                            
+                            <div class="social-links">
+                                <a href="https://wa.me/qr/3ITBKA5Y5SUSI1" class="social-link whatsapp" target="_blank" title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                <a href="https://www.facebook.com/MD.Ashfaq01" class="social-link facebook" target="_blank" title="Facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="https://www.instagram.com/md.ashfaq01" class="social-link instagram" target="_blank" title="Instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/md-ashfaqur-rahman-tanim-407805290" class="social-link linkedin" target="_blank" title="LinkedIn">
+                                    <i class="fab fa-linkedin-in"></i>
+                                </a>
+                                <a href="https://www.youtube.com/@md.ashfaq01" class="social-link youtube" target="_blank" title="YouTube">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                        
+                        <div class="copyright">
+                            <p>Design & Development by Rover Md. Ashfaqur Rahman Tanim | সকল অধিকার সংরক্ষিত</p>
+                            <div class="scout-badge">Scouting for a Better Tomorrow</div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- লোডিং ওভারলে -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h5>যাচাই করা হচ্ছে...</h5>
+            <p>অনুগ্রহ করে অপেক্ষা করুন। আপনার তথ্য প্রক্রিয়া করা হচ্ছে।</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const scoutIDInput = document.getElementById('scoutID');
+            const verifyBtn = document.querySelector('.btn-verify');
+            const form = document.getElementById('infovalidation');
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            const particlesContainer = document.getElementById('particles');
+            const currentYearSpan = document.getElementById('currentYear');
+            
+            // Set current year in footer
+            if (currentYearSpan) {
+                currentYearSpan.textContent = new Date().getFullYear();
+            }
+            
+            // Create particles background
+            function createParticles() {
+                const particleCount = 50;
+                for (let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.classList.add('particle');
+                    
+                    const size = Math.random() * 10 + 5;
+                    const posX = Math.random() * 100;
+                    const delay = Math.random() * 15;
+                    const duration = Math.random() * 20 + 10;
+                    
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${posX}%`;
+                    particle.style.animationDelay = `${delay}s`;
+                    particle.style.animationDuration = `${duration}s`;
+                    particle.style.backgroundColor = i % 3 === 0 ? '#4a467a' : i % 3 === 1 ? '#ff9a3d' : '#2c3e50';
+                    particle.style.opacity = Math.random() * 0.3 + 0.1;
+                    
+                    particlesContainer.appendChild(particle);
+                }
+            }
+            
+            createParticles();
+            
+            // Add input validation
+            scoutIDInput.addEventListener('input', function() {
+                let value = this.value.toUpperCase();
+                value = value.replace(/[^A-Z0-9]/g, '');
+                this.value = value;
+                
+                // Visual feedback
+                if (value.length >= 6) {
+                    this.style.borderColor = '#4a467a';
+                    this.parentElement.style.transform = 'translateY(-5px)';
+                } else {
+                    this.style.borderColor = '#e1e5eb';
+                    this.parentElement.style.transform = 'translateY(0)';
+                }
+            });
+            
+            // Form submission with enhanced UX
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const scoutID = scoutIDInput.value.trim();
+                
+                if(scoutID === '') {
+                    scoutIDInput.focus();
+                    scoutIDInput.style.borderColor = '#dc3545';
+                    scoutIDInput.parentElement.style.animation = 'shake 0.5s';
+                    setTimeout(() => {
+                        scoutIDInput.parentElement.style.animation = '';
+                    }, 500);
+                    return;
+                }
+                
+                // Validate ID format
+                if(!scoutID.match(/[A-Z0-9]/)) {
+                    alert('দুঃখিত! স্কাউট আইডি ফরম্যাট সঠিক নয়। আইডি "BS" দিয়ে শুরু হতে হবে এবং ৬-১০ অক্ষরের হতে হবে।');
+                    scoutIDInput.focus();
+                    return;
+                }
+                
+                // Enhanced loading state
+                verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> যাচাই করা হচ্ছে...';
+                verifyBtn.disabled = true;
+                verifyBtn.style.opacity = '0.3';
+                
+                // Show loading overlay with animation
+                loadingOverlay.style.display = 'flex';
+                setTimeout(() => {
+                    loadingOverlay.classList.add('active');
+                }, 10);
+                
+                // Simulate API call with timeout
+                setTimeout(() => {
+                    // For demo purposes, simulate successful verification
+                    // In real implementation, the form would submit normally
+                    loadingOverlay.innerHTML = `
+                        <div class="loading-spinner">
+                            <i class="fas fa-check-circle" style="color: #4a467a; animation: none;"></i>
+                            <h5>যাচাই সফল!</h5>
+                            <p>আপনার তথ্য পাওয়া গেছে। পৃষ্ঠায় রিডাইরেক্ট করা হচ্ছে...</p>
+                        </div>
+                    `;
+                    
+                    // After showing success message, submit the form
+                    setTimeout(() => {
+                        // Remove the event listener to prevent infinite loop
+                        form.removeEventListener('submit', arguments.callee);
+                        form.submit();
+                    }, 1500);
+                }, 2000);
+            });
+            
+            // Add hover effects to interactive elements
+            const interactiveElements = document.querySelectorAll('.feature-card, .stat-item, .quick-link');
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', function() {
+                    this.style.zIndex = '10';
+                });
+                
+                el.addEventListener('mouseleave', function() {
+                    this.style.zIndex = '1';
+                });
+            });
+            
+            // Add animation on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -100px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe elements for animation
+            document.querySelectorAll('.feature-card, .stat-item, .step').forEach(item => {
+                item.style.opacity = '0';
+                item.style.transform = 'translateY(30px)';
+                item.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(item);
+            });
+            
+            // Add keyboard shortcut (Ctrl+Enter to submit)
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+                    if(document.activeElement === scoutIDInput) {
+                        form.dispatchEvent(new Event('submit'));
+                    }
+                }
+            });
+            
+            // Pulse animation for CTA button
+            setInterval(() => {
+                verifyBtn.style.animation = 'pulse 2s infinite';
+                setTimeout(() => {
+                    verifyBtn.style.animation = '';
+                }, 2000);
+            }, 5000);
+        });
+    </script>
+</body>
+</html>
