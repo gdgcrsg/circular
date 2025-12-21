@@ -564,6 +564,41 @@
             font-size: 1rem;
             color: #555;
         }
+        .video-container {
+    position: relative;
+    width: 100%;
+    height: 315px;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+    background: #000;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* রেসপন্সিভ ডিজাইন */
+@media (max-width: 768px) {
+    .video-container {
+        height: 280px;
+    }
+}
+
+@media (max-width: 576px) {
+    .video-container {
+        height: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .video-container {
+        height: 200px;
+    }
+}
 
         /* Contact Section */
         .contact {
@@ -1372,13 +1407,7 @@
 </p>
                     </div>
                 </div>
-                <div class="activity-card">
-                    <img src="https://i.postimg.cc/B6VR4wNP/Picsart-25-10-07-02-50-09-729.png" alt="প্রকৃতি পর্যবেক্ষণ">
-                    <div class="activity-card-content">
-                        <h3>প্রকৃতি পর্যবেক্ষণ ক্যাম্প</h3>
-                        <p>প্রকৃতি পর্যবেক্ষণ ক্যাম্প স্কাউটদের পরিবেশ সম্পর্কে সচেতন ও দায়িত্বশীল নাগরিক হতে সহায়তা করে। এতে তারা প্রকৃতির সঙ্গে নিবিড়ভাবে মিশে জীববৈচিত্র্য, সংরক্ষণ ও টেকসই জীবনের গুরুত্ব শিখে।</p>
-                    </div>
-                </div>
+                
                 <div class="activity-card">
                     <img src="https://i.postimg.cc/TYYQCcc4/received-1322659668897708.jpg" alt="ডে ক্যাম্প">
                     <div class="activity-card-content">
@@ -1426,14 +1455,47 @@
 </p>
                     </div>
                 </div>
-                <div class="activity-card">
-                    <img src="https://i.postimg.cc/W4p6NG9Y/Picsart-25-10-07-03-55-35-134.jpg" alt="স্কাউটিং">
-                    <div class="activity-card-content">
-                        <h3>ডিসপ্লে প্রদর্শন</h3>
-                        <p>ডিসপ্লে প্রদর্শন স্কাউটদের সৃজনশীলতা ও দক্ষতা প্রদর্শনের সুযোগ দেয়। এটি নীতি, কর্মশৈলী এবং বিভিন্ন কার্যক্রমকে চোখে দেখানোর মাধ্যমে অনুপ্রেরণা জাগায়।
-</p>
-                    </div>
-                </div>
+                <!-- আপনার কোডের activities সেকশনে নিচের অংশটি যোগ করুন -->
+
+<div class="activity-card">
+    <!-- প্রথম ভিডিও: ডিসপ্লে প্রদর্শন -->
+    <div class="video-container">
+        <iframe 
+            width="100%" 
+            height="315" 
+            src="https://www.youtube.com/embed/j3wDJykGnqI?si=W66eEPbiZYv8VGGT&autoplay=0&rel=0&modestbranding=1" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div class="activity-card-content">
+        <h3>ডিসপ্লে প্রদর্শন</h3>
+        <p>ডিসপ্লে প্রদর্শন স্কাউটদের সৃজনশীলতা ও দক্ষতা প্রদর্শনের সুযোগ দেয়। এটি নীতি, কর্মশৈলী এবং বিভিন্ন কার্যক্রমকে চোখে দেখানোর মাধ্যমে অনুপ্রেরণা জাগায়।</p>
+    </div>
+</div>
+
+<div class="activity-card">
+    <!-- দ্বিতীয় ভিডিও: চ্যালেঞ্জ এর জন্য সদা প্রস্তুত -->
+    <div class="video-container">
+        <iframe 
+            width="100%" 
+            height="315" 
+            src="https://www.youtube.com/embed/Euhz_K5c-y8?si=EUul9m-z4ppiZURR&autoplay=0&rel=0&modestbranding=1" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            referrerpolicy="strict-origin-when-cross-origin" 
+            allowfullscreen>
+        </iframe>
+    </div>
+    <div class="activity-card-content">
+        <h3>চ্যালেঞ্জ এর জন্য সদা প্রস্তুত</h3>
+        <p>চ্যালেঞ্জের জন্য সদা প্রস্তুত স্কাউটদের মানসিক ও শারীরিকভাবে শক্তিশালী করে গড়ে তোলে। এটি সমস্যা সমাধানের দক্ষতা বাড়ায় এবং দলগত কাজে সাহস ও দৃঢ়তা প্রদান করে।</p>
+    </div>
+</div>
                 <div class="activity-card">
                     <img src="https://i.postimg.cc/L8JvLBks/Untitled-design-17.png" alt="স্কাউটিং">
                     <div class="activity-card-content">
