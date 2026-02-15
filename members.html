@@ -2,16 +2,49 @@
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - সদস্য তালিকা</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>সদস্যবৃন্দ - গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</title>
+    <meta name="description" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপের সদস্যদের তালিকা। ইউনিট ও প্যাট্রোল অনুযায়ী সদস্যদের তথ্য ও প্রোফাইল কার্ড ডাউনলোড করুন।">
+    <meta name="keywords" content="রোভার স্কাউট সদস্য, গুরুদয়াল কলেজ রোভার, ইউনিট ১, ইউনিট ২, ইউনিট ৩, ইউনিট ৪, প্যাট্রোল, রোভার মেট, সিনিয়র রোভার মেট, সহচর, সদস্য তালিকা">
+    <meta name="author" content="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ">
+    
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    
+    <!-- Libraries for export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary-color: #28a745; /* Scout Green */
+            --secondary-color: #0056b3; /* Darker Blue */
+            --accent-color: #ffc107; /* Scout Yellow */
+            --text-color: #333;
+            --light-text-color: #f8f8f8;
+            --bg-light: #f4f7f6;
+            --bg-dark: #2c3e50;
+            --unit1-color: #e94560;
+            --unit2-color: #3498db;
+            --unit3-color: #27ae60;
+            --unit4-color: #f39c12;
+            --patrol1-color: #9b59b6;
+            --patrol2-color: #e67e22;
+            --patrol3-color: #1abc9c;
+            --patrol4-color: #e74c3c;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --border-radius: 12px;
+            --transition-speed: 0.3s ease-in-out;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -20,487 +53,507 @@
 
         body {
             font-family: 'Hind Siliguri', sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-attachment: fixed;
             line-height: 1.6;
+            color: var(--text-color);
+            min-height: 100vh;
         }
 
-        /* Header */
+        /* Header Styles */
         .header {
-            background: linear-gradient(110deg, #1e40af 0%, #3b82f6 100%);
-            padding: 40px 20px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: var(--bg-dark);
+            color: var(--light-text-color);
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header-content {
-            max-width: 1200px;
+        .container {
+            max-width: 1400px;
             margin: 0 auto;
+            padding: 0 20px;
         }
 
-        .logo-container {
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 20px;
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .logo-container img {
-            width: 100%;
-            height: 100%;
+        .logo {
+            display: flex;
+            align-items: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-text-color);
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 50px;
+            margin-right: 15px;
             border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            object-fit: cover;
-            background: white;
         }
 
-        .header h1 {
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: var(--light-text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color var(--transition-speed);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            min-height: 44px;
+            min-width: 44px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hamburger .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--light-text-color);
+            margin: 3px 0;
+            transition: all var(--transition-speed);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-dark) 0%, var(--secondary-color) 100%);
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 40px;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 40px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: var(--border-radius);
+            backdrop-filter: blur(10px);
+            min-width: 150px;
+        }
+
+        .stat-box .number {
             font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            color: var(--accent-color);
         }
 
-        .header h2 {
-            font-size: 1.5rem;
-            font-weight: 400;
-            opacity: 0.95;
-        }
-
-        .header p {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 20px auto 0;
+        .stat-box .label {
+            font-size: 1rem;
             opacity: 0.9;
-            font-style: italic;
         }
 
-        /* Stats Bar */
-        .stats-bar {
-            max-width: 1200px;
-            margin: -30px auto 30px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            padding: 0 15px;
-            position: relative;
-            z-index: 10;
-        }
-
-        .stat-card {
-            background: white;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
-            text-align: center;
-            transition: transform 0.3s ease;
-        }
-
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(59, 130, 246, 0.15);
-        }
-
-        .stat-icon {
-            width: 50px;
-            height: 50px;
-            background: #eff6ff;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 12px;
-            color: #3b82f6;
-            font-size: 1.4rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1e293b;
-            line-height: 1.2;
-        }
-
-        .stat-label {
-            color: #64748b;
-            font-size: 0.95rem;
-        }
-
-        /* Container */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px 30px;
-        }
-
-        /* Filter Section */
+        /* Search and Filter Section */
         .filter-section {
             background: white;
-            border-radius: 16px;
+            border-radius: var(--border-radius);
             padding: 25px;
             margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #e2e8f0;
+            box-shadow: var(--box-shadow);
         }
 
-        .filter-title {
-            font-size: 1.5rem;
-            color: #1e293b;
-            margin-bottom: 20px;
+        .search-bar {
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .filter-title i {
-            color: #3b82f6;
-        }
-
-        .search-wrapper {
-            display: flex;
-            gap: 12px;
+            gap: 15px;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
-        .search-wrapper input {
+        .search-bar input {
             flex: 1;
-            padding: 12px 18px;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
+            min-width: 250px;
+            padding: 12px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 30px;
             font-size: 1rem;
-            font-family: inherit;
-            transition: all 0.3s;
+            transition: all var(--transition-speed);
+            font-family: 'Hind Siliguri', sans-serif;
         }
 
-        .search-wrapper input:focus {
+        .search-bar input:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
         }
 
-        .search-wrapper button {
-            padding: 12px 25px;
-            background: #3b82f6;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s;
-        }
-
-        .search-wrapper button:hover {
-            background: #2563eb;
-        }
-
-        .filter-badges {
+        .filter-buttons {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
         }
 
-        .filter-badge {
-            padding: 8px 18px;
-            background: #f1f5f9;
-            border-radius: 30px;
-            color: #475569;
+        .filter-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #e9ecef;
+            color: var(--text-color);
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 500;
-            font-size: 0.95rem;
+            transition: all var(--transition-speed);
+            font-family: 'Hind Siliguri', sans-serif;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
         }
 
-        .filter-badge i {
-            color: #3b82f6;
+        .filter-btn:hover {
+            background: #dee2e6;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .filter-btn.unit1.active { background: var(--unit1-color); }
+        .filter-btn.unit2.active { background: var(--unit2-color); }
+        .filter-btn.unit3.active { background: var(--unit3-color); }
+        .filter-btn.unit4.active { background: var(--unit4-color); }
+
+        .rank-filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .rank-btn {
+            padding: 6px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            background: white;
+            cursor: pointer;
+            transition: all var(--transition-speed);
             font-size: 0.9rem;
         }
 
-        .filter-badge:hover {
-            background: #e2e8f0;
-            transform: translateY(-2px);
+        .rank-btn:hover {
+            background: #f8f9fa;
         }
 
-        .filter-badge.active {
-            background: #3b82f6;
+        .rank-btn.active {
+            background: var(--secondary-color);
             color: white;
+            border-color: var(--secondary-color);
         }
 
-        .filter-badge.active i {
-            color: white;
+        /* Units Grid */
+        .units-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
         }
 
-        /* Loading State */
-        .loading-state {
-            text-align: center;
-            padding: 60px 20px;
+        .unit-section {
             background: white;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.5s forwards;
         }
 
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid #e2e8f0;
-            border-top-color: #3b82f6;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 15px;
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        .unit-header {
+            padding: 20px 25px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: all var(--transition-speed);
         }
 
-        .loading-state p {
-            color: #64748b;
+        .unit-header:hover {
+            filter: brightness(1.1);
+        }
+
+        .unit-header h2 {
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            margin: 0;
+        }
+
+        .unit-header .unit-stats {
+            display: flex;
+            gap: 20px;
             font-size: 1.1rem;
         }
 
-        /* Members Grid */
+        .unit-header .unit-stats span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 5px 15px;
+            border-radius: 25px;
+        }
+
+        .unit-content {
+            padding: 25px;
+            background: #f8f9fa;
+        }
+
+        /* Patrols Grid */
+        .patrols-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .patrol-card {
+            background: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform var(--transition-speed);
+        }
+
+        .patrol-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .patrol-header {
+            padding: 15px;
+            color: white;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .patrol-content {
+            padding: 15px;
+        }
+
+        .patrol-members {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .patrol-members li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 0.9rem;
+        }
+
+        .patrol-members li:last-child {
+            border-bottom: none;
+        }
+
+        .member-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .member-avatar-sm {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .member-rank {
+            font-size: 0.7rem;
+            background: var(--primary-color);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            margin-left: auto;
+        }
+
+        .empty-patrol {
+            color: #999;
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        /* Members Grid View */
         .members-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
+            gap: 25px;
+            margin-top: 30px;
         }
 
-        /* Member Card */
         .member-card {
             background: white;
-            border-radius: 16px;
+            border-radius: var(--border-radius);
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all var(--transition-speed);
+            position: relative;
             cursor: pointer;
         }
 
         .member-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 30px rgba(59, 130, 246, 0.15);
-            border-color: #3b82f6;
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
         }
 
-        .card-header {
-            position: relative;
-            padding: 30px 20px 20px;
-            text-align: center;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-bottom: 1px solid #e2e8f0;
-        }
-
-        .member-photo {
-            width: 100px;
+        .member-card-header {
             height: 100px;
+            background: linear-gradient(135deg, var(--bg-dark), var(--secondary-color));
+            position: relative;
+        }
+
+        .member-card-photo {
+            width: 120px;
+            height: 120px;
             border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 5px solid white;
+            position: absolute;
+            bottom: -60px;
+            left: 50%;
+            transform: translateX(-50%);
             object-fit: cover;
-            margin-bottom: 15px;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-card-body {
+            padding: 70px 20px 20px;
+            text-align: center;
         }
 
         .member-name {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 700;
             margin-bottom: 5px;
+            color: var(--bg-dark);
         }
 
-        .member-rank {
+        .member-rank-badge {
             display: inline-block;
             padding: 4px 12px;
-            background: #3b82f6;
+            background: var(--primary-color);
             color: white;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .card-body {
-            padding: 20px;
-        }
-
-        .info-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            color: #475569;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             margin-bottom: 10px;
         }
 
-        .info-row i {
-            width: 20px;
-            color: #3b82f6;
+        .member-details {
+            margin: 15px 0;
+            text-align: left;
+            padding: 0 10px;
         }
 
-        .badges-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #e2e8f0;
-        }
-
-        .badge-mini {
-            padding: 3px 10px;
-            background: #f1f5f9;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            color: #475569;
+        .member-details p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 8px;
         }
 
-        .badge-mini i {
-            color: #f59e0b;
+        .member-details i {
+            color: var(--primary-color);
+            width: 20px;
+        }
+
+        .member-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .member-badge-item {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            padding: 2px 8px;
+            border-radius: 12px;
             font-size: 0.7rem;
+            font-weight: 600;
         }
 
-        .unit-tag {
+        .member-card-footer {
+            padding: 15px;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .download-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: all var(--transition-speed);
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            background: #eff6ff;
-            border-radius: 8px;
-            color: #3b82f6;
-            font-size: 0.9rem;
-            font-weight: 500;
-            margin-top: 12px;
+            gap: 5px;
         }
 
-        /* Unit Sections */
-        .unit-section {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
+        .download-btn:hover {
+            background: #e9ecef;
+            color: var(--primary-color);
         }
 
-        .unit-title {
-            font-size: 1.6rem;
-            color: #1e293b;
-            margin-bottom: 20px;
-            padding-bottom: 12px;
-            border-bottom: 3px solid #3b82f6;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .unit-stats {
-            display: flex;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin-bottom: 20px;
-        }
-
-        .unit-stat {
-            background: #f8fafc;
-            padding: 8px 16px;
-            border-radius: 30px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.95rem;
-        }
-
-        .unit-stat i {
-            color: #3b82f6;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
-        }
-
-        .team-card {
-            background: #f8fafc;
-            border-radius: 12px;
-            padding: 15px;
-        }
-
-        .team-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 2px solid #3b82f6;
-        }
-
-        .team-name {
-            font-weight: 600;
-            color: #1e293b;
-        }
-
-        .team-count {
-            background: #3b82f6;
-            color: white;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-        }
-
-        .team-member-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .team-member {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .team-member:hover {
-            background: #eff6ff;
-            transform: translateX(5px);
-        }
-
-        .team-member-photo {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .team-member-info {
-            flex: 1;
-        }
-
-        .team-member-name {
-            font-weight: 500;
-            color: #1e293b;
-            font-size: 0.95rem;
-        }
-
-        .team-member-rank {
-            font-size: 0.8rem;
-            color: #3b82f6;
-        }
-
-        /* Modal */
+        /* Modal Styles */
         .modal {
             display: none;
             position: fixed;
@@ -508,10 +561,9 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
             overflow-y: auto;
-            backdrop-filter: blur(5px);
         }
 
         .modal.active {
@@ -523,223 +575,281 @@
         .modal-content {
             background: white;
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             margin: 30px auto;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .modal-header {
-            background: linear-gradient(110deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: var(--border-radius);
             padding: 30px;
-            color: white;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .modal-close {
             position: absolute;
             top: 15px;
             right: 15px;
-            background: rgba(255,255,255,0.2);
+            background: none;
             border: none;
-            color: white;
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+            font-size: 1.5rem;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
+            color: #999;
+            transition: color var(--transition-speed);
         }
 
         .modal-close:hover {
-            background: rgba(255,255,255,0.3);
-            transform: rotate(90deg);
+            color: var(--primary-color);
         }
 
-        .modal-profile {
-            display: flex;
-            gap: 25px;
-            align-items: center;
+        .profile-detail {
+            margin-bottom: 15px;
         }
 
-        .modal-profile img {
+        .profile-detail strong {
+            display: inline-block;
+            width: 120px;
+            color: var(--bg-dark);
+        }
+
+        /* Profile Card for Export */
+        .profile-card-export {
+            width: 400px;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            font-family: 'Hind Siliguri', sans-serif;
+            position: relative;
+        }
+
+        .profile-card-header {
+            background: linear-gradient(135deg, var(--bg-dark), var(--secondary-color));
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .profile-card-header img {
             width: 120px;
             height: 120px;
             border-radius: 50%;
-            border: 4px solid white;
+            border: 5px solid var(--accent-color);
+            margin-bottom: 15px;
             object-fit: cover;
         }
 
-        .modal-profile h2 {
-            font-size: 2rem;
-            margin-bottom: 8px;
+        .profile-card-header h2 {
+            color: white;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
         }
 
-        .modal-body {
-            padding: 30px;
+        .profile-card-header p {
+            font-size: 1rem;
+            opacity: 0.9;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            margin-bottom: 25px;
-        }
-
-        .info-block {
-            background: #f8fafc;
+        .profile-card-body {
             padding: 20px;
-            border-radius: 12px;
         }
 
-        .info-block h3 {
-            color: #1e293b;
-            margin-bottom: 15px;
-            font-size: 1.2rem;
+        .profile-info-row {
             display: flex;
-            align-items: center;
-            gap: 8px;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eee;
         }
 
-        .info-block h3 i {
-            color: #3b82f6;
+        .profile-info-label {
+            width: 120px;
+            font-weight: 600;
+            color: var(--bg-dark);
         }
 
-        .info-block p {
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #475569;
+        .profile-info-value {
+            flex: 1;
+            color: var(--text-color);
         }
 
-        .info-block i {
-            width: 20px;
-            color: #3b82f6;
-        }
-
-        .badges-list {
+        .profile-badges {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
+            margin-top: 15px;
         }
 
-        .badge-item {
-            background: white;
-            padding: 6px 14px;
+        .profile-badge-tag {
+            background: var(--accent-color);
+            color: var(--bg-dark);
+            padding: 4px 12px;
             border-radius: 20px;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            font-weight: 600;
         }
 
-        .badge-item i {
-            color: #f59e0b;
+        .profile-qr {
+            text-align: center;
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        /* Loading Spinner */
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .loading-spinner.active {
+            display: block;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         /* No Results */
         .no-results {
             text-align: center;
-            padding: 60px 20px;
-            background: white;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
+            padding: 50px;
+            color: #999;
         }
 
         .no-results i {
             font-size: 3rem;
-            color: #94a3b8;
             margin-bottom: 15px;
         }
 
-        .no-results h3 {
-            font-size: 1.3rem;
-            color: #1e293b;
-            margin-bottom: 8px;
+        /* View Toggle */
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            margin-left: auto;
         }
 
-        .no-results p {
-            color: #64748b;
+        .view-btn {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all var(--transition-speed);
+        }
+
+        .view-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
 
         /* Footer */
         .footer {
-            background: #1e293b;
+            background: var(--bg-dark);
             color: white;
-            padding: 40px 20px 20px;
-            margin-top: 50px;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-        }
-
-        .footer-section h3 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            color: #94a3b8;
-        }
-
-        .footer-section p {
-            color: #cbd5e1;
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .footer-section i {
-            color: #3b82f6;
-        }
-
-        .footer-bottom {
+            padding: 40px 0 20px;
+            margin-top: 60px;
             text-align: center;
-            padding-top: 30px;
-            margin-top: 30px;
-            border-top: 1px solid #334155;
-            color: #94a3b8;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color var(--transition-speed);
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .copyright {
+            opacity: 0.8;
             font-size: 0.9rem;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 2rem;
-            }
-            
-            .header h2 {
-                font-size: 1.2rem;
-            }
-            
-            .stats-bar {
+        @media (max-width: 1200px) {
+            .patrols-container {
                 grid-template-columns: repeat(2, 1fr);
             }
-            
-            .search-wrapper {
-                flex-direction: column;
-            }
-            
-            .search-wrapper button {
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
                 width: 100%;
-                justify-content: center;
+                background: var(--bg-dark);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
             }
-            
-            .info-grid {
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 15px;
+                align-items: center;
+            }
+
+            .stat-box {
+                width: 100%;
+                max-width: 250px;
+            }
+
+            .patrols-container {
                 grid-template-columns: 1fr;
             }
-            
-            .modal-profile {
+
+            .unit-header {
                 flex-direction: column;
+                gap: 10px;
                 text-align: center;
+            }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .filter-buttons {
+                justify-content: center;
             }
         }
     </style>
@@ -747,141 +857,133 @@
 <body>
     <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="logo-container">
-                <img src="https://i.ibb.co/KHwCKpF/1000003810.png" alt="Logo">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEic19wSZLLUVZwlSOvcsnmlEtZWPu21blnfBWwpbL-QppSdtngt5-PqThIi2EFFOANk0vShth2xZQAqTazMSYD-e_UBnnDTMFDkQHMYWzqTj6_qGoEOkHF99IneAj9WFySQqi90Rwu7dMlEKo-R8oi0rbWxjSrLldhbN5hJyZPULKFsHrF0jdZtr-LfOcg/s2000/1000040482.png" alt="রোভার স্কাউট লোগো">
+                <span style="font-size: 16px;">গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html"><i class="fas fa-home"></i> হোম</a>
+                <a href="index.html#about"><i class="fas fa-info-circle"></i> আমাদের সম্পর্কে</a>
+                <a href="index.html#activities"><i class="fas fa-running"></i> কার্যক্রম</a>
+                <a href="index.html#admission"><i class="fas fa-user-graduate"></i> ভর্তি</a>
+                <a href="members.html" class="active"><i class="fas fa-users"></i> সদস্যবৃন্দ</a>
+                <a href="index.html#contact"><i class="fas fa-address-book"></i> যোগাযোগ</a>
+                <a href="admin.html"><i class="fas fa-sign-in-alt"></i> এডমিন</a>
+            </nav>
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
-            <h1>গুরুদয়াল সরকারি কলেজ</h1>
-            <h2>রোভার স্কাউট গ্রুপ, কিশোরগঞ্জ</h2>
-            <p>"সেবা ও ভালোবাসার প্রতিশ্রুতি"</p>
         </div>
     </header>
 
-    <!-- Stats -->
-    <div class="stats-bar">
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-users"></i>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1><i class="fas fa-users"></i> আমাদের সদস্যবৃন্দ</h1>
+            <p>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপের সকল সদস্যের তালিকা। ইউনিট ও প্যাট্রোল অনুযায়ী সাজানো। প্রতিটি সদস্যের প্রোফাইল কার্ড ডাউনলোড করুন PNG, JPEG বা PDF ফরম্যাটে।</p>
+            
+            <div class="stats-container" id="statsContainer">
+                <!-- Stats will be populated dynamically -->
+                <div class="stat-box">
+                    <div class="number" id="totalMembers">0</div>
+                    <div class="label">মোট সদস্য</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="totalRoverMates">0</div>
+                    <div class="label">রোভার মেট</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="totalSeniorMates">0</div>
+                    <div class="label">সিনিয়র রোভার মেট</div>
+                </div>
+                <div class="stat-box">
+                    <div class="number" id="totalBadges">0</div>
+                    <div class="label">মোট ব্যাজ</div>
+                </div>
             </div>
-            <div class="stat-number" id="totalMembers">0</div>
-            <div class="stat-label">মোট সদস্য</div>
         </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-user-tie"></i>
-            </div>
-            <div class="stat-number" id="totalLeaders">0</div>
-            <div class="stat-label">নেতৃত্ব</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-medal"></i>
-            </div>
-            <div class="stat-number" id="totalBadges">0</div>
-            <div class="stat-label">মোট ব্যাজ</div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon">
-                <i class="fas fa-droplet"></i>
-            </div>
-            <div class="stat-number" id="bloodDonors">0</div>
-            <div class="stat-label">রক্তদাতা</div>
-        </div>
-    </div>
+    </section>
 
     <!-- Main Content -->
-    <main class="container">
+    <div class="container">
         <!-- Filter Section -->
         <div class="filter-section">
-            <h2 class="filter-title">
-                <i class="fas fa-search"></i>
-                সদস্য অনুসন্ধান
-            </h2>
-            
-            <div class="search-wrapper">
-                <input type="text" id="searchInput" placeholder="নাম, ইমেইল বা মোবাইল নম্বর লিখুন..." onkeyup="searchMembers()">
-                <button onclick="searchMembers()">
-                    <i class="fas fa-search"></i>
-                    খুঁজুন
-                </button>
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="নাম, ইমেইল, মোবাইল বা র‍্যাঙ্ক দ্বারা খুঁজুন..." onkeyup="searchMembers()">
+                <div class="view-toggle">
+                    <button class="view-btn active" onclick="toggleView('units')" id="viewUnitsBtn"><i class="fas fa-layer-group"></i> ইউনিট ভিউ</button>
+                    <button class="view-btn" onclick="toggleView('grid')" id="viewGridBtn"><i class="fas fa-th"></i> গ্রিড ভিউ</button>
+                </div>
             </div>
-            
-            <div class="filter-badges">
-                <span class="filter-badge active" onclick="filterByRank('all', this)">
-                    <i class="fas fa-users"></i>
-                    সকল সদস্য
-                </span>
-                <span class="filter-badge" onclick="filterByRank('সহচর', this)">
-                    <i class="fas fa-star"></i>
-                    সহচর
-                </span>
-                <span class="filter-badge" onclick="filterByRank('সদস্য', this)">
-                    <i class="fas fa-user"></i>
-                    সদস্য
-                </span>
-                <span class="filter-badge" onclick="filterByRank('রোভার মেট', this)">
-                    <i class="fas fa-crown"></i>
-                    রোভার মেট
-                </span>
-                <span class="filter-badge" onclick="filterByRank('সহকারী রোভার মেট', this)">
-                    <i class="fas fa-user-tie"></i>
-                    সহকারী রোভার মেট
-                </span>
-                <span class="filter-badge" onclick="filterByRank('সিনিয়র রোভার মেট', this)">
-                    <i class="fas fa-user-graduate"></i>
-                    সিনিয়র রোভার মেট
-                </span>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterByUnit('all')" id="filterAll"><i class="fas fa-users"></i> সকল সদস্য</button>
+                <button class="filter-btn unit1" onclick="filterByUnit('unit1')" id="filterUnit1"><i class="fas fa-flag"></i> ইউনিট ১</button>
+                <button class="filter-btn unit2" onclick="filterByUnit('unit2')" id="filterUnit2"><i class="fas fa-flag"></i> ইউনিট ২</button>
+                <button class="filter-btn unit3" onclick="filterByUnit('unit3')" id="filterUnit3"><i class="fas fa-flag"></i> ইউনিট ৩</button>
+                <button class="filter-btn unit4" onclick="filterByUnit('unit4')" id="filterUnit4"><i class="fas fa-flag"></i> ইউনিট ৪</button>
+            </div>
+
+            <div class="rank-filters">
+                <button class="rank-btn active" onclick="filterByRank('all')" id="rankAll">সকল র‍্যাঙ্ক</button>
+                <button class="rank-btn" onclick="filterByRank('সহচর')" id="rankShochhor">সহচর</button>
+                <button class="rank-btn" onclick="filterByRank('সদস্য')" id="rankSadasya">সদস্য</button>
+                <button class="rank-btn" onclick="filterByRank('রোভার মেট')" id="rankRoverMate">রোভার মেট</button>
+                <button class="rank-btn" onclick="filterByRank('সহকারী রোভার মেট')" id="rankAssistant">সহকারী রোভার মেট</button>
+                <button class="rank-btn" onclick="filterByRank('সিনিয়র রোভার মেট')" id="rankSenior">সিনিয়র রোভার মেট</button>
             </div>
         </div>
 
-        <!-- Loading State -->
-        <div id="loadingState" class="loading-state">
+        <!-- Loading Spinner -->
+        <div class="loading-spinner" id="loadingSpinner">
             <div class="spinner"></div>
-            <p>সদস্যদের তথ্য আনয়ন করা হচ্ছে...</p>
+            <p>সদস্যদের তথ্য লোড হচ্ছে...</p>
         </div>
 
-        <!-- Members Grid -->
-        <div id="membersGrid" class="members-grid" style="display: none;"></div>
+        <!-- Units View (Default) -->
+        <div id="unitsView" class="units-container">
+            <!-- Units will be populated dynamically -->
+        </div>
 
-        <!-- Unit Wise Display -->
-        <div id="unitWiseDisplay" style="display: none;"></div>
+        <!-- Grid View (Hidden by default) -->
+        <div id="gridView" class="members-grid" style="display: none;">
+            <!-- Members grid will be populated dynamically -->
+        </div>
 
-        <!-- No Results -->
+        <!-- No Results Message -->
         <div id="noResults" class="no-results" style="display: none;">
             <i class="fas fa-search"></i>
             <h3>কোনো সদস্য পাওয়া যায়নি</h3>
-            <p>অনুগ্রহ করে ভিন্ন শব্দ দিয়ে অনুসন্ধান করুন</p>
+            <p>অনুগ্রহ করে ভিন্ন কিওয়ার্ড দিয়ে অনুসন্ধান করুন।</p>
         </div>
-    </main>
+    </div>
 
     <!-- Member Profile Modal -->
     <div id="profileModal" class="modal">
-        <div class="modal-content" id="profileModalContent"></div>
+        <div class="modal-content" id="profileModalContent">
+            <!-- Content will be loaded dynamically -->
+        </div>
     </div>
 
     <!-- Footer -->
     <footer class="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>গুরুদয়াল সরকারি কলেজ</h3>
-                <p><i class="fas fa-map-marker-alt"></i> কিশোরগঞ্জ সদর, কিশোরগঞ্জ</p>
-                <p><i class="fas fa-phone"></i> ০১৭১২-৩৪৫৬৭৮</p>
-                <p><i class="fas fa-envelope"></i> info@gdgcrover.com</p>
+        <div class="container">
+            <div class="footer-links">
+                <a href="index.html">হোম</a>
+                <a href="index.html#about">আমাদের সম্পর্কে</a>
+                <a href="index.html#activities">কার্যক্রম</a>
+                <a href="index.html#admission">ভর্তি</a>
+                <a href="members.html">সদস্যবৃন্দ</a>
+                <a href="index.html#contact">যোগাযোগ</a>
+                <a href="admin.html">এডমিন</a>
             </div>
-            <div class="footer-section">
-                <h3>গুরুত্বপূর্ণ লিংক</h3>
-                <p><i class="fas fa-chevron-right"></i> ভর্তি ফরম</p>
-                <p><i class="fas fa-chevron-right"></i> ইভেন্ট ক্যালেন্ডার</p>
-                <p><i class="fas fa-chevron-right"></i> গ্যালারি</p>
+            <div class="copyright">
+                <p>&copy; 2026 গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ | সর্বস্বত্ব সংরক্ষিত</p>
+                <p style="font-size: 0.8rem; margin-top: 10px;">ডেভেলপড বাই: রোভার মোঃ আশফাকুর রহমান তানিম</p>
             </div>
-            <div class="footer-section">
-                <h3>অনুসরণ করুন</h3>
-                <p><i class="fab fa-facebook"></i> ফেসবুক</p>
-                <p><i class="fab fa-youtube"></i> ইউটিউব</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2026 গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</p>
         </div>
     </footer>
 
@@ -900,412 +1002,651 @@
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
-
-        // Enable offline persistence
-        db.enablePersistence()
-            .catch((err) => {
-                console.log('Offline persistence error:', err);
-            });
+        const storage = firebase.storage();
 
         // Global Variables
         let allMembers = [];
         let filteredMembers = [];
-        let currentFilter = 'all';
-        let currentFilterElement = document.querySelector('.filter-badge.active');
+        let currentUnitFilter = 'all';
+        let currentRankFilter = 'all';
+        let currentSearchTerm = '';
+        let currentView = 'units'; // 'units' or 'grid'
 
-        // Load Members
+        // Unit and Patrol Configuration
+        const units = [
+            { id: 'unit1', name: 'ইউনিট ১', color: '#e94560' },
+            { id: 'unit2', name: 'ইউনিট ২', color: '#3498db' },
+            { id: 'unit3', name: 'ইউনিট ৩', color: '#27ae60' },
+            { id: 'unit4', name: 'ইউনিট ৪', color: '#f39c12' }
+        ];
+
+        const patrols = [
+            { id: 'team1', name: 'উপদল ১', color: '#9b59b6' },
+            { id: 'team2', name: 'উপদল ২', color: '#e67e22' },
+            { id: 'team3', name: 'উপদল ৩', color: '#1abc9c' },
+            { id: 'team4', name: 'উপদল ৪', color: '#e74c3c' }
+        ];
+
+        // Rank order for sorting
+        const rankOrder = {
+            'সিনিয়র রোভার মেট': 1,
+            'সহকারী রোভার মেট': 2,
+            'রোভার মেট': 3,
+            'সদস্য': 4,
+            'সহচর': 5
+        };
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', () => {
+            loadMembers();
+            setupHamburgerMenu();
+        });
+
+        // Load members from Firestore
         async function loadMembers() {
+            showLoading();
+            
             try {
-                showLoading(true);
-                
                 const snapshot = await db.collection('members').get();
                 allMembers = [];
                 
                 snapshot.forEach(doc => {
                     const member = { id: doc.id, ...doc.data() };
-                    if (member.banglaName || member.fullName) { // Only include members with names
-                        allMembers.push(member);
-                    }
+                    
+                    // Set default values if missing
+                    member.unit = member.unit || 'unit1';
+                    member.team = member.team || 'team1';
+                    member.rank = member.rank || 'সদস্য';
+                    member.badges = member.badges || [];
+                    
+                    allMembers.push(member);
                 });
-
-                // Sort by name
+                
+                // Sort members by rank
                 allMembers.sort((a, b) => {
-                    const nameA = (a.banglaName || a.fullName || '').toLowerCase();
-                    const nameB = (b.banglaName || b.fullName || '').toLowerCase();
-                    return nameA.localeCompare(nameB, 'bn');
+                    return (rankOrder[a.rank] || 99) - (rankOrder[b.rank] || 99);
                 });
-
+                
                 filteredMembers = [...allMembers];
-                
                 updateStats();
-                displayMembers();
-                displayUnitWise();
-                
-                showLoading(false);
-
+                renderView();
+                hideLoading();
             } catch (error) {
                 console.error('Error loading members:', error);
-                showLoading(false);
-                showError('ডাটা লোড করতে সমস্যা হয়েছে: ' + error.message);
+                hideLoading();
+                showError('সদস্যদের তথ্য লোড করতে সমস্যা হয়েছে।');
             }
         }
 
-        // Show/Hide Loading
-        function showLoading(show) {
-            const loading = document.getElementById('loadingState');
-            const grid = document.getElementById('membersGrid');
-            const unitWise = document.getElementById('unitWiseDisplay');
-            const noResults = document.getElementById('noResults');
-
-            if (show) {
-                loading.style.display = 'block';
-                grid.style.display = 'none';
-                unitWise.style.display = 'none';
-                noResults.style.display = 'none';
-            } else {
-                loading.style.display = 'none';
-            }
-        }
-
-        // Show Error
-        function showError(message) {
-            const noResults = document.getElementById('noResults');
-            noResults.innerHTML = `
-                <i class="fas fa-exclamation-triangle" style="color: #ef4444;"></i>
-                <h3>সমস্যা হয়েছে</h3>
-                <p>${message}</p>
-            `;
-            noResults.style.display = 'block';
-        }
-
-        // Update Statistics
+        // Update statistics
         function updateStats() {
             document.getElementById('totalMembers').textContent = allMembers.length;
             
-            const leaders = allMembers.filter(m => 
-                m.rank === 'রোভার মেট' || 
-                m.rank === 'সহকারী রোভার মেট' || 
-                m.rank === 'সিনিয়র রোভার মেট'
-            ).length;
-            document.getElementById('totalLeaders').textContent = leaders;
+            const roverMates = allMembers.filter(m => m.rank === 'রোভার মেট').length;
+            document.getElementById('totalRoverMates').textContent = roverMates;
             
-            let badgeCount = 0;
-            allMembers.forEach(m => badgeCount += (m.badges ? m.badges.length : 0));
-            document.getElementById('totalBadges').textContent = badgeCount;
+            const seniorMates = allMembers.filter(m => m.rank === 'সিনিয়র রোভার মেট' || m.rank === 'সহকারী রোভার মেট').length;
+            document.getElementById('totalSeniorMates').textContent = seniorMates;
             
-            const bloodDonors = allMembers.filter(m => m.bloodDonation === 'yes').length;
-            document.getElementById('bloodDonors').textContent = bloodDonors;
+            let badgeTotal = 0;
+            allMembers.forEach(m => {
+                badgeTotal += (m.badges ? m.badges.length : 0);
+            });
+            document.getElementById('totalBadges').textContent = badgeTotal;
         }
 
-        // Display Members
-        function displayMembers() {
-            const grid = document.getElementById('membersGrid');
-            
+        // Render current view
+        function renderView() {
+            if (currentView === 'units') {
+                renderUnitsView();
+                document.getElementById('gridView').style.display = 'none';
+                document.getElementById('unitsView').style.display = 'block';
+            } else {
+                renderGridView();
+                document.getElementById('unitsView').style.display = 'none';
+                document.getElementById('gridView').style.display = 'grid';
+            }
+        }
+
+        // Render units view
+        function renderUnitsView() {
+            const container = document.getElementById('unitsView');
+            container.innerHTML = '';
+
+            let hasMembers = false;
+
+            units.forEach(unit => {
+                const unitMembers = filteredMembers.filter(m => m.unit === unit.id);
+                
+                if (unitMembers.length > 0 || currentUnitFilter === 'all' || currentUnitFilter === unit.id) {
+                    hasMembers = true;
+                    
+                    const unitSection = document.createElement('div');
+                    unitSection.className = 'unit-section';
+                    unitSection.id = unit.id;
+                    
+                    // Unit Header
+                    const unitHeader = document.createElement('div');
+                    unitHeader.className = 'unit-header';
+                    unitHeader.style.background = unit.color;
+                    unitHeader.onclick = () => toggleUnit(unit.id);
+                    
+                    unitHeader.innerHTML = `
+                        <h2>
+                            <i class="fas fa-flag"></i>
+                            ${unit.name}
+                        </h2>
+                        <div class="unit-stats">
+                            <span><i class="fas fa-users"></i> ${unitMembers.length} জন</span>
+                            <span><i class="fas fa-medal"></i> ${countUnitBadges(unitMembers)} টি ব্যাজ</span>
+                        </div>
+                    `;
+                    
+                    // Unit Content
+                    const unitContent = document.createElement('div');
+                    unitContent.className = 'unit-content';
+                    unitContent.id = `content-${unit.id}`;
+                    
+                    // Patrols Container
+                    const patrolsContainer = document.createElement('div');
+                    patrolsContainer.className = 'patrols-container';
+                    
+                    patrols.forEach(patrol => {
+                        const patrolMembers = unitMembers.filter(m => m.team === patrol.id);
+                        
+                        const patrolCard = document.createElement('div');
+                        patrolCard.className = 'patrol-card';
+                        
+                        patrolCard.innerHTML = `
+                            <div class="patrol-header" style="background: ${patrol.color}">
+                                <i class="fas fa-users"></i>
+                                ${patrol.name}
+                                <span style="background: rgba(255,255,255,0.2); padding: 3px 8px; border-radius: 12px; font-size: 0.8rem;">
+                                    ${patrolMembers.length}
+                                </span>
+                            </div>
+                            <div class="patrol-content">
+                                ${patrolMembers.length > 0 ? `
+                                    <ul class="patrol-members">
+                                        ${patrolMembers.map(member => `
+                                            <li>
+                                                <div class="member-item" onclick="showMemberProfile('${member.id}')" style="cursor: pointer;">
+                                                    <img src="${member.photo || 'https://via.placeholder.com/30'}" 
+                                                         class="member-avatar-sm" 
+                                                         onerror="this.src='https://via.placeholder.com/30'">
+                                                    <span>${member.banglaName || member.fullName || 'N/A'}</span>
+                                                    <span class="member-rank">${member.rank || 'সদস্য'}</span>
+                                                </div>
+                                            </li>
+                                        `).join('')}
+                                    </ul>
+                                ` : `
+                                    <div class="empty-patrol">
+                                        <i class="fas fa-user-slash"></i>
+                                        <p>কোন সদস্য নেই</p>
+                                    </div>
+                                `}
+                            </div>
+                        `;
+                        
+                        patrolsContainer.appendChild(patrolCard);
+                    });
+                    
+                    unitContent.appendChild(patrolsContainer);
+                    unitSection.appendChild(unitHeader);
+                    unitSection.appendChild(unitContent);
+                    container.appendChild(unitSection);
+                }
+            });
+
+            if (!hasMembers) {
+                document.getElementById('noResults').style.display = 'block';
+            } else {
+                document.getElementById('noResults').style.display = 'none';
+            }
+        }
+
+        // Render grid view
+        function renderGridView() {
+            const container = document.getElementById('gridView');
+            container.innerHTML = '';
+
             if (filteredMembers.length === 0) {
-                grid.style.display = 'none';
-                document.getElementById('unitWiseDisplay').style.display = 'none';
                 document.getElementById('noResults').style.display = 'block';
                 return;
             }
 
-            grid.innerHTML = filteredMembers.map(member => createMemberCard(member)).join('');
-            grid.style.display = 'grid';
-            document.getElementById('unitWiseDisplay').style.display = 'none';
             document.getElementById('noResults').style.display = 'none';
-        }
 
-        // Create Member Card
-        function createMemberCard(member) {
-            const photo = member.photo || 'https://via.placeholder.com/100';
-            const name = member.banglaName || member.fullName || 'নাম নেই';
-            const rank = member.rank || 'সদস্য';
-            const unit = getUnitName(member.unit);
-            const badges = member.badges || [];
-            
-            return `
-                <div class="member-card" onclick="viewMemberProfile('${member.id}')">
-                    <div class="card-header">
-                        <img src="${photo}" alt="${name}" class="member-photo" onerror="this.src='https://via.placeholder.com/100'">
-                        <h3 class="member-name">${name}</h3>
-                        <span class="member-rank">${rank}</span>
-                    </div>
-                    <div class="card-body">
-                        <div class="info-row">
-                            <i class="fas fa-phone"></i>
-                            <span>${member.mobile || member.userPhone || 'নাই'}</span>
-                        </div>
-                        <div class="info-row">
-                            <i class="fas fa-droplet"></i>
-                            <span>রক্তের গ্রুপ: ${member.bloodGroup || 'নাই'}</span>
+            filteredMembers.forEach(member => {
+                const unitColor = getUnitColor(member.unit);
+                
+                const card = document.createElement('div');
+                card.className = 'member-card';
+                card.onclick = () => showMemberProfile(member.id);
+                
+                card.innerHTML = `
+                    <div class="member-card-header" style="background: linear-gradient(135deg, ${unitColor}, ${adjustColor(unitColor, 20)})"></div>
+                    <img src="${member.photo || 'https://via.placeholder.com/120'}" 
+                         class="member-card-photo" 
+                         onerror="this.src='https://via.placeholder.com/120'">
+                    <div class="member-card-body">
+                        <h3 class="member-name">${member.banglaName || member.fullName || 'N/A'}</h3>
+                        <span class="member-rank-badge">${member.rank || 'সদস্য'}</span>
+                        
+                        <div class="member-details">
+                            <p><i class="fas fa-flag"></i> ${getUnitName(member.unit)}</p>
+                            <p><i class="fas fa-users"></i> ${getPatrolName(member.team)}</p>
+                            ${member.mobile ? `<p><i class="fas fa-phone"></i> ${member.mobile}</p>` : ''}
+                            ${member.email ? `<p><i class="fas fa-envelope"></i> ${truncateEmail(member.email)}</p>` : ''}
+                            ${member.bloodGroup ? `<p><i class="fas fa-tint"></i> ${member.bloodGroup}</p>` : ''}
                         </div>
                         
-                        ${badges.length > 0 ? `
-                            <div class="badges-container">
-                                ${badges.slice(0, 2).map(badge => `
-                                    <span class="badge-mini">
-                                        <i class="fas fa-award"></i>
-                                        ${badge}
-                                    </span>
+                        ${member.badges && member.badges.length > 0 ? `
+                            <div class="member-badges">
+                                ${member.badges.slice(0, 3).map(badge => `
+                                    <span class="member-badge-item">${badge}</span>
                                 `).join('')}
-                                ${badges.length > 2 ? `<span class="badge-mini">+${badges.length - 2}</span>` : ''}
+                                ${member.badges.length > 3 ? `<span class="member-badge-item">+${member.badges.length - 3}</span>` : ''}
                             </div>
                         ` : ''}
-                        
-                        <div class="unit-tag">
-                            <i class="fas fa-users"></i>
-                            ${unit}
-                        </div>
                     </div>
-                </div>
-            `;
-        }
-
-        // Display Unit Wise
-        function displayUnitWise() {
-            const container = document.getElementById('unitWiseDisplay');
-            const units = [
-                { id: 'unit1', name: 'প্রথম ইউনিট' },
-                { id: 'unit2', name: 'দ্বিতীয় ইউনিট' },
-                { id: 'unit3', name: 'তৃতীয় ইউনিট' },
-                { id: 'unit4', name: 'চতুর্থ ইউনিট' }
-            ];
-            
-            let html = '';
-            
-            units.forEach(unit => {
-                const unitMembers = allMembers.filter(m => m.unit === unit.id);
-                if (unitMembers.length === 0) return;
-                
-                html += `
-                    <div class="unit-section">
-                        <h2 class="unit-title">
-                            <i class="fas fa-flag"></i>
-                            ${unit.name}
-                        </h2>
-                        
-                        <div class="unit-stats">
-                            <span class="unit-stat">
-                                <i class="fas fa-users"></i>
-                                ${unitMembers.length} জন
-                            </span>
-                            <span class="unit-stat">
-                                <i class="fas fa-medal"></i>
-                                ${unitMembers.reduce((sum, m) => sum + (m.badges ? m.badges.length : 0), 0)}টি ব্যাজ
-                            </span>
-                        </div>
-                        
-                        <div class="team-grid">
-                            ${[1, 2, 3, 4].map(teamNum => {
-                                const teamId = `team${teamNum}`;
-                                const teamMembers = unitMembers.filter(m => m.team === teamId);
-                                
-                                return `
-                                    <div class="team-card">
-                                        <div class="team-header">
-                                            <span class="team-name">উপদল ${teamNum}</span>
-                                            <span class="team-count">${teamMembers.length}</span>
-                                        </div>
-                                        <div class="team-member-list">
-                                            ${teamMembers.length > 0 ? 
-                                                teamMembers.map(m => `
-                                                    <div class="team-member" onclick="viewMemberProfile('${m.id}')">
-                                                        <img src="${m.photo || 'https://via.placeholder.com/32'}" class="team-member-photo" onerror="this.src='https://via.placeholder.com/32'">
-                                                        <div class="team-member-info">
-                                                            <div class="team-member-name">${m.banglaName || m.fullName || 'N/A'}</div>
-                                                            <div class="team-member-rank">${m.rank || 'সদস্য'}</div>
-                                                        </div>
-                                                    </div>
-                                                `).join('') : 
-                                                '<p style="color: #94a3b8; text-align: center; padding: 10px;">কোন সদস্য নেই</p>'
-                                            }
-                                        </div>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
+                    <div class="member-card-footer">
+                        <button class="download-btn" onclick="event.stopPropagation(); downloadProfile('${member.id}', 'png')">
+                            <i class="fas fa-download"></i> PNG
+                        </button>
+                        <button class="download-btn" onclick="event.stopPropagation(); downloadProfile('${member.id}', 'jpeg')">
+                            <i class="fas fa-image"></i> JPEG
+                        </button>
+                        <button class="download-btn" onclick="event.stopPropagation(); downloadProfile('${member.id}', 'pdf')">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
                     </div>
                 `;
+                
+                container.appendChild(card);
             });
-            
-            container.innerHTML = html;
         }
 
-        // Get Unit Name
-        function getUnitName(unit) {
-            const units = {
-                'unit1': 'প্রথম ইউনিট',
-                'unit2': 'দ্বিতীয় ইউনিট',
-                'unit3': 'তৃতীয় ইউনিট',
-                'unit4': 'চতুর্থ ইউনিট'
-            };
-            return units[unit] || 'নিয়োগ হয়নি';
+        // Helper Functions
+        function countUnitBadges(members) {
+            let count = 0;
+            members.forEach(m => {
+                count += (m.badges ? m.badges.length : 0);
+            });
+            return count;
         }
 
-        // Search Members
+        function getUnitColor(unitId) {
+            const unit = units.find(u => u.id === unitId);
+            return unit ? unit.color : '#2c3e50';
+        }
+
+        function adjustColor(color, percent) {
+            // Simple color adjustment - in production use a proper color library
+            return color;
+        }
+
+        function getUnitName(unitId) {
+            const unit = units.find(u => u.id === unitId);
+            return unit ? unit.name : unitId;
+        }
+
+        function getPatrolName(patrolId) {
+            const patrol = patrols.find(p => p.id === patrolId);
+            return patrol ? patrol.name : patrolId;
+        }
+
+        function truncateEmail(email) {
+            if (!email) return '';
+            if (email.length > 20) {
+                return email.substring(0, 17) + '...';
+            }
+            return email;
+        }
+
+        // Toggle unit content
+        function toggleUnit(unitId) {
+            const content = document.getElementById(`content-${unitId}`);
+            if (content) {
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+
+        // Search members
         function searchMembers() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            
-            if (searchTerm === '') {
-                filteredMembers = [...allMembers];
-            } else {
-                filteredMembers = allMembers.filter(member => {
-                    const name = (member.banglaName || member.fullName || '').toLowerCase();
-                    const email = (member.email || '').toLowerCase();
-                    const mobile = (member.mobile || member.userPhone || '');
-                    return name.includes(searchTerm) || email.includes(searchTerm) || mobile.includes(searchTerm);
-                });
-            }
-            
-            // Apply current filter
-            if (currentFilter !== 'all') {
-                filteredMembers = filteredMembers.filter(m => m.rank === currentFilter);
-            }
-            
-            displayMembers();
+            currentSearchTerm = searchTerm;
+            applyFilters();
         }
 
-        // Filter by Rank
-        function filterByRank(rank, element) {
-            // Update active state
-            if (currentFilterElement) {
-                currentFilterElement.classList.remove('active');
+        // Filter by unit
+        function filterByUnit(unit) {
+            currentUnitFilter = unit;
+            
+            // Update active button states
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            if (unit === 'all') {
+                document.getElementById('filterAll').classList.add('active');
+            } else {
+                document.getElementById(`filter${unit.charAt(0).toUpperCase() + unit.slice(1)}`).classList.add('active');
             }
-            element.classList.add('active');
-            currentFilterElement = element;
             
-            currentFilter = rank;
+            applyFilters();
+        }
+
+        // Filter by rank
+        function filterByRank(rank) {
+            currentRankFilter = rank;
             
+            // Update active button states
+            document.querySelectorAll('.rank-btn').forEach(btn => btn.classList.remove('active'));
             if (rank === 'all') {
-                filteredMembers = [...allMembers];
+                document.getElementById('rankAll').classList.add('active');
             } else {
-                filteredMembers = allMembers.filter(member => member.rank === rank);
-            }
-            
-            // Apply current search
-            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
-            if (searchTerm !== '') {
-                filteredMembers = filteredMembers.filter(member => {
-                    const name = (member.banglaName || member.fullName || '').toLowerCase();
-                    const email = (member.email || '').toLowerCase();
-                    const mobile = (member.mobile || member.userPhone || '');
-                    return name.includes(searchTerm) || email.includes(searchTerm) || mobile.includes(searchTerm);
+                // Find the button by rank name
+                document.querySelectorAll('.rank-btn').forEach(btn => {
+                    if (btn.textContent.includes(rank)) {
+                        btn.classList.add('active');
+                    }
                 });
             }
             
-            displayMembers();
+            applyFilters();
         }
 
-        // View Member Profile
-        function viewMemberProfile(memberId) {
+        // Apply all filters
+        function applyFilters() {
+            filteredMembers = allMembers.filter(member => {
+                // Unit filter
+                if (currentUnitFilter !== 'all' && member.unit !== currentUnitFilter) {
+                    return false;
+                }
+                
+                // Rank filter
+                if (currentRankFilter !== 'all' && member.rank !== currentRankFilter) {
+                    return false;
+                }
+                
+                // Search filter
+                if (currentSearchTerm) {
+                    const searchable = [
+                        member.banglaName,
+                        member.fullName,
+                        member.email,
+                        member.mobile,
+                        member.rank
+                    ].join(' ').toLowerCase();
+                    
+                    if (!searchable.includes(currentSearchTerm)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            });
+            
+            renderView();
+        }
+
+        // Toggle view
+        function toggleView(view) {
+            currentView = view;
+            
+            // Update button states
+            document.getElementById('viewUnitsBtn').classList.toggle('active', view === 'units');
+            document.getElementById('viewGridBtn').classList.toggle('active', view === 'grid');
+            
+            renderView();
+        }
+
+        // Show member profile modal
+        async function showMemberProfile(memberId) {
             const member = allMembers.find(m => m.id === memberId);
             if (!member) return;
             
             const modalContent = document.getElementById('profileModalContent');
-            const photo = member.photo || 'https://via.placeholder.com/150';
-            const name = member.banglaName || member.fullName || 'নাম নেই';
-            const rank = member.rank || 'সদস্য';
-            const badges = member.badges || [];
-            
             modalContent.innerHTML = `
-                <div class="modal-header">
-                    <button class="modal-close" onclick="closeModal()">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="modal-profile">
-                        <img src="${photo}" alt="${name}" onerror="this.src='https://via.placeholder.com/150'">
-                        <div>
-                            <h2>${name}</h2>
-                            <p style="font-size: 1.2rem; margin-bottom: 5px;">
-                                <i class="fas fa-medal"></i> ${rank}
-                            </p>
-                            <p>
-                                <i class="fas fa-map-marker-alt"></i> 
-                                ${getUnitName(member.unit)}
-                            </p>
-                        </div>
-                    </div>
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="${member.photo || 'https://via.placeholder.com/150'}" 
+                         style="width: 150px; height: 150px; border-radius: 50%; border: 3px solid var(--primary-color); object-fit: cover;"
+                         onerror="this.src='https://via.placeholder.com/150'">
+                    <h2 style="margin-top: 15px;">${member.banglaName || member.fullName || 'N/A'}</h2>
+                    <p style="color: var(--primary-color); font-weight: 600;">${member.rank || 'সদস্য'}</p>
                 </div>
-                <div class="modal-body">
-                    <div class="info-grid">
-                        <div class="info-block">
-                            <h3><i class="fas fa-user"></i> ব্যক্তিগত তথ্য</h3>
-                            <p><i class="fas fa-envelope"></i> ${member.email || member.userEmail || 'নাই'}</p>
-                            <p><i class="fas fa-phone"></i> ${member.mobile || member.userPhone || 'নাই'}</p>
-                            <p><i class="fas fa-droplet"></i> রক্তের গ্রুপ: ${member.bloodGroup || 'নাই'}</p>
-                            <p><i class="fas fa-calendar"></i> জন্ম: ${member.dob || 'নাই'}</p>
-                            <p><i class="fas fa-pray"></i> ধর্ম: ${member.religion || 'নাই'}</p>
-                        </div>
-                        
-                        <div class="info-block">
-                            <h3><i class="fas fa-graduation-cap"></i> শিক্ষাগত তথ্য</h3>
-                            <p><i class="fas fa-school"></i> ${member.education || 'নাই'}</p>
-                            <p><i class="fas fa-book"></i> ${member.department || 'নাই'}</p>
-                            <p><i class="fas fa-id-card"></i> আইডি: ${member.collegeId || 'নাই'}</p>
-                            <p><i class="fas fa-star"></i> গ্রেড: ${member.grade || 'নাই'}</p>
-                        </div>
-                        
-                        <div class="info-block">
-                            <h3><i class="fas fa-home"></i> ঠিকানা</h3>
-                            <p><i class="fas fa-map-pin"></i> বর্তমান: ${member.presentVillage || ''}, ${member.presentUpazila || ''}</p>
-                            <p><i class="fas fa-map-pin"></i> স্থায়ী: ${member.permanentVillage || ''}, ${member.permanentUpazila || ''}</p>
-                        </div>
-                        
-                        <div class="info-block">
-                            <h3><i class="fas fa-user-friends"></i> পারিবারিক তথ্য</h3>
-                            <p><i class="fas fa-male"></i> পিতা: ${member.fatherName || 'নাই'}</p>
-                            <p><i class="fas fa-female"></i> মাতা: ${member.motherName || 'নাই'}</p>
+                
+                <div class="profile-detail">
+                    <strong>ইংরেজি নাম:</strong> ${member.fullName || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>ইমেইল:</strong> ${member.email || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>মোবাইল:</strong> ${member.mobile || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>পিতার নাম:</strong> ${member.fatherName || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>মাতার নাম:</strong> ${member.motherName || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>জন্ম তারিখ:</strong> ${member.dob || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>রক্তের গ্রুপ:</strong> ${member.bloodGroup || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>ইউনিট:</strong> ${getUnitName(member.unit)}
+                </div>
+                <div class="profile-detail">
+                    <strong>উপদল:</strong> ${getPatrolName(member.team)}
+                </div>
+                <div class="profile-detail">
+                    <strong>শিক্ষা:</strong> ${member.education || 'N/A'} ${member.academicYear ? `(${member.academicYear})` : ''}
+                </div>
+                <div class="profile-detail">
+                    <strong>বিভাগ:</strong> ${member.department || 'N/A'}
+                </div>
+                <div class="profile-detail">
+                    <strong>কলেজ আইডি:</strong> ${member.collegeId || 'N/A'}
+                </div>
+                
+                ${member.badges && member.badges.length > 0 ? `
+                    <div class="profile-detail">
+                        <strong>অর্জিত ব্যাজ:</strong>
+                        <div style="display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px;">
+                            ${member.badges.map(badge => `
+                                <span style="background: var(--accent-color); color: var(--bg-dark); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem;">
+                                    ${badge}
+                                </span>
+                            `).join('')}
                         </div>
                     </div>
-                    
-                    ${badges.length > 0 ? `
-                        <div class="info-block">
-                            <h3><i class="fas fa-medal"></i> অর্জিত ব্যাজ</h3>
-                            <div class="badges-list">
-                                ${badges.map(badge => `
-                                    <span class="badge-item">
-                                        <i class="fas fa-award"></i>
-                                        ${badge}
-                                    </span>
-                                `).join('')}
-                            </div>
-                        </div>
-                    ` : ''}
+                ` : ''}
+                
+                <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px;">
+                    <button class="download-btn" onclick="downloadProfile('${member.id}', 'png')" style="background: var(--primary-color); color: white; padding: 10px 20px;">
+                        <i class="fas fa-download"></i> PNG ডাউনলোড
+                    </button>
+                    <button class="download-btn" onclick="downloadProfile('${member.id}', 'jpeg')" style="background: var(--secondary-color); color: white; padding: 10px 20px;">
+                        <i class="fas fa-image"></i> JPEG ডাউনলোড
+                    </button>
+                    <button class="download-btn" onclick="downloadProfile('${member.id}', 'pdf')" style="background: var(--accent-color); color: var(--bg-dark); padding: 10px 20px;">
+                        <i class="fas fa-file-pdf"></i> PDF ডাউনলোড
+                    </button>
                 </div>
             `;
             
             document.getElementById('profileModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
         }
 
-        // Close Modal
+        // Download profile as image or PDF
+        async function downloadProfile(memberId, format) {
+            const member = allMembers.find(m => m.id === memberId);
+            if (!member) return;
+
+            // Create a temporary div for the profile card
+            const card = document.createElement('div');
+            card.className = 'profile-card-export';
+            card.style.position = 'fixed';
+            card.style.left = '-9999px';
+            card.style.top = '0';
+            
+            card.innerHTML = `
+                <div class="profile-card-header">
+                    <img src="${member.photo || 'https://via.placeholder.com/120'}" 
+                         onerror="this.src='https://via.placeholder.com/120'">
+                    <h2>${member.banglaName || member.fullName || 'N/A'}</h2>
+                    <p>${member.rank || 'সদস্য'}</p>
+                </div>
+                <div class="profile-card-body">
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">পিতার নাম</div>
+                        <div class="profile-info-value">${member.fatherName || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">মাতার নাম</div>
+                        <div class="profile-info-value">${member.motherName || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">জন্ম তারিখ</div>
+                        <div class="profile-info-value">${member.dob || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">রক্তের গ্রুপ</div>
+                        <div class="profile-info-value">${member.bloodGroup || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">মোবাইল</div>
+                        <div class="profile-info-value">${member.mobile || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">ইমেইল</div>
+                        <div class="profile-info-value">${member.email || 'N/A'}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">ইউনিট</div>
+                        <div class="profile-info-value">${getUnitName(member.unit)}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">উপদল</div>
+                        <div class="profile-info-value">${getPatrolName(member.team)}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">শিক্ষা</div>
+                        <div class="profile-info-value">${member.education || 'N/A'} ${member.academicYear || ''}</div>
+                    </div>
+                    <div class="profile-info-row">
+                        <div class="profile-info-label">বিভাগ</div>
+                        <div class="profile-info-value">${member.department || 'N/A'}</div>
+                    </div>
+                    
+                    ${member.badges && member.badges.length > 0 ? `
+                        <div class="profile-badges">
+                            ${member.badges.map(badge => `
+                                <span class="profile-badge-tag">${badge}</span>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                    
+                    <div class="profile-qr">
+                        <small>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</small><br>
+                        <small>সদস্য আইডি: R-2026-${member.formNumber || member.id.substr(0, 8)}</small>
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(card);
+
+            try {
+                if (format === 'pdf') {
+                    // For PDF
+                    const canvas = await html2canvas(card, {
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    });
+                    
+                    const imgData = canvas.toDataURL('image/png');
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'px',
+                        format: [canvas.width / 2, canvas.height / 2]
+                    });
+                    
+                    pdf.addImage(imgData, 'PNG', 0, 0, canvas.width / 2, canvas.height / 2);
+                    pdf.save(`${member.banglaName || member.fullName || 'member'}_profile.pdf`);
+                } else {
+                    // For PNG/JPEG
+                    const canvas = await html2canvas(card, {
+                        scale: 2,
+                        backgroundColor: '#ffffff'
+                    });
+                    
+                    const link = document.createElement('a');
+                    link.download = `${member.banglaName || member.fullName || 'member'}_profile.${format === 'jpeg' ? 'jpg' : format}`;
+                    link.href = canvas.toDataURL(format === 'jpeg' ? 'image/jpeg' : 'image/png');
+                    link.click();
+                }
+            } catch (error) {
+                console.error('Error exporting profile:', error);
+                alert('প্রোফাইল ডাউনলোড করতে সমস্যা হয়েছে।');
+            } finally {
+                document.body.removeChild(card);
+            }
+        }
+
+        // Close modal
         function closeModal() {
             document.getElementById('profileModal').classList.remove('active');
-            document.body.style.overflow = 'auto';
         }
 
-        // Close modal when clicking outside
-        window.onclick = function(event) {
-            const modal = document.getElementById('profileModal');
-            if (event.target === modal) {
-                closeModal();
-            }
+        // Show loading spinner
+        function showLoading() {
+            document.getElementById('loadingSpinner').classList.add('active');
         }
 
-        // Handle ESC key
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
+        // Hide loading spinner
+        function hideLoading() {
+            document.getElementById('loadingSpinner').classList.remove('active');
+        }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', loadMembers);
+        // Show error message
+        function showError(message) {
+            alert(message);
+        }
 
-        // Make functions global
-        window.searchMembers = searchMembers;
+        // Setup hamburger menu
+        function setupHamburgerMenu() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.getElementById('navLinks');
+            
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navLinks.classList.toggle('active');
+            });
+            
+            // Close menu when clicking a link
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                });
+            });
+        }
+
+        // Make functions globally available
+        window.filterByUnit = filterByUnit;
         window.filterByRank = filterByRank;
-        window.viewMemberProfile = viewMemberProfile;
+        window.searchMembers = searchMembers;
+        window.toggleView = toggleView;
+        window.showMemberProfile = showMemberProfile;
+        window.downloadProfile = downloadProfile;
         window.closeModal = closeModal;
+        window.toggleUnit = toggleUnit;
     </script>
 </body>
 </html>
