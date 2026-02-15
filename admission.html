@@ -1,0 +1,2017 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - ভর্তি ফরম</title>
+    <!-- Firebase SDKs with Auth and Firestore -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <style>
+        /* Your existing styles remain exactly the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'SolaimanLipi', Arial, sans-serif;
+            background: #f0f2f5;
+            padding: 30px 20px;
+            display: flex;
+            justify-content: center;
+            line-height: 1.5;
+        }
+
+        .form-container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* Header with logo integration */
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-bottom: 3px solid #f1c40f;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        /* inner wrapper for logo and text (centered) */
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            width: 100%;
+            justify-content: center;
+        }
+        .logo-frame {
+            width: 80px;
+            height: 80px;
+            border-radius: 30%;
+            border: 3px solid #f1c40f;
+            overflow: hidden;
+            background: white;
+            flex-shrink: 0;
+        }
+        .logo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .header-text {
+            text-align: center;
+        }
+        .header-text h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .header-text h2 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #ecf0f1;
+        }
+
+        .welcome-message {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #ecf0f1;
+            text-align: left;
+            width: 100%;
+        }
+
+        /* Form Body */
+        .form-body {
+            padding: 30px;
+        }
+
+        /* ===== FORM NUMBER STYLE (EXACTLY AS REQUESTED) ===== */
+        .form-number-box {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 25px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .form-number-box .label {
+            background: #2c3e50;
+            color: white;
+            font-weight: 600;
+            font-size: 16px;
+            padding: 8px 16px;
+            border-radius: 10px;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .form-number-box .prefix {
+            font-size: 10px;
+            font-weight: 600;
+            color: #2c3e50;
+            letter-spacing: 0.3px;
+            white-space: nowrap;
+        }
+
+        .form-number-box input {
+            width: 110px;
+            height: 40px;
+            border: 2px solid #edf0f1;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 6px;
+            outline: none;
+            font-family: 'Courier New', monospace;
+            background: #f5f5f5;
+            transition: 0.2s;
+            color: #2c3e50;
+            cursor: not-allowed;
+        }
+
+        .form-number-box input:focus {
+            border-color: #e67e22;
+            box-shadow: 0 0 0 2px rgba(230,126,34,.15);
+        }
+
+        /* Sections */
+        .form-section {
+            clear: both;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .section-title {
+            background: #f8f9fa;
+            padding: 12px 15px;
+            border-bottom: 2px solid #2c3e50;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-icon {
+            margin-right: 8px;
+            font-size: 18px;
+        }
+
+        .section-content {
+            padding: 20px;
+        }
+
+        /* Grid Layout */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px 20px;
+        }
+
+        .form-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px 20px;
+        }
+
+        .form-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px 20px;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Form Groups */
+        .form-group {
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: #c0392b;
+            font-weight: bold;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #d0d0d0;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #2c3e50;
+            box-shadow: 0 0 0 2px rgba(44, 62, 80, 0.1);
+        }
+
+        input:hover, select:hover, textarea:hover {
+            border-color: #2c3e50;
+        }
+
+        /* Radio & Checkbox */
+        .radio-group, .checkbox-group {
+            display: flex;
+            gap: 20px;
+            padding: 8px 0;
+            flex-wrap: wrap;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .radio-option input[type="radio"],
+        .checkbox-option input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .radio-option label,
+        .checkbox-option label {
+            margin-bottom: 0;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        /* Address Grid */
+        .address-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* File Upload */
+        .file-upload {
+            border: 1px dashed #2c3e50;
+            padding: 20px;
+            text-align: center;
+            background: #f8f9fa;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .file-upload input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-upload .upload-text {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .file-upload .upload-hint {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+
+        /* Loading Indicator */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 10px;
+            background: #e67e22;
+            color: white;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Hint Text */
+        .hint-text {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        /* Declaration */
+        .declaration {
+            background: #f8f9fa;
+            padding: 20px;
+            border-left: 4px solid #2c3e50;
+            margin: 30px 0 20px;
+            font-style: italic;
+            font-size: 14px;
+            color: #2c3e50;
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #e0e0e0;
+        }
+
+        .btn {
+            padding: 12px 35px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-submit {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: #34495e;
+            box-shadow: 0 2px 8px rgba(44, 62, 80, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .btn-reset {
+            background: #ecf0f1;
+            color: #2c3e50;
+        }
+
+        .btn-reset:hover:not(:disabled) {
+            background: #bdc3c7;
+        }
+
+        .btn-reset:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: #e0e0e0;
+            margin: 20px 0;
+        }
+
+        .small-text {
+            font-size: 12px;
+            color: #7f8c8d;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .form-grid,
+            .form-grid-2,
+            .form-grid-4,
+            .address-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .photo-section {
+                float: none;
+                width: 100%;
+                margin: 0 0 20px 0;
+            }
+
+            .form-grid,
+            .form-grid-2,
+            .form-grid-4,
+            .address-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .header {
+                padding: 20px;
+            }
+
+            .form-body {
+                padding: 20px;
+            }
+        }
+
+        @media print {
+            .btn-group {
+                display: none;
+            }
+        }
+
+        /* Auth Container Styles */
+        .auth-container {
+            max-width: 450px;
+            margin: 50px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .auth-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #7f8c8d;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            color: #2c3e50;
+            border-bottom: 3px solid #2c3e50;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form input {
+            margin-bottom: 15px;
+        }
+
+        .auth-divider {
+            text-align: center;
+            margin: 20px 0;
+            position: relative;
+        }
+
+        .auth-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e0e0e0;
+        }
+
+        .auth-divider span {
+            background: white;
+            padding: 0 10px;
+            position: relative;
+            color: #7f8c8d;
+        }
+
+        .social-login {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .social-login button {
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-google {
+            background: #DB4437;
+            color: white;
+        }
+
+        .btn-google:hover {
+            background: #c53929;
+        }
+
+        .btn-phone {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-phone:hover {
+            background: #128C7E;
+        }
+
+        .auth-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .auth-message.error {
+            background: #ffebee;
+            color: #c0392b;
+        }
+
+        .auth-message.success {
+            background: #e8f5e9;
+            color: #27ae60;
+        }
+
+        .main-content {
+            display: none;
+        }
+
+        .main-content.visible {
+            display: block;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .user-email {
+            color: #2c3e50;
+            font-weight: 500;
+        }
+
+        .btn-logout {
+            background: #e67e22;
+            color: white;
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        .btn-logout:hover {
+            background: #d35400;
+        }
+
+        /* Application status specific styles */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .app-action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn-view {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .btn-edit {
+            background: #f39c12;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Authentication Container -->
+    <div id="authContainer" class="auth-container">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <img src="https://i.ibb.co/KHwCKpF/1000003810.png" alt="লোগো" style="width: 100px; height: 100px; border-radius: 50%; border: 3px solid #f1c40f;">
+            <h2 style="color: #2c3e50; margin-top: 15px;">গুরুদয়াল সরকারি কলেজ</h2>
+            <h3 style="color: #e67e22;">রোভার স্কাউট গ্রুপ</h3>
+        </div>
+
+        <div class="auth-tabs">
+            <div class="auth-tab active" onclick="switchAuthTab('login')">লগইন</div>
+            <div class="auth-tab" onclick="switchAuthTab('signup')">নিবন্ধন</div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginForm" class="auth-form active">
+            <input type="email" id="loginEmail" placeholder="ইমেইল" style="width: 100%;">
+            <input type="password" id="loginPassword" placeholder="পাসওয়ার্ড" style="width: 100%;">
+            <button onclick="handleLogin()" class="btn btn-submit" style="width: 100%;">লগইন</button>
+            
+            <div class="auth-divider">
+                <span>অথবা</span>
+            </div>
+            
+            <div class="social-login">
+                <button onclick="handleGoogleLogin()" class="btn-google">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    </svg>
+                    Google দিয়ে লগইন
+                </button>
+                <button onclick="showPhoneAuth()" class="btn-phone">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M6.62,10.79c1.44,2.83,3.76,5.14,6.59,6.59l2.2-2.2c0.27-0.27,0.67-0.36,1.02-0.24c1.12,0.37,2.33,0.57,3.57,0.57c0.55,0,1,0.45,1,1V20c0,0.55-0.45,1-1,1c-9.39,0-17-7.61-17-17c0-0.55,0.45-1,1-1h3.5c0.55,0,1,0.45,1,1c0,1.25,0.2,2.45,0.57,3.57c0.11,0.35,0.03,0.74-0.25,1.02L6.62,10.79z"/>
+                    </svg>
+                    ফোন নম্বর দিয়ে লগইন
+                </button>
+            </div>
+        </div>
+
+        <!-- Signup Form -->
+        <div id="signupForm" class="auth-form">
+            <input type="text" id="signupName" placeholder="আপনার নাম" style="width: 100%;">
+            <input type="email" id="signupEmail" placeholder="ইমেইল" style="width: 100%;">
+            <input type="password" id="signupPassword" placeholder="পাসওয়ার্ড (৬ অক্ষর)" style="width: 100%;">
+            <input type="password" id="signupConfirmPassword" placeholder="পাসওয়ার্ড নিশ্চিত করুন" style="width: 100%;">
+            <button onclick="handleSignup()" class="btn btn-submit" style="width: 100%;">নিবন্ধন</button>
+            
+            <div class="auth-divider">
+                <span>অথবা</span>
+            </div>
+            
+            <div class="social-login">
+                <button onclick="handleGoogleLogin()" class="btn-google">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+                    </svg>
+                    Google দিয়ে নিবন্ধন
+                </button>
+                <button onclick="showPhoneAuth()" class="btn-phone">
+                    <svg width="20" height="20" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M6.62,10.79c1.44,2.83,3.76,5.14,6.59,6.59l2.2-2.2c0.27-0.27,0.67-0.36,1.02-0.24c1.12,0.37,2.33,0.57,3.57,0.57c0.55,0,1,0.45,1,1V20c0,0.55-0.45,1-1,1c-9.39,0-17-7.61-17-17c0-0.55,0.45-1,1-1h3.5c0.55,0,1,0.45,1,1c0,1.25,0.2,2.45,0.57,3.57c0.11,0.35,0.03,0.74-0.25,1.02L6.62,10.79z"/>
+                    </svg>
+                    ফোন নম্বর দিয়ে নিবন্ধন
+                </button>
+            </div>
+        </div>
+
+        <!-- Phone Auth Form (hidden by default) -->
+        <div id="phoneAuthForm" style="display: none; margin-top: 20px;">
+            <h4 style="margin-bottom: 15px;">ফোন নম্বর দিয়ে লগইন</h4>
+            <input type="tel" id="phoneNumber" placeholder="+8801XXXXXXXXX" style="width: 100%; margin-bottom: 10px;">
+            <div class="hint-text">উদাহরণ: +8801712345678</div>
+            
+            <div id="verificationCodeDiv" style="display: none;">
+                <input type="text" id="verificationCode" placeholder="ভেরিফিকেশন কোড" style="width: 100%; margin-top: 15px;">
+            </div>
+            
+            <div style="margin-top: 15px; display: flex; gap: 10px;">
+                <button onclick="sendVerificationCode()" id="sendCodeBtn" class="btn btn-submit" style="flex: 1;">কোড পাঠান</button>
+                <button onclick="verifyCode()" id="verifyCodeBtn" class="btn" style="flex: 1; background: #27ae60; color: white; display: none;">ভেরিফাই</button>
+                <button onclick="hidePhoneAuth()" class="btn btn-reset">বাতিল</button>
+            </div>
+            <div id="phoneAuthMessage" class="auth-message" style="margin-top: 15px;"></div>
+        </div>
+
+        <div id="authMessage" class="auth-message" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- Main Form Content (initially hidden) -->
+    <div id="mainContent" class="main-content">
+        <div class="form-container">
+            <!-- Header with logo integrated exactly as described -->
+            <div class="header">
+                <div class="header-content">
+                    <!-- logo block from user request -->
+                    <div class="logo-frame">
+                        <img src="https://i.ibb.co/KHwCKpF/1000003810.png" alt="গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ লোগো">
+                    </div>
+                    <div class="header-text">
+                        <h1>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ</h1>
+                        <h2>কিশোরগঞ্জ</h2>
+                    </div>
+                </div>
+                
+                <!-- welcome message stays inside header, below the logo/title row -->
+                <div class="welcome-message" style="text-align:center;">
+                    <p><strong>প্রিয় শিক্ষার্থী,</strong></p>
+                    <p>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ পরিবারের অংশ হওয়ার ইচ্ছা প্রকাশ করার জন্য আপনাকে আন্তরিক ধন্যবাদ। রোভার স্কাউট হলো এক মহান ভ্রাতৃত্ব, যেখানে দায়িত্বশীলতা, শৃঙ্খলা, সততা এবং মানবসেবার মাধ্যমে একজন প্রকৃত মানুষ হয়ে উঠার সুযোগ তৈরি হয়।</p>
+                    <p style="margin-top: 8px;"><em>"সেবা" ও "ভালোবাসার" প্রতিশ্রুতি নিয়ে আমাদের সাথে যুক্ত হন।</em></p>
+                </div>
+            </div>
+
+            <div class="form-body">
+                <!-- User Info Bar and Application Actions -->
+                <div class="user-info">
+                    <span class="user-email" id="userEmailDisplay"></span>
+                    <button onclick="handleLogout()" class="btn-logout">🚪 লগআউট</button>
+                </div>
+
+                <!-- Application action buttons (View/Edit) - shown if user already has an application -->
+                <div id="appActionButtons" class="app-action-buttons" style="display: none; justify-content: flex-end;">
+                    <button onclick="viewMyApplication()" class="btn-view">👁️ আমার আবেদন দেখুন</button>
+                    <button onclick="editMyApplication()" class="btn-edit">✏️ আবেদন সম্পাদনা করুন</button>
+                </div>
+
+                <!-- Application Status Display (for viewing mode) -->
+                <div id="applicationStatusView" style="display: none; margin-bottom: 20px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #2c3e50;">
+                    <h3 style="color: #2c3e50; margin-bottom: 15px;">আমার আবেদনের তথ্য</h3>
+                    <div style="margin-bottom: 10px;">
+                        <strong>ভর্তি ফরম নং:</strong> <span id="viewFormNumber"></span>
+                    </div>
+                    <div style="margin-bottom: 10px;">
+                        <strong>আবেদনের অবস্থা:</strong> 
+                        <span id="viewStatus" class="status-badge"></span>
+                    </div>
+                    <div id="viewDetails" style="margin-top: 20px;">
+                        <!-- Dynamic details will be populated here -->
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 10px;">
+                        <button onclick="hideApplicationView()" class="btn btn-reset">ফর্মে ফিরে যান</button>
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading">
+                    ⏳ ফরম জমা দেওয়া হচ্ছে... দয়া করে অপেক্ষা করুন
+                </div>
+
+                <form id="admissionForm">
+                  
+                    <!-- FORM NUMBER (exact replica of the requested style) -->
+                    <div class="form-number-box">
+                        <span class="label" style="background:#2c3e50;"> ভর্তি ফরম নং :</span>
+                        <span class="prefix" style="font-size:10px; font-weight:500; color:#2c3e50;">R-2026-</span>
+                        <input type="text" id="formNumber" maxlength="4" placeholder="----" readonly>
+                    </div>
+
+                    <!-- Section 1: Personal Information -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">👤</span>
+                            ১. ব্যক্তিগত তথ্য (Personal Information)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid">
+                                <div class="form-group full-width">
+                                    <label class="required">Your Email</label>
+                                    <input type="email" id="email" placeholder="আপনার ইমেইল ঠিকানা" required>
+                                    <div class="hint-text">Please use your work email address</div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="required">আপনার ছবি (Your Photo)</label>
+                                    <div class="file-upload">
+                                        <div class="upload-text">📸 Drag & drop or browse</div>
+                                        <div class="upload-hint">Max file size is 10 MB</div>
+                                        <input type="file" id="photo" accept="image/*" required>
+                                    </div>
+                                    <div id="photoPreview" style="margin-top: 10px; display: none; text-align: center;">
+                                        <img id="previewImage" style="max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #2c3e50;">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">নাম (বাংলায়)</label>
+                                    <input type="text" id="banglaName" placeholder="বাংলায় আপনার নাম" 
+                                           oninput="this.value = this.value.replace(/[^ঀ-৿\s.:'\-ঃ]/g, '')" 
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">NAME (ENGLISH CAPITAL LETTER)</label>
+                                    <input type="text" id="fullName" placeholder="YOUR NAME IN CAPITAL LETTERS" 
+                                           oninput="this.value = this.value.toUpperCase().replace(/[^A-Z\s.ঃ:'-]/g, '')" 
+                                           required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">জন্ম নিবন্ধন নম্বর/NID</label>
+                                    <select id="idType" style="width: 100%; margin-bottom: 10px;" required>
+                                        <option value="">আইডি টাইপ নির্বাচন করুন</option>
+                                        <option value="birth">জন্ম নিবন্ধন</option>
+                                        <option value="nid">NID</option>
+                                    </select>
+                                    
+                                    <div id="idInputContainer" style="display: none;">
+                                        <input type="number" id="idNumber" style="width: 100%;" placeholder="নম্বর লিখুন" min="0" step="1" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">জন্ম তারিখ</label>
+                                    <input type="date" id="dob" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">পিতার নাম</label>
+                                    <input type="text" id="fatherName" placeholder="পিতার নাম" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">মাতার নাম</label>
+                                    <input type="text" id="motherName" placeholder="মাতার নাম" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 2: Present Address -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">🏠</span>
+                            ২. বর্তমান ঠিকানা (Present Address)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-group">
+                                <label class="required">গ্রাম/মহল্লা/হোল্ডিং নম্বর</label>
+                                <input type="text" id="presentVillage" placeholder="আপনার বর্তমান ঠিকানা" required>
+                            </div>
+                            
+                            <div class="form-grid-2" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>ইউনিয়ন</label>
+                                    <input type="text" id="presentUnion" placeholder="ইউনিয়ন">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">উপজেলা</label>
+                                    <input type="text" id="presentUpazila" placeholder="উপজেলা" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">জেলা</label>
+                                    <input type="text" id="presentDistrict" placeholder="জেলা" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">ZIP কোড</label>
+                                    <input type="number" id="presentZip" placeholder="ZIP Code" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 3: Permanent Address -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">🏡</span>
+                            ৩. স্থায়ী ঠিকানা (Permanent Address)
+                            <label style="margin-left: 20px; font-size: 14px; font-weight: normal;">
+                                <input type="checkbox" id="sameAsPresent"> Same as Present
+                            </label>
+                        </div>
+                        <div class="section-content">
+                            <div class="form-group">
+                                <label class="required">গ্রাম/মহল্লা/হোল্ডিং নম্বর</label>
+                                <input type="text" id="permanentVillage" placeholder="আপনার স্থায়ী ঠিকানা" required>
+                            </div>
+                            
+                            <div class="form-grid-2" style="margin-top: 15px;">
+                                <div class="form-group">
+                                    <label>ইউনিয়ন</label>
+                                    <input type="text" id="permanentUnion" placeholder="ইউনিয়ন">
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">উপজেলা</label>
+                                    <input type="text" id="permanentUpazila" placeholder="উপজেলা" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">জেলা</label>
+                                    <input type="text" id="permanentDistrict" placeholder="জেলা" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="required">ZIP কোড</label>
+                                    <input type="number" id="permanentZip" placeholder="ZIP Code" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 4: Personal Details -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">🩸</span>
+                            ৪. ব্যক্তিগত বিবরণ (Personal Details)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid-4">
+                                <div class="form-group">
+                                    <label class="required">ধর্ম</label>
+                                    <select id="religion" required>
+                                        <option value="">নির্বাচন করুন</option>
+                                        <option value="islam">ইসলাম</option>
+                                        <option value="hindu">হিন্দু</option>
+                                        <option value="christian">খ্রিস্টান</option>
+                                        <option value="buddhist">বৌদ্ধ</option>
+                                        <option value="other">অন্যান্য</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">রক্তের গ্রুপ</label>
+                                    <select id="bloodGroup" required>
+                                        <option value="">নির্বাচন করুন</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                    <div class="hint-text">রক্তের গ্রুপ জানা না থাকলে কলেজে এসে নির্ধারণ করুন</div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="required">আপনি কি রক্তদানে ইচ্ছুক?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="bloodDonation" value="yes" required> হ্যাঁ
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="bloodDonation" value="no" required> না
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label class="required">মোবাইল নম্বর</label>
+                                    <input type="tel" id="mobile" placeholder="01XXXXXXXXX" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 5: Educational Information -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">🎓</span>
+                            ৫. শিক্ষাগত তথ্য (Educational Information)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="required">শিক্ষাগত যোগ্যতা</label>
+                                    <select id="education" required>
+                                        <option value="">শিক্ষাগত যোগ্যতা নির্বাচন করুন</option>
+                                        <option value="একাদশ">একাদশ</option>
+                                        <option value="দ্বাদশ">দ্বাদশ</option>
+                                        <option value="অনার্স ১ম বর্ষ">অনার্স ১ম বর্ষ</option>
+                                        <option value="অনার্স ২য় বর্ষ">অনার্স ২য় বর্ষ</option>
+                                        <option value="অনার্স ৩য় বর্ষ">অনার্স ৩য় বর্ষ</option>
+                                        <option value="অনার্স ৪র্থ বর্ষ">অনার্স ৪র্থ বর্ষ</option>
+                                        <option value="ডিগ্রি ১ম বর্ষ">ডিগ্রি ১ম বর্ষ</option>
+                                        <option value="ডিগ্রি ২য় বর্ষ">ডিগ্রি ২য় বর্ষ</option>
+                                        <option value="ডিগ্রি ৩য় বর্ষ">ডিগ্রি ৩য় বর্ষ</option>
+                                        <option value="ডিগ্রি ৪র্থ বর্ষ">ডিগ্রি ৪র্থ বর্ষ</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">শিক্ষাবর্ষ</label>
+                                    <select id="academicYear" required>
+                                        <option value="">শিক্ষাবর্ষ নির্বাচন করুন</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">কলেজ আইডি নম্বর</label>
+                                    <input type="number" id="collegeId" placeholder="আপনার কলেজ আইডি নম্বর" required>
+                                    <div class="hint-text">আপনার কলেজ আইডি নম্বর প্রদান করুন</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">বিভাগ</label>
+                                    <input type="text" id="department" placeholder="আপনার বিভাগ" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">এস.এস.সি/এইচ.এস.সি গ্রেড</label>
+                                    <div style="display: flex; gap: 10px;">
+                                        <select id="examType" style="width: 40%;" required>
+                                            <option value="">পরীক্ষা</option>
+                                            <option value="SSC">এস.এস.সি</option>
+                                            <option value="HSC">এইচ.এস.সি</option>
+                                        </select>
+                                        <input type="text" id="grade" style="width: 60%;" placeholder="জিপিএ/গ্রেড" pattern="[0-9.:-]+" oninput="this.value = this.value.replace(/[^0-9.:-]/g, '')" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 6: Scouting Experience -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">⚜️</span>
+                            ৬. স্কাউটিং অভিজ্ঞতা (Scouting Experience)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label class="required">স্কাউটিং এর পূর্ব অভিজ্ঞতা?</label>
+                                    <div class="radio-group">
+                                        <label class="radio-option">
+                                            <input type="radio" name="scoutExperience" value="yes" id="expYes" required> হ্যাঁ
+                                        </label>
+                                        <label class="radio-option">
+                                            <input type="radio" name="scoutExperience" value="no" id="expNo" required> না
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" id="badgeSelectGroup" style="display: none;">
+                                    <label class="required">থাকলে কোন ব্যাজ পর্যন্ত?</label>
+                                    <select class="form-control" id="badgeSelect">
+                                        <option value="">সিলেক্ট করুন</option>
+                                        <option value="সদস্য ব্যাজ">সদস্য ব্যাজ</option>
+                                        <option value="স্ট্যান্ডার্ড ব্যাজ">স্ট্যান্ডার্ড ব্যাজ</option>
+                                        <option value="প্রোগ্রেস ব্যাজ">প্রোগ্রেস ব্যাজ</option>
+                                        <option value="সার্ভিস ব্যাজ">সার্ভিস ব্যাজ</option>
+                                        <option value="প্রেসিডেন্ট'স স্কাউট অ্যাওয়ার্ড">প্রেসিডেন্ট'স স্কাউট অ্যাওয়ার্ড</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 7: Special Skills -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">🌟</span>
+                            ৭. বিশেষ পারদর্শীতা (Special Skills)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-group">
+                                <label>এক্সট্রাকারিকুলাম কার্যক্রম</label>
+                                <textarea id="skills" rows="3" placeholder="আপনার বিশেষ দক্ষতা সম্পর্কে লিখুন (যেমন: খেলাধুলা, সাংস্কৃতিক কর্মকাণ্ড, প্রথমিক চিকিৎসা ইত্যাদি)"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 8: Guardian Information -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">👴</span>
+                            ৮. অভিভাবকের তথ্য (Guardian Information) [পিতা-মাতার অবর্তমানে]
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label>অভিভাবকের নাম</label>
+                                    <input type="text" id="guardianName" placeholder="অভিভাবকের নাম">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>শিক্ষার্থীর সহিত সম্পর্ক</label>
+                                    <input type="text" id="guardianRelation" placeholder="যেমন: চাচা, মামা">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Section 9: Additional Information -->
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="section-icon">📋</span>
+                            ৯. অতিরিক্ত তথ্য (Additional Information)
+                        </div>
+                        <div class="section-content">
+                            <div class="form-grid-2">
+                                <div class="form-group">
+                                    <label>ফরম নম্বর</label>
+                                    <input type="number" id="formNumber2" placeholder="ফরম নম্বর (যদি থাকে)">
+                                    <div class="hint-text">সংগৃহীত ফরমের নম্বর উল্লেখ করুন</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>ফেসবুক আইডি লিঙ্ক</label>
+                                    <input type="url" id="facebook" placeholder="https://facebook.com/username">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="required">WhatsApp নম্বর</label>
+                                    <input type="tel" id="whatsapp" placeholder="WhatsApp নম্বর" required>
+                                </div>
+
+                                <div class="form-group full-width">
+                                    <label>অতিরিক্ত তথ্য (Any additional information)</label>
+                                    <textarea id="additionalInfo" rows="2" placeholder="আপনার অতিরিক্ত কোনো তথ্য থাকলে লিখুন..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Declaration -->
+                    <div class="declaration" style="text-align:center;">
+                        <p>📜 <strong>অঙ্গীকার 📜</strong><br>এই ফরম সরবরাহ করার মাধ্যমে আমি প্রতিশ্রুতি দিচ্ছি যে, উপরের তথ্যগুলো সঠিক এবং আমি গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপের সকল নিয়ম ও শর্ত মেনে চলব। আমি সেবা ও মানবতার ব্রত নিয়ে এই মহৎ অভিযাত্রায় অংশগ্রহণ করতে প্রস্তুত আছি।</p>
+                    </div>
+
+                    <!-- Submit Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-submit" id="submitBtn">✔ ফরম জমা দিন</button>
+                        <button type="reset" class="btn btn-reset" id="resetBtn">⟲ পুনরায় সেট করুন</button>
+                    </div>
+
+                    <div class="divider"></div>
+                    <div class="small-text" style="text-align: center;">
+                        * চিহ্নিত ক্ষেত্রগুলি অবশ্যই পূরণ করতে হবে। সর্বশেষ আপডেট: 2026
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyArcCRb1EBdaRcTGOnzvWqA5iTJNE1XmQE",
+            authDomain: "gdgcrover.firebaseapp.com",
+            projectId: "gdgcrover",
+            storageBucket: "gdgcrover.firebasestorage.app",
+            messagingSenderId: "80583939799",
+            appId: "1:80583939799:web:4eb60be176d2750955c292",
+            measurementId: "G-6230L96LZP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // Global variables
+        let currentUser = null;
+        let currentFormNumber = '0001';
+        let selectedFile = null;
+        let isSubmitting = false;
+        let confirmationResult = null;
+        let userApplicationData = null; // Store user's application data
+
+        // DOM Elements
+        const authContainer = document.getElementById('authContainer');
+        const mainContent = document.getElementById('mainContent');
+        const authMessage = document.getElementById('authMessage');
+        const phoneAuthForm = document.getElementById('phoneAuthForm');
+        const sendCodeBtn = document.getElementById('sendCodeBtn');
+        const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+        const verificationCodeDiv = document.getElementById('verificationCodeDiv');
+        const phoneAuthMessage = document.getElementById('phoneAuthMessage');
+        const appActionButtons = document.getElementById('appActionButtons');
+        const applicationStatusView = document.getElementById('applicationStatusView');
+        const admissionForm = document.getElementById('admissionForm');
+
+        // ============ AUTHENTICATION FUNCTIONS ============
+
+        // Switch between login and signup tabs
+        function switchAuthTab(tab) {
+            const tabs = document.querySelectorAll('.auth-tab');
+            const forms = document.querySelectorAll('.auth-form');
+            
+            tabs.forEach(t => t.classList.remove('active'));
+            forms.forEach(f => f.classList.remove('active'));
+            
+            if (tab === 'login') {
+                tabs[0].classList.add('active');
+                document.getElementById('loginForm').classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+                document.getElementById('signupForm').classList.add('active');
+            }
+            
+            // Hide phone auth form when switching tabs
+            phoneAuthForm.style.display = 'none';
+        }
+
+        // Handle Login
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showAuthMessage('ইমেইল এবং পাসওয়ার্ড দিন', 'error');
+                return;
+            }
+            
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    currentUser = userCredential.user;
+                    showAuthMessage('লগইন সফল হয়েছে!', 'success');
+                    showMainContent();
+                })
+                .catch((error) => {
+                    showAuthMessage(error.message, 'error');
+                });
+        }
+
+        // Handle Signup
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                showAuthMessage('সব ক্ষেত্র পূরণ করুন', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showAuthMessage('পাসওয়ার্ড কমপক্ষে ৬ অক্ষরের হতে হবে', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showAuthMessage('পাসওয়ার্ড মিলছে না', 'error');
+                return;
+            }
+            
+            auth.createUserWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Update profile with name
+                    return userCredential.user.updateProfile({
+                        displayName: name
+                    }).then(() => {
+                        currentUser = userCredential.user;
+                        showAuthMessage('নিবন্ধন সফল হয়েছে!', 'success');
+                        showMainContent();
+                    });
+                })
+                .catch((error) => {
+                    showAuthMessage(error.message, 'error');
+                });
+        }
+
+        // Handle Google Login
+        function handleGoogleLogin() {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    currentUser = result.user;
+                    showAuthMessage('Google লগইন সফল হয়েছে!', 'success');
+                    showMainContent();
+                })
+                .catch((error) => {
+                    showAuthMessage(error.message, 'error');
+                });
+        }
+
+        // Show Phone Auth
+        function showPhoneAuth() {
+            phoneAuthForm.style.display = 'block';
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('signupForm').style.display = 'none';
+        }
+
+        // Hide Phone Auth
+        function hidePhoneAuth() {
+            phoneAuthForm.style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('signupForm').style.display = 'none';
+            document.getElementById('phoneNumber').value = '';
+            document.getElementById('verificationCode').value = '';
+            verificationCodeDiv.style.display = 'none';
+            sendCodeBtn.style.display = 'block';
+            verifyCodeBtn.style.display = 'none';
+            phoneAuthMessage.innerHTML = '';
+        }
+
+        // Send Verification Code
+        function sendVerificationCode() {
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            
+            if (!phoneNumber) {
+                phoneAuthMessage.innerHTML = '⚠️ ফোন নম্বর দিন';
+                phoneAuthMessage.className = 'auth-message error';
+                return;
+            }
+            
+            // Initialize reCAPTCHA
+            window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sendCodeBtn', {
+                'size': 'invisible',
+                'callback': () => {}
+            });
+            
+            auth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier)
+                .then((result) => {
+                    confirmationResult = result;
+                    verificationCodeDiv.style.display = 'block';
+                    sendCodeBtn.style.display = 'none';
+                    verifyCodeBtn.style.display = 'block';
+                    phoneAuthMessage.innerHTML = '✅ কোড পাঠানো হয়েছে! আপনার ফোন চেক করুন।';
+                    phoneAuthMessage.className = 'auth-message success';
+                })
+                .catch((error) => {
+                    phoneAuthMessage.innerHTML = '❌ ' + error.message;
+                    phoneAuthMessage.className = 'auth-message error';
+                });
+        }
+
+        // Verify Code
+        function verifyCode() {
+            const code = document.getElementById('verificationCode').value;
+            
+            if (!code) {
+                phoneAuthMessage.innerHTML = '⚠️ ভেরিফিকেশন কোড দিন';
+                phoneAuthMessage.className = 'auth-message error';
+                return;
+            }
+            
+            confirmationResult.confirm(code)
+                .then((result) => {
+                    currentUser = result.user;
+                    phoneAuthMessage.innerHTML = '✅ লগইন সফল হয়েছে!';
+                    phoneAuthMessage.className = 'auth-message success';
+                    showMainContent();
+                })
+                .catch((error) => {
+                    phoneAuthMessage.innerHTML = '❌ ' + error.message;
+                    phoneAuthMessage.className = 'auth-message error';
+                });
+        }
+
+        // Handle Logout
+        function handleLogout() {
+            auth.signOut()
+                .then(() => {
+                    currentUser = null;
+                    userApplicationData = null;
+                    showAuthContainer();
+                })
+                .catch((error) => {
+                    alert('লগআউট ব্যর্থ হয়েছে: ' + error.message);
+                });
+        }
+
+        // Show Auth Message
+        function showAuthMessage(message, type) {
+            authMessage.innerHTML = message;
+            authMessage.className = 'auth-message ' + type;
+        }
+
+        // Check if user has an existing application
+        async function checkUserApplication() {
+            if (!currentUser) return;
+            
+            try {
+                const querySnapshot = await db.collection('admissions')
+                    .where('userId', '==', currentUser.uid)
+                    .limit(1)
+                    .get();
+                
+                if (!querySnapshot.empty) {
+                    userApplicationData = querySnapshot.docs[0].data();
+                    userApplicationData.id = querySnapshot.docs[0].id;
+                    
+                    // Show action buttons
+                    appActionButtons.style.display = 'flex';
+                    
+                    // Auto-fill form with existing data for editing
+                    fillFormWithData(userApplicationData);
+                    
+                    // Store form number
+                    currentFormNumber = userApplicationData.formNumber;
+                    document.getElementById('formNumber').value = currentFormNumber;
+                } else {
+                    userApplicationData = null;
+                    appActionButtons.style.display = 'none';
+                    // Generate new form number for new application
+                    await initializeFormNumber();
+                }
+            } catch (error) {
+                console.error('Error checking user application:', error);
+            }
+        }
+
+        // Fill form with existing data
+        function fillFormWithData(data) {
+            // Personal Information
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('banglaName').value = data.banglaName || '';
+            document.getElementById('fullName').value = data.fullName || '';
+            document.getElementById('idType').value = data.idType || '';
+            if (data.idType) {
+                document.getElementById('idInputContainer').style.display = 'block';
+                document.getElementById('idNumber').value = data.idNumber || '';
+            }
+            document.getElementById('dob').value = data.dob || '';
+            document.getElementById('fatherName').value = data.fatherName || '';
+            document.getElementById('motherName').value = data.motherName || '';
+            
+            // Addresses
+            document.getElementById('presentVillage').value = data.presentVillage || '';
+            document.getElementById('presentUnion').value = data.presentUnion || '';
+            document.getElementById('presentUpazila').value = data.presentUpazila || '';
+            document.getElementById('presentDistrict').value = data.presentDistrict || '';
+            document.getElementById('presentZip').value = data.presentZip || '';
+            
+            document.getElementById('permanentVillage').value = data.permanentVillage || '';
+            document.getElementById('permanentUnion').value = data.permanentUnion || '';
+            document.getElementById('permanentUpazila').value = data.permanentUpazila || '';
+            document.getElementById('permanentDistrict').value = data.permanentDistrict || '';
+            document.getElementById('permanentZip').value = data.permanentZip || '';
+            
+            // Personal Details
+            document.getElementById('religion').value = data.religion || '';
+            document.getElementById('bloodGroup').value = data.bloodGroup || '';
+            if (data.bloodDonation) {
+                document.querySelector(`input[name="bloodDonation"][value="${data.bloodDonation}"]`).checked = true;
+            }
+            document.getElementById('mobile').value = data.mobile || '';
+            
+            // Educational Information
+            document.getElementById('education').value = data.education || '';
+            document.getElementById('academicYear').value = data.academicYear || '';
+            document.getElementById('collegeId').value = data.collegeId || '';
+            document.getElementById('department').value = data.department || '';
+            document.getElementById('examType').value = data.examType || '';
+            document.getElementById('grade').value = data.grade || '';
+            
+            // Scouting Experience
+            if (data.scoutExperience) {
+                document.querySelector(`input[name="scoutExperience"][value="${data.scoutExperience}"]`).checked = true;
+                if (data.scoutExperience === 'yes') {
+                    document.getElementById('badgeSelectGroup').style.display = 'block';
+                    document.getElementById('badgeSelect').value = data.badgeAchieved || '';
+                }
+            }
+            
+            // Other fields
+            document.getElementById('skills').value = data.skills || '';
+            document.getElementById('guardianName').value = data.guardianName || '';
+            document.getElementById('guardianRelation').value = data.guardianRelation || '';
+            document.getElementById('formNumber2').value = data.formNumber2 || '';
+            document.getElementById('facebook').value = data.facebook || '';
+            document.getElementById('whatsapp').value = data.whatsapp || '';
+            document.getElementById('additionalInfo').value = data.additionalInfo || '';
+            
+            // Note: Photo cannot be auto-filled due to security
+        }
+
+        // View application
+        function viewMyApplication() {
+            if (!userApplicationData) {
+                alert('কোনো আবেদন পাওয়া যায়নি।');
+                return;
+            }
+            
+            // Hide form and show view
+            admissionForm.style.display = 'none';
+            applicationStatusView.style.display = 'block';
+            appActionButtons.style.display = 'none';
+            
+            // Populate view
+            document.getElementById('viewFormNumber').textContent = 'R-2026-' + userApplicationData.formNumber;
+            
+            const statusSpan = document.getElementById('viewStatus');
+            statusSpan.textContent = userApplicationData.approved ? 'অনুমোদিত' : (userApplicationData.rejected ? 'বাতিল' : 'বিচারাধীন');
+            statusSpan.className = 'status-badge ' + 
+                (userApplicationData.approved ? 'status-approved' : 
+                 (userApplicationData.rejected ? 'status-rejected' : 'status-pending'));
+            
+            // Show basic details
+            const detailsDiv = document.getElementById('viewDetails');
+            detailsDiv.innerHTML = `
+                <p><strong>নাম:</strong> ${userApplicationData.banglaName} (${userApplicationData.fullName})</p>
+                <p><strong>পিতা:</strong> ${userApplicationData.fatherName}</p>
+                <p><strong>মাতা:</strong> ${userApplicationData.motherName}</p>
+                <p><strong>জন্ম তারিখ:</strong> ${userApplicationData.dob}</p>
+                <p><strong>মোবাইল:</strong> ${userApplicationData.mobile}</p>
+                <p><strong>শিক্ষা:</strong> ${userApplicationData.education}, ${userApplicationData.academicYear}</p>
+                <p><strong>বিভাগ:</strong> ${userApplicationData.department}</p>
+                <p><strong>আবেদনের তারিখ:</strong> ${userApplicationData.timestamp ? new Date(userApplicationData.timestamp.toDate()).toLocaleDateString('bn-BD') : 'অজানা'}</p>
+            `;
+        }
+
+        // Edit application
+        function editMyApplication() {
+            // Show form and populate with existing data
+            admissionForm.style.display = 'block';
+            applicationStatusView.style.display = 'none';
+            appActionButtons.style.display = 'flex';
+            
+            // Data already filled from checkUserApplication
+        }
+
+        // Hide application view and show form
+        function hideApplicationView() {
+            admissionForm.style.display = 'block';
+            applicationStatusView.style.display = 'none';
+            appActionButtons.style.display = 'flex';
+        }
+
+        // Show Main Content (after login)
+        async function showMainContent() {
+            authContainer.style.display = 'none';
+            mainContent.classList.add('visible');
+            document.getElementById('userEmailDisplay').textContent = currentUser.email || currentUser.phoneNumber;
+            
+            // Auto-fill email if available
+            if (currentUser.email) {
+                document.getElementById('email').value = currentUser.email;
+            }
+            if (currentUser.phoneNumber) {
+                document.getElementById('mobile').value = currentUser.phoneNumber;
+                document.getElementById('whatsapp').value = currentUser.phoneNumber;
+            }
+            
+            // Check if user already has an application
+            await checkUserApplication();
+        }
+
+        // Show Auth Container (after logout)
+        function showAuthContainer() {
+            authContainer.style.display = 'block';
+            mainContent.classList.remove('visible');
+            
+            // Clear forms
+            document.getElementById('loginEmail').value = '';
+            document.getElementById('loginPassword').value = '';
+            document.getElementById('signupName').value = '';
+            document.getElementById('signupEmail').value = '';
+            document.getElementById('signupPassword').value = '';
+            document.getElementById('signupConfirmPassword').value = '';
+            
+            // Reset to login tab
+            switchAuthTab('login');
+        }
+
+        // Check auth state on page load
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                currentUser = user;
+                showMainContent();
+            } else {
+                showAuthContainer();
+            }
+        });
+
+        // ============ FORM FUNCTIONS ============
+
+        // Generate academic years
+        function generateAcademicYears() {
+            const select = document.getElementById('academicYear');
+            const currentYear = new Date().getFullYear();
+            
+            for (let i = 0; i < 10; i++) {
+                const year = currentYear - i;
+                const nextYear = year + 1;
+                const option = document.createElement('option');
+                option.value = `${year}-${nextYear}`;
+                option.textContent = `${year}-${nextYear}`;
+                select.appendChild(option);
+            }
+        }
+        generateAcademicYears();
+
+        // Get next form number from Firestore
+        async function getNextFormNumber() {
+            try {
+                const counterRef = db.collection('counters').doc('formCounter');
+                
+                // Use transaction to safely increment counter
+                return await db.runTransaction(async (transaction) => {
+                    const doc = await transaction.get(counterRef);
+                    
+                    let newCount;
+                    if (!doc.exists) {
+                        newCount = 1;
+                        transaction.set(counterRef, { count: newCount });
+                    } else {
+                        newCount = doc.data().count + 1;
+                        transaction.update(counterRef, { count: newCount });
+                    }
+                    
+                    return newCount.toString().padStart(4, '0');
+                });
+            } catch (error) {
+                console.error('Error getting form number:', error);
+                // Fallback to timestamp-based number
+                const timestamp = Date.now().toString().slice(-4);
+                return timestamp.padStart(4, '0');
+            }
+        }
+
+        // Initialize form number on page load
+        async function initializeFormNumber() {
+            try {
+                const number = await getNextFormNumber();
+                currentFormNumber = number;
+                document.getElementById('formNumber').value = number;
+            } catch (error) {
+                console.error('Error initializing form number:', error);
+                document.getElementById('formNumber').value = '0001';
+            }
+        }
+
+        // Photo preview
+        document.getElementById('photo').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                // Check file size (max 10MB)
+                if (file.size > 10 * 1024 * 1024) {
+                    alert('ফাইলের সাইজ ১০MB এর বেশি হতে পারবে না।');
+                    this.value = '';
+                    return;
+                }
+
+                selectedFile = file;
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('previewImage').src = e.target.result;
+                    document.getElementById('photoPreview').style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Convert image to base64
+        function fileToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
+            });
+        }
+
+        // Form submission
+        document.getElementById('admissionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            if (isSubmitting) {
+                alert('ফরম ইতিমধ্যে জমা দেওয়া হচ্ছে। দয়া করে অপেক্ষা করুন।');
+                return;
+            }
+
+            // Check required fields
+            const required = document.querySelectorAll('[required]');
+            let isValid = true;
+            
+            required.forEach(field => {
+                if (!field.value) {
+                    isValid = false;
+                    field.style.borderColor = '#c0392b';
+                    field.style.backgroundColor = '#fff5f5';
+                } else {
+                    field.style.borderColor = '#d0d0d0';
+                    field.style.backgroundColor = 'white';
+                }
+            });
+
+            if (!isValid) {
+                alert('দয়া করে প্রয়োজনীয় ক্ষেত্রগুলি পূরণ করুন।');
+                return;
+            }
+
+            // Check if photo is selected (only for new applications or if changed)
+            if (!selectedFile && !userApplicationData) {
+                alert('দয়া করে আপনার ছবি আপলোড করুন।');
+                return;
+            }
+
+            // Show loading
+            document.getElementById('loading').classList.add('active');
+            document.getElementById('submitBtn').disabled = true;
+            document.getElementById('resetBtn').disabled = true;
+            isSubmitting = true;
+
+            try {
+                // Convert image to base64 only if new file selected
+                let photoBase64 = userApplicationData?.photo || '';
+                if (selectedFile) {
+                    photoBase64 = await fileToBase64(selectedFile);
+                }
+
+                // Get ID type and number
+                const idType = document.getElementById('idType').value;
+                const idNumber = document.getElementById('idNumber').value;
+
+                // Get blood donation value
+                const bloodDonation = document.querySelector('input[name="bloodDonation"]:checked')?.value;
+
+                // Get scout experience
+                const scoutExperience = document.querySelector('input[name="scoutExperience"]:checked')?.value;
+                const badgeSelect = document.getElementById('badgeSelect').value;
+
+                // Prepare form data with user information
+                const formData = {
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email || '',
+                    userPhone: currentUser.phoneNumber || '',
+                    formNumber: currentFormNumber,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    
+                    // Personal Information
+                    email: document.getElementById('email').value,
+                    photo: photoBase64,
+                    banglaName: document.getElementById('banglaName').value,
+                    fullName: document.getElementById('fullName').value,
+                    idType: idType,
+                    idNumber: idNumber,
+                    dob: document.getElementById('dob').value,
+                    fatherName: document.getElementById('fatherName').value,
+                    motherName: document.getElementById('motherName').value,
+                    
+                    // Present Address
+                    presentVillage: document.getElementById('presentVillage').value,
+                    presentUnion: document.getElementById('presentUnion').value,
+                    presentUpazila: document.getElementById('presentUpazila').value,
+                    presentDistrict: document.getElementById('presentDistrict').value,
+                    presentZip: document.getElementById('presentZip').value,
+                    
+                    // Permanent Address
+                    permanentVillage: document.getElementById('permanentVillage').value,
+                    permanentUnion: document.getElementById('permanentUnion').value,
+                    permanentUpazila: document.getElementById('permanentUpazila').value,
+                    permanentDistrict: document.getElementById('permanentDistrict').value,
+                    permanentZip: document.getElementById('permanentZip').value,
+                    
+                    // Personal Details
+                    religion: document.getElementById('religion').value,
+                    bloodGroup: document.getElementById('bloodGroup').value,
+                    bloodDonation: bloodDonation,
+                    mobile: document.getElementById('mobile').value,
+                    
+                    // Educational Information
+                    education: document.getElementById('education').value,
+                    academicYear: document.getElementById('academicYear').value,
+                    collegeId: document.getElementById('collegeId').value,
+                    department: document.getElementById('department').value,
+                    examType: document.getElementById('examType').value,
+                    grade: document.getElementById('grade').value,
+                    
+                    // Scouting Experience
+                    scoutExperience: scoutExperience,
+                    badgeAchieved: badgeSelect || '',
+                    
+                    // Special Skills
+                    skills: document.getElementById('skills').value,
+                    
+                    // Guardian Information
+                    guardianName: document.getElementById('guardianName').value,
+                    guardianRelation: document.getElementById('guardianRelation').value,
+                    
+                    // Additional Information
+                    formNumber2: document.getElementById('formNumber2').value,
+                    facebook: document.getElementById('facebook').value,
+                    whatsapp: document.getElementById('whatsapp').value,
+                    additionalInfo: document.getElementById('additionalInfo').value,
+                    
+                    // Approval status (default false)
+                    approved: userApplicationData?.approved || false,
+                    rejected: userApplicationData?.rejected || false
+                };
+
+                // Save to Firestore (use existing ID if updating)
+                if (userApplicationData && userApplicationData.id) {
+                    await db.collection('admissions').doc(userApplicationData.id).update(formData);
+                } else {
+                    await db.collection('admissions').doc(currentFormNumber).set(formData);
+                }
+
+                // Success message
+                alert('✓ অভিনন্দন! আপনার ফরম সফলভাবে জমা/আপডেট করা হয়েছে।\n\nআপনার ভর্তি ফরম নং: R-2026-' + currentFormNumber + '\n\nগুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ পরিবারে আপনাকে স্বাগতম!');
+
+                // Refresh user application data
+                await checkUserApplication();
+
+                // Reset form if it was a new submission
+                if (!userApplicationData) {
+                    this.reset();
+                    document.getElementById('photoPreview').style.display = 'none';
+                    selectedFile = null;
+                    
+                    // Get new form number for next possible submission
+                    const newNumber = await getNextFormNumber();
+                    currentFormNumber = newNumber;
+                    document.getElementById('formNumber').value = newNumber;
+                }
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                alert('ফরম জমা দিতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন।\n\n' + error.message);
+            } finally {
+                // Hide loading
+                document.getElementById('loading').classList.remove('active');
+                document.getElementById('submitBtn').disabled = false;
+                document.getElementById('resetBtn').disabled = false;
+                isSubmitting = false;
+            }
+        });
+
+        // Reset button handler
+        document.querySelector('button[type="reset"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm('আপনি কি নিশ্চিত যে ফরমটি পুনরায় সেট করতে চান? সকল তথ্য মুছে যাবে।')) {
+                document.getElementById('admissionForm').reset();
+                document.getElementById('photoPreview').style.display = 'none';
+                selectedFile = null;
+                
+                // Reset form number to current (don't change it)
+                document.getElementById('formNumber').value = currentFormNumber;
+                
+                // Reset border colors
+                document.querySelectorAll('input, select, textarea').forEach(field => {
+                    field.style.borderColor = '#d0d0d0';
+                    field.style.backgroundColor = 'white';
+                });
+            }
+        });
+
+        // ID Type change handler
+        document.getElementById('idType').addEventListener('change', function() {
+            const container = document.getElementById('idInputContainer');
+            const idNumber = document.getElementById('idNumber');
+            
+            if (this.value) {
+                container.style.display = 'block';
+                idNumber.required = true;
+                
+                if (this.value === 'birth') {
+                    idNumber.placeholder = 'জন্ম নিবন্ধন নম্বর লিখুন';
+                } else if (this.value === 'nid') {
+                    idNumber.placeholder = 'NID নম্বর লিখুন';
+                }
+            } else {
+                container.style.display = 'none';
+                idNumber.required = false;
+                idNumber.value = '';
+            }
+        });
+
+        // Prevent negative numbers in ID field
+        document.getElementById('idNumber').addEventListener('keydown', function(e) {
+            if (e.key === '-' || e.key === '.' || e.key === 'e') {
+                e.preventDefault();
+            }
+        });
+
+        // Same as present address handler
+        document.getElementById('sameAsPresent').addEventListener('change', function() {
+            if (this.checked) {
+                document.getElementById('permanentVillage').value = document.getElementById('presentVillage').value;
+                document.getElementById('permanentUnion').value = document.getElementById('presentUnion').value;
+                document.getElementById('permanentUpazila').value = document.getElementById('presentUpazila').value;
+                document.getElementById('permanentDistrict').value = document.getElementById('presentDistrict').value;
+                document.getElementById('permanentZip').value = document.getElementById('presentZip').value;
+                
+                document.getElementById('permanentVillage').disabled = true;
+                document.getElementById('permanentUnion').disabled = true;
+                document.getElementById('permanentUpazila').disabled = true;
+                document.getElementById('permanentDistrict').disabled = true;
+                document.getElementById('permanentZip').disabled = true;
+            } else {
+                document.getElementById('permanentVillage').value = '';
+                document.getElementById('permanentUnion').value = '';
+                document.getElementById('permanentUpazila').value = '';
+                document.getElementById('permanentDistrict').value = '';
+                document.getElementById('permanentZip').value = '';
+                
+                document.getElementById('permanentVillage').disabled = false;
+                document.getElementById('permanentUnion').disabled = false;
+                document.getElementById('permanentUpazila').disabled = false;
+                document.getElementById('permanentDistrict').disabled = false;
+                document.getElementById('permanentZip').disabled = false;
+            }
+        });
+
+        // Update permanent address when present address changes
+        function updatePermanentAddress() {
+            if (document.getElementById('sameAsPresent').checked) {
+                document.getElementById('permanentVillage').value = document.getElementById('presentVillage').value;
+                document.getElementById('permanentUnion').value = document.getElementById('presentUnion').value;
+                document.getElementById('permanentUpazila').value = document.getElementById('presentUpazila').value;
+                document.getElementById('permanentDistrict').value = document.getElementById('presentDistrict').value;
+                document.getElementById('permanentZip').value = document.getElementById('presentZip').value;
+            }
+        }
+
+        document.getElementById('presentVillage').addEventListener('input', updatePermanentAddress);
+        document.getElementById('presentUnion').addEventListener('input', updatePermanentAddress);
+        document.getElementById('presentUpazila').addEventListener('input', updatePermanentAddress);
+        document.getElementById('presentDistrict').addEventListener('input', updatePermanentAddress);
+        document.getElementById('presentZip').addEventListener('input', updatePermanentAddress);
+
+        // Scout experience toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const expYes = document.getElementById('expYes');
+            const expNo = document.getElementById('expNo');
+            const badgeGroup = document.getElementById('badgeSelectGroup');
+            
+            function toggleBadgeSelect() {
+                if (expYes && expYes.checked) {
+                    badgeGroup.style.display = 'block';
+                } else {
+                    badgeGroup.style.display = 'none';
+                }
+            }
+            
+            if(expYes && expNo) {
+                expYes.addEventListener('change', toggleBadgeSelect);
+                expNo.addEventListener('change', toggleBadgeSelect);
+            }
+        });
+
+        // Reset border colors on input
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                this.style.borderColor = '#d0d0d0';
+                this.style.backgroundColor = 'white';
+            });
+        });
+
+        // Make functions globally available
+        window.switchAuthTab = switchAuthTab;
+        window.handleLogin = handleLogin;
+        window.handleSignup = handleSignup;
+        window.handleGoogleLogin = handleGoogleLogin;
+        window.showPhoneAuth = showPhoneAuth;
+        window.hidePhoneAuth = hidePhoneAuth;
+        window.sendVerificationCode = sendVerificationCode;
+        window.verifyCode = verifyCode;
+        window.handleLogout = handleLogout;
+        window.viewMyApplication = viewMyApplication;
+        window.editMyApplication = editMyApplication;
+        window.hideApplicationView = hideApplicationView;
+
+        // Prevent form resubmission on page refresh
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+    </script>
+</body>
+</html>
