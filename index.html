@@ -1350,7 +1350,109 @@
             <p>আপনি যদি চ্যালেঞ্জ নিতে প্রস্তুত থাকেন এবং সমাজের জন্য কিছু করতে চান, তাহলে গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপে আপনাকে স্বাগতম। অনলাইন ফরম পূরণ করে আপনার স্কাউটিং যাত্রা শুরু করুন!</p>
             <p style="background:#c62828; margin-top:-40px; color:#fff;padding:4px 6px;border-radius:4px;text-align:center;font-size:12px;line-height:1.4;">📢 <b>আবেদনের যোগ্যতা:</b> গুরুদয়াল সরকারি কলেজের বর্তমান অধ্যয়নরত শিক্ষার্থী হতে হবে।</p>
 
-            <div data-fillout-id="wqKCAzmCe8us" data-fillout-embed-type="popup" data-fillout-button-text="ভর্তি ফরম পূরণ করুন" data-fillout-dynamic-resize data-fillout-inherit-parameters data-fillout-popup-size="medium"></div>
+            <a href="admission.html" class="btn pulse-effect" style="background: linear-gradient(145deg, #004085, #102a4e); color: white; border: none; box-shadow: 0 4px 20px rgba(0, 30, 70, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) inset; position: relative; overflow: hidden; z-index: 1; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5); font-weight: 500; letter-spacing: 0.5px;">ভর্তি ফরম পূরণ করুন</a>
+
+<style>
+.pulse-effect {
+    animation: pulse 2s infinite;
+    transition: all 0.3s ease;
+}
+
+.pulse-effect:hover {
+    transform: translateY(-3px);
+    background: linear-gradient(145deg, #102a4e, #1a3a66) !important;
+    box-shadow: 0 8px 25px rgba(0, 50, 100, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.2) inset !important;
+}
+
+/* Main shiny overlay */
+.pulse-effect::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -60%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    transform: rotate(25deg);
+    transition: left 0.8s ease;
+    z-index: -1;
+    animation: shine 4s infinite;
+}
+
+/* Sparkle effect */
+.pulse-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    z-index: -1;
+}
+
+.pulse-effect:hover::before {
+    left: 60%;
+}
+
+.pulse-effect:hover::after {
+    opacity: 1;
+    animation: sparkle 1.5s infinite;
+}
+
+/* Pulsing glow animation */
+@keyframes pulse {
+    0% {
+        box-shadow: 0 4px 20px rgba(0, 30, 70, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    }
+    50% {
+        box-shadow: 0 4px 30px rgba(0, 70, 150, 0.9), 0 0 0 2px rgba(255, 255, 255, 0.2) inset;
+    }
+    100% {
+        box-shadow: 0 4px 20px rgba(0, 30, 70, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    }
+}
+
+/* Shine movement animation */
+@keyframes shine {
+    0% {
+        left: -60%;
+    }
+    20% {
+        left: 100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+/* Sparkle animation for hover */
+@keyframes sparkle {
+    0% {
+        background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    }
+    50% {
+        background: radial-gradient(circle at 70% 50%, rgba(255, 255, 255, 0.3) 0%, transparent 60%);
+    }
+    100% {
+        background: radial-gradient(circle at 30% 50%, rgba(255, 255, 255, 0.2) 0%, transparent 50%);
+    }
+}
+
+/* Add shiny dots/glitter effect on hover */
+.pulse-effect:active {
+    transform: scale(0.98);
+}
+</style>
 
             <div style="
   display: flex;
