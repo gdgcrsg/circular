@@ -1,0 +1,2702 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>গুরুদয়াল সরকারি কলেজ রোভার স্কাউট গ্রুপ - এডমিন প্যানেল</title>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage-compat.js"></script>
+    <!-- EmailJS for sending emails -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- html2canvas for image export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- SheetJS for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- jspdf for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Chart.js for analytics -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'SolaimanLipi', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #1a1a2e;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+        }
+
+        /* Sidebar Navigation */
+        .sidebar {
+            width: 280px;
+            background: #16213e;
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.3);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar.collapsed {
+            width: 80px;
+        }
+
+        .sidebar .logo-area {
+            text-align: center;
+            padding: 20px 0;
+            border-bottom: 2px solid #0f3460;
+            margin-bottom: 20px;
+        }
+
+        .sidebar .logo-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            margin-bottom: 10px;
+        }
+
+        .sidebar.collapsed .logo-img {
+            width: 50px;
+            height: 50px;
+        }
+
+        .sidebar.collapsed .logo-text,
+        .sidebar.collapsed .nav-text {
+            display: none;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 5px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            color: #a5a5a5;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .nav-link i {
+            width: 24px;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background: #0f3460;
+            color: #e94560;
+        }
+
+        .badge-count {
+            margin-left: auto;
+            background: #e94560;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 20px;
+            transition: all 0.3s;
+        }
+
+        .main-content.expanded {
+            margin-left: 80px;
+        }
+
+        /* Top Header */
+        .top-header {
+            background: #16213e;
+            padding: 15px 25px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: #e94560;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .user-email {
+            color: #e0e0e0;
+        }
+
+        .logout-btn {
+            background: #e94560;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ff6b8b;
+        }
+
+        /* Dashboard Cards */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: #16213e;
+            padding: 25px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: #0f3460;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            color: #e94560;
+        }
+
+        .stat-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .stat-info p {
+            color: #a5a5a5;
+            font-size: 0.9rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            background: #16213e;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .section-title {
+            color: white;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #e94560;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff6b8b;
+        }
+
+        .btn-secondary {
+            background: #0f3460;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #1a4b8c;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn-danger {
+            background: #c0392b;
+            color: white;
+        }
+
+        .btn-info {
+            background: #3498db;
+            color: white;
+        }
+
+        /* Search and Filter */
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 12px;
+            background: #0f3460;
+            border: 1px solid #1a4b8c;
+            border-radius: 5px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .search-bar input::placeholder {
+            color: #a5a5a5;
+        }
+
+        .filter-select {
+            padding: 12px;
+            background: #0f3460;
+            border: 1px solid #1a4b8c;
+            border-radius: 5px;
+            color: white;
+            min-width: 150px;
+        }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #0f3460;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #1a4b8c;
+        }
+
+        tr:hover {
+            background: #0f3460;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #f39c12;
+            color: #1a1a2e;
+        }
+
+        .status-approved {
+            background: #27ae60;
+            color: white;
+        }
+
+        .status-rejected {
+            background: #c0392b;
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: #16213e;
+            width: 90%;
+            max-width: 800px;
+            margin: 30px auto;
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #0f3460;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: #e94560;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Profile View */
+        .profile-header {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #0f3460;
+            border-radius: 10px;
+        }
+
+        .profile-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            border: 3px solid #e94560;
+            object-fit: cover;
+        }
+
+        .profile-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .rank-badge {
+            padding: 8px 16px;
+            background: #0f3460;
+            border: 2px solid #e94560;
+            border-radius: 25px;
+            font-weight: 600;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .rank-badge.active {
+            background: #e94560;
+        }
+
+        .skill-badge {
+            padding: 5px 12px;
+            background: #3498db;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        /* Email Composer */
+        .email-composer {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .email-recipients {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 5px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .recipient-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #1a4b8c;
+            padding: 5px 10px;
+            border-radius: 20px;
+            margin: 3px;
+        }
+
+        .email-input {
+            padding: 12px;
+            background: #0f3460;
+            border: 1px solid #1a4b8c;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .email-textarea {
+            padding: 12px;
+            background: #0f3460;
+            border: 1px solid #1a4b8c;
+            border-radius: 5px;
+            color: white;
+            min-height: 200px;
+            resize: vertical;
+        }
+
+        /* Unit Management */
+        .unit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .unit-card {
+            background: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .unit-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e94560;
+        }
+
+        .team-list {
+            list-style: none;
+        }
+
+        .team-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+            background: #1a4b8c;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .team-role {
+            font-size: 0.8rem;
+            color: #e94560;
+            font-weight: 600;
+        }
+
+        /* Unit Assignment Dropdown */
+        .unit-select, .team-select {
+            padding: 5px;
+            background: #0f3460;
+            border: 1px solid #e94560;
+            border-radius: 3px;
+            color: white;
+            margin-right: 5px;
+        }
+
+        /* Charts */
+        .chart-container {
+            background: #0f3460;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            height: 300px;
+        }
+
+        /* Loading */
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 3000;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #0f3460;
+            border-top-color: #e94560;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 80px;
+            }
+            
+            .sidebar .logo-text,
+            .sidebar .nav-text {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 80px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Login Container */
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #16213e;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: none;
+        }
+
+        .login-container.active {
+            display: block;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-header img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 3px solid #e94560;
+            margin-bottom: 15px;
+        }
+
+        .login-header h2 {
+            color: white;
+            margin-bottom: 5px;
+        }
+
+        .login-header p {
+            color: #e94560;
+        }
+
+        .login-input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: #0f3460;
+            border: 1px solid #1a4b8c;
+            border-radius: 5px;
+            color: white;
+        }
+
+        .login-input::placeholder {
+            color: #a5a5a5;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #ff6b8b;
+        }
+
+        .login-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .login-message.error {
+            background: #c0392b20;
+            color: #ff6b6b;
+        }
+
+        .login-message.success {
+            background: #27ae6020;
+            color: #2ecc71;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Container -->
+    <div id="loginContainer" class="login-container active">
+        <div class="login-header">
+            <img src="https://i.ibb.co/KHwCKpF/1000003810.png" alt="Logo">
+            <h2>গুরুদয়াল সরকারি কলেজ</h2>
+            <p>রোভার স্কাউট গ্রুপ - এডমিন প্যানেল</p>
+        </div>
+        <input type="email" id="loginEmail" class="login-input" placeholder="ইমেইল" value="admin@gdgcrover.com">
+        <input type="password" id="loginPassword" class="login-input" placeholder="পাসওয়ার্ড">
+        <button onclick="handleAdminLogin()" class="login-btn">লগইন</button>
+        <div id="loginMessage" class="login-message"></div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" style="display: none; width: 100%;">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo-area">
+                <img src="https://i.ibb.co/KHwCKpF/1000003810.png" alt="Logo" class="logo-img">
+                <h3 class="logo-text">GDC Rover</h3>
+                <p class="logo-text" style="color: #e94560; font-size: 0.8rem;">Admin Panel</p>
+            </div>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a class="nav-link active" onclick="showSection('dashboard')">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span class="nav-text">ড্যাশবোর্ড</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('applications')">
+                        <i class="fas fa-file-alt"></i>
+                        <span class="nav-text">আবেদনপত্র</span>
+                        <span class="badge-count" id="pendingCount">0</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('members')">
+                        <i class="fas fa-users"></i>
+                        <span class="nav-text">সদস্য তালিকা</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('unitManagement')">
+                        <i class="fas fa-sitemap"></i>
+                        <span class="nav-text">ইউনিট ব্যবস্থাপনা</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('badges')">
+                        <i class="fas fa-medal"></i>
+                        <span class="nav-text">ব্যাজ প্রদান</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('email')">
+                        <i class="fas fa-envelope"></i>
+                        <span class="nav-text">ইমেইল পাঠান</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('export')">
+                        <i class="fas fa-download"></i>
+                        <span class="nav-text">ডাটা এক্সপোর্ট</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('analytics')">
+                        <i class="fas fa-chart-bar"></i>
+                        <span class="nav-text">পরিসংখ্যান</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" onclick="showSection('settings')">
+                        <i class="fas fa-cog"></i>
+                        <span class="nav-text">সেটিংস</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" id="mainContent">
+            <!-- Top Header -->
+            <div class="top-header">
+                <button class="menu-toggle" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="user-info">
+                    <span class="user-email" id="adminEmail"></span>
+                    <button onclick="handleAdminLogout()" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>লগআউট</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="content-section active">
+                <h2 class="section-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    ড্যাশবোর্ড
+                </h2>
+                
+                <div class="dashboard-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="totalMembers">0</h3>
+                            <p>মোট সদস্য</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="pendingApplications">0</h3>
+                            <p>অপেক্ষমান আবেদন</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="approvedApplications">0</h3>
+                            <p>অনুমোদিত আবেদন</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="badgeCount">0</h3>
+                            <p>মোট ব্যাজ</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="dashboardChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Applications Section -->
+            <div id="applicationsSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-file-alt"></i>
+                        আবেদনপত্র
+                    </h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="filterApplications('pending')">
+                            <i class="fas fa-clock"></i> অপেক্ষমান
+                        </button>
+                        <button class="btn btn-success" onclick="filterApplications('approved')">
+                            <i class="fas fa-check"></i> অনুমোদিত
+                        </button>
+                        <button class="btn btn-danger" onclick="filterApplications('rejected')">
+                            <i class="fas fa-times"></i> বাতিল
+                        </button>
+                        <button class="btn btn-secondary" onclick="filterApplications('all')">
+                            <i class="fas fa-list"></i> সব
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="applicationSearch" placeholder="নাম, ইমেইল বা ফরম নম্বর দ্বারা খুঁজুন..." onkeyup="searchApplications()">
+                    <select class="filter-select" id="unitFilter" onchange="filterByUnit()">
+                        <option value="">সকল ইউনিট</option>
+                        <option value="unit1">ইউনিট ১</option>
+                        <option value="unit2">ইউনিট ২</option>
+                        <option value="unit3">ইউনিট ৩</option>
+                        <option value="unit4">ইউনিট ৪</option>
+                    </select>
+                    <select class="filter-select" id="teamFilter" onchange="filterByTeam()">
+                        <option value="">সকল উপদল</option>
+                        <option value="team1">উপদল ১</option>
+                        <option value="team2">উপদল ২</option>
+                        <option value="team3">উপদল ৩</option>
+                        <option value="team4">উপদল ৪</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="applicationsTable">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
+                                <th>ফরম নং</th>
+                                <th>ছবি</th>
+                                <th>নাম</th>
+                                <th>ইমেইল</th>
+                                <th>মোবাইল</th>
+                                <th>তারিখ</th>
+                                <th>স্ট্যাটাস</th>
+                                <th>অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="applicationsTableBody">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="action-buttons" style="margin-top: 20px;">
+                    <button class="btn btn-success" onclick="approveSelected()">
+                        <i class="fas fa-check"></i> নির্বাচিত অনুমোদন
+                    </button>
+                    <button class="btn btn-danger" onclick="rejectSelected()">
+                        <i class="fas fa-times"></i> নির্বাচিত বাতিল
+                    </button>
+                    <button class="btn btn-warning" onclick="deleteSelected()">
+                        <i class="fas fa-trash"></i> নির্বাচিত ডিলিট
+                    </button>
+                </div>
+            </div>
+
+            <!-- Members Section -->
+            <div id="membersSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-users"></i>
+                        সদস্য তালিকা
+                    </h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="exportMembers('csv')">
+                            <i class="fas fa-file-csv"></i> CSV
+                        </button>
+                        <button class="btn btn-success" onclick="exportMembers('excel')">
+                            <i class="fas fa-file-excel"></i> Excel
+                        </button>
+                        <button class="btn btn-danger" onclick="exportMembers('pdf')">
+                            <i class="fas fa-file-pdf"></i> PDF
+                        </button>
+                    </div>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="memberSearch" placeholder="নাম, ইমেইল বা র‍্যাঙ্ক দ্বারা খুঁজুন..." onkeyup="searchMembers()">
+                    <select class="filter-select" id="rankFilter" onchange="filterByRank()">
+                        <option value="">সকল র‍্যাঙ্ক</option>
+                        <option value="সহচর">সহচর</option>
+                        <option value="সদস্য">সদস্য</option>
+                        <option value="রোভার মেট">রোভার মেট</option>
+                        <option value="সহকারী রোভার মেট">সহকারী রোভার মেট</option>
+                        <option value="সিনিয়র রোভার মেট">সিনিয়র রোভার মেট</option>
+                    </select>
+                </div>
+
+                <div class="table-responsive">
+                    <table id="membersTable">
+                        <thead>
+                            <tr>
+                                <th>ছবি</th>
+                                <th>নাম</th>
+                                <th>ইমেইল</th>
+                                <th>মোবাইল</th>
+                                <th>র‍্যাঙ্ক</th>
+                                <th>ইউনিট</th>
+                                <th>উপদল</th>
+                                <th>ব্যাজ</th>
+                                <th>অ্যাকশন</th>
+                            </tr>
+                        </thead>
+                        <tbody id="membersTableBody">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Unit Management Section -->
+            <div id="unitManagementSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-sitemap"></i>
+                        ইউনিট ব্যবস্থাপনা
+                    </h2>
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="openUnitAssignmentModal()">
+                            <i class="fas fa-exchange-alt"></i> সদস্য স্থানান্তর
+                        </button>
+                    </div>
+                </div>
+
+                <div class="unit-grid" id="unitGrid">
+                    <!-- Units will be populated dynamically -->
+                </div>
+            </div>
+
+            <!-- Badges Section -->
+            <div id="badgesSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-medal"></i>
+                        ব্যাজ প্রদান
+                    </h2>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="badgeSearch" placeholder="সদস্যের নাম খুঁজুন..." onkeyup="searchForBadge()">
+                </div>
+
+                <div class="table-responsive">
+                    <table id="badgeMembersTable">
+                        <thead>
+                            <tr>
+                                <th>ছবি</th>
+                                <th>নাম</th>
+                                <th>র‍্যাঙ্ক</th>
+                                <th>বর্তমান ব্যাজ</th>
+                                <th>সহচর স্তর</th>
+                                <th>সদস্য স্তর</th>
+                                <th>প্রশিক্ষণ স্তর</th>
+                                <th>সেবা স্তর</th>
+                                <th>প্রেসিডেন্ট'স</th>
+                            </tr>
+                        </thead>
+                        <tbody id="badgeMembersTableBody">
+                            <!-- Will be populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Email Section -->
+            <div id="emailSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-envelope"></i>
+                        ইমেইল পাঠান
+                    </h2>
+                </div>
+
+                <div class="email-composer">
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="addAllRecipients()">
+                            <i class="fas fa-users"></i> সব সদস্য
+                        </button>
+                        <button class="btn btn-success" onclick="addApprovedRecipients()">
+                            <i class="fas fa-check-circle"></i> অনুমোদিত সদস্য
+                        </button>
+                        <button class="btn btn-info" onclick="addPendingRecipients()">
+                            <i class="fas fa-clock"></i> অপেক্ষমান
+                        </button>
+                    </div>
+
+                    <div class="email-recipients" id="emailRecipients">
+                        <!-- Selected recipients will appear here -->
+                    </div>
+
+                    <input type="text" class="email-input" id="emailSubject" placeholder="বিষয়">
+                    <textarea class="email-textarea" id="emailBody" placeholder="ইমেইলের বিবরণ..."></textarea>
+                    
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="sendEmail()">
+                            <i class="fas fa-paper-plane"></i> পাঠান
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearEmail()">
+                            <i class="fas fa-undo"></i> মুছুন
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Section -->
+            <div id="exportSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-download"></i>
+                        ডাটা এক্সপোর্ট
+                    </h2>
+                </div>
+
+                <div class="export-options">
+                    <div class="action-buttons" style="margin-bottom: 20px;">
+                        <button class="btn btn-primary" onclick="exportData('members', 'csv')">
+                            <i class="fas fa-file-csv"></i> সদস্য তালিকা (CSV)
+                        </button>
+                        <button class="btn btn-success" onclick="exportData('members', 'excel')">
+                            <i class="fas fa-file-excel"></i> সদস্য তালিকা (Excel)
+                        </button>
+                        <button class="btn btn-danger" onclick="exportData('members', 'pdf')">
+                            <i class="fas fa-file-pdf"></i> সদস্য তালিকা (PDF)
+                        </button>
+                    </div>
+
+                    <div class="action-buttons" style="margin-bottom: 20px;">
+                        <button class="btn btn-primary" onclick="exportData('applications', 'csv')">
+                            <i class="fas fa-file-csv"></i> আবেদনপত্র (CSV)
+                        </button>
+                        <button class="btn btn-success" onclick="exportData('applications', 'excel')">
+                            <i class="fas fa-file-excel"></i> আবেদনপত্র (Excel)
+                        </button>
+                        <button class="btn btn-danger" onclick="exportData('applications', 'pdf')">
+                            <i class="fas fa-file-pdf"></i> আবেদনপত্র (PDF)
+                        </button>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-info" onclick="exportProfileCards()">
+                            <i class="fas fa-id-card"></i> প্রোফাইল কার্ড (PNG)
+                        </button>
+                        <button class="btn btn-warning" onclick="exportAllProfiles()">
+                            <i class="fas fa-images"></i> সব প্রোফাইল (ZIP)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Section -->
+            <div id="analyticsSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-bar"></i>
+                        পরিসংখ্যান
+                    </h2>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="unitChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="rankChart"></canvas>
+                </div>
+
+                <div class="chart-container">
+                    <canvas id="badgeChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settingsSection" class="content-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <i class="fas fa-cog"></i>
+                        সেটিংস
+                    </h2>
+                </div>
+
+                <div class="settings-form">
+                    <h3>ইউনিট সেটিংস</h3>
+                    <div id="unitSettings">
+                        <!-- Unit settings will be populated -->
+                    </div>
+
+                    <h3 style="margin-top: 30px;">র‍্যাঙ্ক সেটিংস</h3>
+                    <div id="rankSettings">
+                        <!-- Rank settings will be populated -->
+                    </div>
+
+                    <h3 style="margin-top: 30px;">ব্যাজ সেটিংস</h3>
+                    <div id="badgeSettings">
+                        <!-- Badge settings will be populated -->
+                    </div>
+
+                    <button class="btn btn-primary" onclick="saveSettings()" style="margin-top: 30px;">
+                        <i class="fas fa-save"></i> সেভ করুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application View Modal -->
+    <div id="applicationModal" class="modal">
+        <div class="modal-content" id="applicationModalContent">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </div>
+
+    <!-- Member Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content" id="profileModalContent">
+            <!-- Content will be loaded dynamically -->
+        </div>
+    </div>
+
+    <!-- Unit Assignment Modal -->
+    <div id="unitAssignmentModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>সদস্য স্থানান্তর</h2>
+                <button class="modal-close" onclick="closeUnitAssignmentModal()"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" id="assignmentSearch" placeholder="সদস্যের নাম খুঁজুন..." onkeyup="searchAssignmentMembers()">
+            </div>
+
+            <div class="table-responsive">
+                <table id="assignmentTable">
+                    <thead>
+                        <tr>
+                            <th>ছবি</th>
+                            <th>নাম</th>
+                            <th>বর্তমান ইউনিট</th>
+                            <th>বর্তমান উপদল</th>
+                            <th>নতুন ইউনিট</th>
+                            <th>নতুন উপদল</th>
+                            <th>অ্যাকশন</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assignmentTableBody">
+                        <!-- Will be populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <p>লোড হচ্ছে...</p>
+    </div>
+
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyArcCRb1EBdaRcTGOnzvWqA5iTJNE1XmQE",
+            authDomain: "gdgcrover.firebaseapp.com",
+            projectId: "gdgcrover",
+            storageBucket: "gdgcrover.firebasestorage.app",
+            messagingSenderId: "80583939799",
+            appId: "1:80583939799:web:4eb60be176d2750955c292",
+            measurementId: "G-6230L96LZP"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+        const storage = firebase.storage();
+
+        // EmailJS Configuration
+        emailjs.init("YOUR_EMAILJS_PUBLIC_KEY"); // Replace with your EmailJS public key
+
+        // Global Variables
+        let currentAdmin = null;
+        let applications = [];
+        let members = [];
+        let selectedApplications = new Set();
+        let selectedMembers = new Set();
+        let emailRecipients = new Set();
+        let charts = {};
+
+        // ============ AUTHENTICATION ============
+
+        // Admin Login
+        function handleAdminLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const loginMessage = document.getElementById('loginMessage');
+
+            showLoading();
+
+            auth.signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                    // Check if user is admin
+                    if (email === 'admin@gdgcrover.com') {
+                        currentAdmin = userCredential.user;
+                        document.getElementById('loginContainer').classList.remove('active');
+                        document.getElementById('adminPanel').style.display = 'flex';
+                        document.getElementById('adminEmail').textContent = currentAdmin.email;
+                        hideLoading();
+                        initializeAdminPanel();
+                    } else {
+                        auth.signOut();
+                        loginMessage.innerHTML = '❌ অনুমোদিত প্রশাসক নন';
+                        loginMessage.className = 'login-message error';
+                        hideLoading();
+                    }
+                })
+                .catch((error) => {
+                    loginMessage.innerHTML = '❌ ' + error.message;
+                    loginMessage.className = 'login-message error';
+                    hideLoading();
+                });
+        }
+
+        // Admin Logout
+        function handleAdminLogout() {
+            auth.signOut()
+                .then(() => {
+                    document.getElementById('adminPanel').style.display = 'none';
+                    document.getElementById('loginContainer').classList.add('active');
+                    document.getElementById('loginEmail').value = 'admin@gdgcrover.com';
+                    document.getElementById('loginPassword').value = '';
+                })
+                .catch((error) => {
+                    alert('লগআউট ব্যর্থ হয়েছে: ' + error.message);
+                });
+        }
+
+        // ============ INITIALIZATION ============
+
+        function initializeAdminPanel() {
+            loadApplications();
+            loadMembers();
+            loadDashboardData();
+            initializeCharts();
+            setupRealtimeListeners();
+            loadUnitSettings();
+        }
+
+        function setupRealtimeListeners() {
+            // Listen for changes in admissions collection
+            db.collection('admissions').onSnapshot(() => {
+                loadApplications();
+                loadDashboardData();
+            });
+
+            // Listen for changes in members collection
+            db.collection('members').onSnapshot(() => {
+                loadMembers();
+                loadDashboardData();
+            });
+        }
+
+        // ============ DATA LOADING ============
+
+        async function loadApplications() {
+            try {
+                const snapshot = await db.collection('admissions').get();
+                applications = [];
+                snapshot.forEach(doc => {
+                    applications.push({ id: doc.id, ...doc.data() });
+                });
+                displayApplications();
+                updatePendingCount();
+            } catch (error) {
+                console.error('Error loading applications:', error);
+            }
+        }
+
+        async function loadMembers() {
+            try {
+                const snapshot = await db.collection('members').get();
+                members = [];
+                snapshot.forEach(doc => {
+                    members.push({ id: doc.id, ...doc.data() });
+                });
+                displayMembers();
+                displayBadgeMembers();
+                updateUnitGrid();
+                updateCharts();
+            } catch (error) {
+                console.error('Error loading members:', error);
+            }
+        }
+
+        async function loadDashboardData() {
+            try {
+                // Get total members
+                const membersSnapshot = await db.collection('members').get();
+                document.getElementById('totalMembers').textContent = membersSnapshot.size;
+
+                // Get pending applications
+                const pendingSnapshot = await db.collection('admissions').where('status', '==', 'pending').get();
+                document.getElementById('pendingApplications').textContent = pendingSnapshot.size;
+
+                // Get approved applications
+                const approvedSnapshot = await db.collection('admissions').where('status', '==', 'approved').get();
+                document.getElementById('approvedApplications').textContent = approvedSnapshot.size;
+
+                // Get total badges
+                let badgeTotal = 0;
+                membersSnapshot.forEach(doc => {
+                    const data = doc.data();
+                    badgeTotal += (data.badges ? data.badges.length : 0);
+                });
+                document.getElementById('badgeCount').textContent = badgeTotal;
+            } catch (error) {
+                console.error('Error loading dashboard data:', error);
+            }
+        }
+
+        // ============ APPLICATIONS DISPLAY ============
+
+        function displayApplications(filter = 'all') {
+            const tbody = document.getElementById('applicationsTableBody');
+            const searchTerm = document.getElementById('applicationSearch')?.value.toLowerCase() || '';
+            const unitFilter = document.getElementById('unitFilter')?.value || '';
+            const teamFilter = document.getElementById('teamFilter')?.value || '';
+
+            let filteredApps = applications;
+
+            // Apply status filter
+            if (filter !== 'all') {
+                filteredApps = filteredApps.filter(app => app.status === filter);
+            }
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredApps = filteredApps.filter(app => 
+                    (app.banglaName && app.banglaName.toLowerCase().includes(searchTerm)) ||
+                    (app.email && app.email.toLowerCase().includes(searchTerm)) ||
+                    (app.formNumber && app.formNumber.includes(searchTerm)) ||
+                    (app.mobile && app.mobile.includes(searchTerm))
+                );
+            }
+
+            // Apply unit filter
+            if (unitFilter) {
+                filteredApps = filteredApps.filter(app => app.unit === unitFilter);
+            }
+
+            // Apply team filter
+            if (teamFilter) {
+                filteredApps = filteredApps.filter(app => app.team === teamFilter);
+            }
+
+            tbody.innerHTML = filteredApps.map(app => `
+                <tr>
+                    <td><input type="checkbox" class="app-checkbox" value="${app.id}" onchange="toggleApplicationSelect('${app.id}')"></td>
+                    <td>R-2026-${app.formNumber}</td>
+                    <td><img src="${app.photo || 'https://via.placeholder.com/40'}" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;"></td>
+                    <td>${app.banglaName || app.fullName || 'N/A'}</td>
+                    <td>${app.email || app.userEmail || 'N/A'}</td>
+                    <td>${app.mobile || app.userPhone || 'N/A'}</td>
+                    <td>${app.timestamp ? new Date(app.timestamp.toDate()).toLocaleDateString('bn-BD') : 'N/A'}</td>
+                    <td><span class="status-badge status-${app.status || 'pending'}">${app.status || 'pending'}</span></td>
+                    <td>
+                        <button class="btn btn-info" onclick="viewApplication('${app.id}')"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-success" onclick="approveApplication('${app.id}')"><i class="fas fa-check"></i></button>
+                        <button class="btn btn-warning" onclick="rejectApplication('${app.id}')"><i class="fas fa-times"></i></button>
+                        <button class="btn btn-danger" onclick="deleteApplication('${app.id}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updatePendingCount() {
+            const pending = applications.filter(app => app.status === 'pending').length;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+
+        // ============ MEMBERS DISPLAY ============
+
+        function displayMembers() {
+            const tbody = document.getElementById('membersTableBody');
+            const searchTerm = document.getElementById('memberSearch')?.value.toLowerCase() || '';
+            const rankFilter = document.getElementById('rankFilter')?.value || '';
+
+            let filteredMembers = members;
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredMembers = filteredMembers.filter(member => 
+                    (member.banglaName && member.banglaName.toLowerCase().includes(searchTerm)) ||
+                    (member.email && member.email.toLowerCase().includes(searchTerm)) ||
+                    (member.rank && member.rank.toLowerCase().includes(searchTerm)) ||
+                    (member.mobile && member.mobile.includes(searchTerm))
+                );
+            }
+
+            // Apply rank filter
+            if (rankFilter) {
+                filteredMembers = filteredMembers.filter(member => member.rank === rankFilter);
+            }
+
+            tbody.innerHTML = filteredMembers.map(member => `
+                <tr>
+                    <td><img src="${member.photo || 'https://via.placeholder.com/40'}" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;"></td>
+                    <td>${member.banglaName || member.fullName || 'N/A'}</td>
+                    <td>${member.email || 'N/A'}</td>
+                    <td>${member.mobile || 'N/A'}</td>
+                    <td><span class="rank-badge active" style="padding: 5px 10px;">${member.rank || 'সদস্য'}</span></td>
+                    <td>${getUnitName(member.unit)}</td>
+                    <td>${getTeamName(member.team)}</td>
+                    <td>${member.badges ? member.badges.length : 0}</td>
+                    <td>
+                        <button class="btn btn-info" onclick="viewMemberProfile('${member.id}')"><i class="fas fa-eye"></i></button>
+                        <button class="btn btn-primary" onclick="assignRank('${member.id}')"><i class="fas fa-medal"></i></button>
+                        <button class="btn btn-warning" onclick="editMemberUnit('${member.id}')"><i class="fas fa-exchange-alt"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getUnitName(unit) {
+            const unitMap = {
+                'unit1': 'ইউনিট ১',
+                'unit2': 'ইউনিট ২',
+                'unit3': 'ইউনিট ৩',
+                'unit4': 'ইউনিট ৪'
+            };
+            return unitMap[unit] || unit || 'নিয়োগ হয়নি';
+        }
+
+        function getTeamName(team) {
+            const teamMap = {
+                'team1': 'উপদল ১',
+                'team2': 'উপদল ২',
+                'team3': 'উপদল ৩',
+                'team4': 'উপদল ৪'
+            };
+            return teamMap[team] || team || 'নিয়োগ হয়নি';
+        }
+
+        function displayBadgeMembers() {
+            const tbody = document.getElementById('badgeMembersTableBody');
+            const searchTerm = document.getElementById('badgeSearch')?.value.toLowerCase() || '';
+
+            let filteredMembers = members;
+            if (searchTerm) {
+                filteredMembers = filteredMembers.filter(member => 
+                    (member.banglaName && member.banglaName.toLowerCase().includes(searchTerm)) ||
+                    (member.fullName && member.fullName.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            tbody.innerHTML = filteredMembers.map(member => `
+                <tr>
+                    <td><img src="${member.photo || 'https://via.placeholder.com/40'}" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;"></td>
+                    <td>${member.banglaName || member.fullName || 'N/A'}</td>
+                    <td><span class="rank-badge active" style="padding: 5px 10px;">${member.rank || 'সদস্য'}</span></td>
+                    <td>${member.badges ? member.badges.join(', ') : '-'}</td>
+                    <td><input type="checkbox" ${member.badges?.includes('সহচর স্তর') ? 'checked' : ''} onchange="toggleBadge('${member.id}', 'সহচর')"></td>
+                    <td><input type="checkbox" ${member.badges?.includes('সদস্য স্তর') ? 'checked' : ''} onchange="toggleBadge('${member.id}', 'সদস্য')"></td>
+                    <td><input type="checkbox" ${member.badges?.includes('প্রশিক্ষণ স্তর') ? 'checked' : ''} onchange="toggleBadge('${member.id}', 'প্রশিক্ষণ')"></td>
+                    <td><input type="checkbox" ${member.badges?.includes('সেবা স্তর') ? 'checked' : ''} onchange="toggleBadge('${member.id}', 'সেবা')"></td>
+                    <td><input type="checkbox" ${member.badges?.includes('প্রেসিডেন্ট\'স রোভার স্কাউট') ? 'checked' : ''} onchange="toggleBadge('${member.id}', 'প্রেসিডেন্ট')"></td>
+                </tr>
+            `).join('');
+        }
+
+        // ============ UNIT MANAGEMENT ============
+
+        function updateUnitGrid() {
+            const unitGrid = document.getElementById('unitGrid');
+            const units = ['ইউনিট ১', 'ইউনিট ২', 'ইউনিট ৩', 'ইউনিট ৪'];
+            
+            unitGrid.innerHTML = units.map((unit, index) => {
+                const unitMembers = members.filter(m => m.unit === `unit${index + 1}`);
+                const unitNumber = index + 1;
+                
+                return `
+                    <div class="unit-card">
+                        <div class="unit-header">
+                            <h3>${unit}</h3>
+                            <span class="badge-count">${unitMembers.length} জন</span>
+                        </div>
+                        
+                        <div class="team-list">
+                            ${[1, 2, 3, 4].map(teamNum => {
+                                const teamMembers = unitMembers.filter(m => m.team === `team${teamNum}`);
+                                const roverMet = teamMembers.find(m => m.rank === 'রোভার মেট');
+                                const assistantRoverMet = teamMembers.find(m => m.rank === 'সহকারী রোভার মেট');
+                                
+                                return `
+                                    <div style="margin-bottom: 15px;">
+                                        <h4 style="color: #e94560; margin-bottom: 10px;">উপদল ${teamNum}</h4>
+                                        ${teamMembers.length > 0 ? teamMembers.map(member => `
+                                            <div class="team-item">
+                                                <span>${member.banglaName || member.fullName}</span>
+                                                <span class="team-role">${member.rank || 'সদস্য'}</span>
+                                            </div>
+                                        `).join('') : '<p style="color: #a5a5a5; padding: 5px;">কোন সদস্য নেই</p>'}
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Unit Assignment Functions
+        function openUnitAssignmentModal() {
+            displayAssignmentMembers();
+            document.getElementById('unitAssignmentModal').classList.add('active');
+        }
+
+        function closeUnitAssignmentModal() {
+            document.getElementById('unitAssignmentModal').classList.remove('active');
+        }
+
+        function displayAssignmentMembers() {
+            const tbody = document.getElementById('assignmentTableBody');
+            const searchTerm = document.getElementById('assignmentSearch')?.value.toLowerCase() || '';
+
+            let filteredMembers = members;
+            if (searchTerm) {
+                filteredMembers = filteredMembers.filter(member => 
+                    (member.banglaName && member.banglaName.toLowerCase().includes(searchTerm)) ||
+                    (member.fullName && member.fullName.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            tbody.innerHTML = filteredMembers.map(member => `
+                <tr>
+                    <td><img src="${member.photo || 'https://via.placeholder.com/40'}" style="width: 40px; height: 40px; border-radius: 5px; object-fit: cover;"></td>
+                    <td>${member.banglaName || member.fullName || 'N/A'}</td>
+                    <td>${getUnitName(member.unit)}</td>
+                    <td>${getTeamName(member.team)}</td>
+                    <td>
+                        <select class="unit-select" id="unit_${member.id}" onchange="updateTeamOptions('${member.id}')">
+                            <option value="unit1" ${member.unit === 'unit1' ? 'selected' : ''}>ইউনিট ১</option>
+                            <option value="unit2" ${member.unit === 'unit2' ? 'selected' : ''}>ইউনিট ২</option>
+                            <option value="unit3" ${member.unit === 'unit3' ? 'selected' : ''}>ইউনিট ৩</option>
+                            <option value="unit4" ${member.unit === 'unit4' ? 'selected' : ''}>ইউনিট ৪</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select class="team-select" id="team_${member.id}">
+                            <option value="team1" ${member.team === 'team1' ? 'selected' : ''}>উপদল ১</option>
+                            <option value="team2" ${member.team === 'team2' ? 'selected' : ''}>উপদল ২</option>
+                            <option value="team3" ${member.team === 'team3' ? 'selected' : ''}>উপদল ৩</option>
+                            <option value="team4" ${member.team === 'team4' ? 'selected' : ''}>উপদল ৪</option>
+                        </select>
+                    </td>
+                    <td>
+                        <button class="btn btn-success" onclick="updateMemberUnit('${member.id}')">
+                            <i class="fas fa-save"></i> আপডেট
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateTeamOptions(memberId) {
+            // Team options remain the same for all units
+            // This function can be expanded if different units have different team configurations
+        }
+
+        async function updateMemberUnit(memberId) {
+            const unitSelect = document.getElementById(`unit_${memberId}`);
+            const teamSelect = document.getElementById(`team_${memberId}`);
+            
+            const newUnit = unitSelect.value;
+            const newTeam = teamSelect.value;
+
+            if (!newUnit || !newTeam) {
+                alert('ইউনিট এবং উপদল নির্বাচন করুন');
+                return;
+            }
+
+            showLoading();
+
+            try {
+                await db.collection('members').doc(memberId).update({
+                    unit: newUnit,
+                    team: newTeam
+                });
+
+                await loadMembers();
+                hideLoading();
+                alert('✅ সদস্যের ইউনিট এবং উপদল আপডেট করা হয়েছে');
+            } catch (error) {
+                console.error('Error updating member unit:', error);
+                hideLoading();
+                alert('আপডেট করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        function searchAssignmentMembers() {
+            displayAssignmentMembers();
+        }
+
+        function editMemberUnit(memberId) {
+            openUnitAssignmentModal();
+            // Scroll to the member
+            setTimeout(() => {
+                const element = document.getElementById(`unit_${memberId}`);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }, 100);
+        }
+
+        // ============ BADGE MANAGEMENT ============
+
+        async function toggleBadge(memberId, badgeLevel) {
+            try {
+                showLoading();
+                const memberRef = db.collection('members').doc(memberId);
+                const memberDoc = await memberRef.get();
+                const memberData = memberDoc.data();
+                
+                let badges = memberData.badges || [];
+                const badgeNames = {
+                    'সহচর': 'সহচর স্তর',
+                    'সদস্য': 'সদস্য স্তর',
+                    'প্রশিক্ষণ': 'প্রশিক্ষণ স্তর',
+                    'সেবা': 'সেবা স্তর',
+                    'প্রেসিডেন্ট': 'প্রেসিডেন্ট\'স রোভার স্কাউট'
+                };
+                
+                const fullBadgeName = badgeNames[badgeLevel];
+                
+                if (badges.includes(fullBadgeName)) {
+                    badges = badges.filter(b => b !== fullBadgeName);
+                } else {
+                    badges.push(fullBadgeName);
+                }
+                
+                await memberRef.update({ badges });
+                await loadMembers();
+                hideLoading();
+            } catch (error) {
+                console.error('Error toggling badge:', error);
+                hideLoading();
+                alert('ব্যাজ আপডেট করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function assignRank(memberId) {
+            const member = members.find(m => m.id === memberId);
+            const ranks = ['সহচর', 'সদস্য', 'রোভার মেট', 'সহকারী রোভার মেট', 'সিনিয়র রোভার মেট'];
+            
+            const modalContent = document.getElementById('profileModalContent');
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h2>র‍্যাঙ্ক নির্ধারণ - ${member.banglaName || member.fullName}</h2>
+                    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                <div class="profile-badges">
+                    ${ranks.map(rank => `
+                        <span class="rank-badge ${member.rank === rank ? 'active' : ''}" 
+                              onclick="setMemberRank('${member.id}', '${rank}')">
+                            ${rank}
+                        </span>
+                    `).join('')}
+                </div>
+            `;
+            
+            document.getElementById('profileModal').classList.add('active');
+        }
+
+        async function setMemberRank(memberId, rank) {
+            try {
+                showLoading();
+                await db.collection('members').doc(memberId).update({ rank });
+                await loadMembers();
+                closeModal();
+                hideLoading();
+            } catch (error) {
+                console.error('Error setting rank:', error);
+                hideLoading();
+                alert('র‍্যাঙ্ক নির্ধারণে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        // ============ APPLICATION ACTIONS ============
+
+        async function approveApplication(applicationId) {
+            if (!confirm('আবেদনটি অনুমোদন করতে চান?')) return;
+            
+            try {
+                showLoading();
+                const application = applications.find(a => a.id === applicationId);
+                
+                // Update application status
+                await db.collection('admissions').doc(applicationId).update({
+                    status: 'approved'
+                });
+                
+                // Add to members collection with default unit and team
+                await db.collection('members').doc(applicationId).set({
+                    ...application,
+                    memberId: applicationId,
+                    rank: 'সদস্য',
+                    unit: 'unit1',
+                    team: 'team1',
+                    badges: [],
+                    joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                
+                await loadApplications();
+                await loadMembers();
+                hideLoading();
+                alert('✅ আবেদনটি অনুমোদিত হয়েছে');
+            } catch (error) {
+                console.error('Error approving application:', error);
+                hideLoading();
+                alert('অনুমোদনে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function rejectApplication(applicationId) {
+            if (!confirm('আবেদনটি বাতিল করতে চান?')) return;
+            
+            try {
+                showLoading();
+                await db.collection('admissions').doc(applicationId).update({
+                    status: 'rejected'
+                });
+                await loadApplications();
+                hideLoading();
+                alert('✅ আবেদনটি বাতিল করা হয়েছে');
+            } catch (error) {
+                console.error('Error rejecting application:', error);
+                hideLoading();
+                alert('বাতিল করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function deleteApplication(applicationId) {
+            if (!confirm('আবেদনটি সম্পূর্ণ ডিলিট করতে চান? এটি পুনরুদ্ধার করা যাবে না।')) return;
+            
+            try {
+                showLoading();
+                await db.collection('admissions').doc(applicationId).delete();
+                await loadApplications();
+                hideLoading();
+                alert('✅ আবেদনটি ডিলিট করা হয়েছে');
+            } catch (error) {
+                console.error('Error deleting application:', error);
+                hideLoading();
+                alert('ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        function viewApplication(applicationId) {
+            const application = applications.find(a => a.id === applicationId);
+            if (!application) return;
+            
+            const modalContent = document.getElementById('applicationModalContent');
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h2>আবেদনপত্র #R-2026-${application.formNumber}</h2>
+                    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="profile-header">
+                    <img src="${application.photo || 'https://via.placeholder.com/120'}" class="profile-photo">
+                    <div>
+                        <h2>${application.banglaName}</h2>
+                        <p><i class="fas fa-envelope"></i> ${application.email}</p>
+                        <p><i class="fas fa-phone"></i> ${application.mobile}</p>
+                    </div>
+                </div>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <h3>ব্যক্তিগত তথ্য</h3>
+                        <p><strong>পিতার নাম:</strong> ${application.fatherName}</p>
+                        <p><strong>মাতার নাম:</strong> ${application.motherName}</p>
+                        <p><strong>জন্ম তারিখ:</strong> ${application.dob}</p>
+                        <p><strong>রক্তের গ্রুপ:</strong> ${application.bloodGroup}</p>
+                        <p><strong>ধর্ম:</strong> ${application.religion}</p>
+                    </div>
+                    
+                    <div>
+                        <h3>শিক্ষাগত তথ্য</h3>
+                        <p><strong>শিক্ষাগত যোগ্যতা:</strong> ${application.education}</p>
+                        <p><strong>শিক্ষাবর্ষ:</strong> ${application.academicYear}</p>
+                        <p><strong>বিভাগ:</strong> ${application.department}</p>
+                        <p><strong>কলেজ আইডি:</strong> ${application.collegeId}</p>
+                        <p><strong>গ্রেড:</strong> ${application.examType} - ${application.grade}</p>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h3>ঠিকানা</h3>
+                    <p><strong>বর্তমান ঠিকানা:</strong> ${application.presentVillage}, ${application.presentUpazila}, ${application.presentDistrict}</p>
+                    <p><strong>স্থায়ী ঠিকানা:</strong> ${application.permanentVillage}, ${application.permanentUpazila}, ${application.permanentDistrict}</p>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 30px;">
+                    <button class="btn btn-success" onclick="approveApplication('${application.id}')"><i class="fas fa-check"></i> অনুমোদন</button>
+                    <button class="btn btn-warning" onclick="rejectApplication('${application.id}')"><i class="fas fa-times"></i> বাতিল</button>
+                    <button class="btn btn-primary" onclick="exportProfileAsPNG('${application.id}')"><i class="fas fa-download"></i> PNG</button>
+                    <button class="btn btn-info" onclick="exportProfileAsPDF('${application.id}')"><i class="fas fa-file-pdf"></i> PDF</button>
+                </div>
+            `;
+            
+            document.getElementById('applicationModal').classList.add('active');
+        }
+
+        function viewMemberProfile(memberId) {
+            const member = members.find(m => m.id === memberId);
+            if (!member) return;
+            
+            const modalContent = document.getElementById('profileModalContent');
+            modalContent.innerHTML = `
+                <div class="modal-header">
+                    <h2>সদস্য প্রোফাইল</h2>
+                    <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+                </div>
+                
+                <div class="profile-header">
+                    <img src="${member.photo || 'https://via.placeholder.com/120'}" class="profile-photo">
+                    <div>
+                        <h2>${member.banglaName || member.fullName}</h2>
+                        <p><i class="fas fa-envelope"></i> ${member.email}</p>
+                        <p><i class="fas fa-phone"></i> ${member.mobile}</p>
+                        <p><span class="rank-badge active">${member.rank || 'সদস্য'}</span></p>
+                    </div>
+                </div>
+                
+                <div class="profile-badges">
+                    ${(member.badges || []).map(badge => `
+                        <span class="skill-badge"><i class="fas fa-award"></i> ${badge}</span>
+                    `).join('')}
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <h3>ইউনিট তথ্য</h3>
+                    <p><strong>ইউনিট:</strong> ${getUnitName(member.unit)}</p>
+                    <p><strong>উপদল:</strong> ${getTeamName(member.team)}</p>
+                </div>
+                
+                <div class="action-buttons" style="margin-top: 30px;">
+                    <button class="btn btn-primary" onclick="assignRank('${member.id}')"><i class="fas fa-medal"></i> র‍্যাঙ্ক পরিবর্তন</button>
+                    <button class="btn btn-warning" onclick="editMemberUnit('${member.id}')"><i class="fas fa-exchange-alt"></i> ইউনিট পরিবর্তন</button>
+                    <button class="btn btn-info" onclick="exportProfileAsPNG('${member.id}')"><i class="fas fa-download"></i> PNG</button>
+                </div>
+            `;
+            
+            document.getElementById('profileModal').classList.add('active');
+        }
+
+        // ============ BULK ACTIONS ============
+
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.app-checkbox');
+            
+            checkboxes.forEach(cb => {
+                cb.checked = selectAll.checked;
+                if (selectAll.checked) {
+                    selectedApplications.add(cb.value);
+                } else {
+                    selectedApplications.delete(cb.value);
+                }
+            });
+        }
+
+        function toggleApplicationSelect(applicationId) {
+            const checkbox = document.querySelector(`.app-checkbox[value="${applicationId}"]`);
+            if (checkbox.checked) {
+                selectedApplications.add(applicationId);
+            } else {
+                selectedApplications.delete(applicationId);
+            }
+        }
+
+        async function approveSelected() {
+            if (selectedApplications.size === 0) {
+                alert('কোনো আবেদন নির্বাচন করা হয়নি');
+                return;
+            }
+            
+            if (!confirm(`${selectedApplications.size}টি আবেদন অনুমোদন করতে চান?`)) return;
+            
+            showLoading();
+            
+            try {
+                for (const appId of selectedApplications) {
+                    const application = applications.find(a => a.id === appId);
+                    
+                    await db.collection('admissions').doc(appId).update({
+                        status: 'approved'
+                    });
+                    
+                    await db.collection('members').doc(appId).set({
+                        ...application,
+                        memberId: appId,
+                        rank: 'সদস্য',
+                        unit: 'unit1',
+                        team: 'team1',
+                        badges: [],
+                        joinedAt: firebase.firestore.FieldValue.serverTimestamp()
+                    });
+                }
+                
+                selectedApplications.clear();
+                document.getElementById('selectAll').checked = false;
+                
+                await loadApplications();
+                await loadMembers();
+                hideLoading();
+                alert('✅ নির্বাচিত আবেদনগুলি অনুমোদিত হয়েছে');
+            } catch (error) {
+                console.error('Error approving selected:', error);
+                hideLoading();
+                alert('অনুমোদনে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function rejectSelected() {
+            if (selectedApplications.size === 0) {
+                alert('কোনো আবেদন নির্বাচন করা হয়নি');
+                return;
+            }
+            
+            if (!confirm(`${selectedApplications.size}টি আবেদন বাতিল করতে চান?`)) return;
+            
+            showLoading();
+            
+            try {
+                for (const appId of selectedApplications) {
+                    await db.collection('admissions').doc(appId).update({
+                        status: 'rejected'
+                    });
+                }
+                
+                selectedApplications.clear();
+                document.getElementById('selectAll').checked = false;
+                
+                await loadApplications();
+                hideLoading();
+                alert('✅ নির্বাচিত আবেদনগুলি বাতিল করা হয়েছে');
+            } catch (error) {
+                console.error('Error rejecting selected:', error);
+                hideLoading();
+                alert('বাতিল করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function deleteSelected() {
+            if (selectedApplications.size === 0) {
+                alert('কোনো আবেদন নির্বাচন করা হয়নি');
+                return;
+            }
+            
+            if (!confirm(`${selectedApplications.size}টি আবেদন সম্পূর্ণ ডিলিট করতে চান? এটি পুনরুদ্ধার করা যাবে না।`)) return;
+            
+            showLoading();
+            
+            try {
+                for (const appId of selectedApplications) {
+                    await db.collection('admissions').doc(appId).delete();
+                }
+                
+                selectedApplications.clear();
+                document.getElementById('selectAll').checked = false;
+                
+                await loadApplications();
+                hideLoading();
+                alert('✅ নির্বাচিত আবেদনগুলি ডিলিট করা হয়েছে');
+            } catch (error) {
+                console.error('Error deleting selected:', error);
+                hideLoading();
+                alert('ডিলিট করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        // ============ SEARCH AND FILTER ============
+
+        function searchApplications() {
+            displayApplications();
+        }
+
+        function searchMembers() {
+            displayMembers();
+        }
+
+        function searchForBadge() {
+            displayBadgeMembers();
+        }
+
+        function filterApplications(status) {
+            displayApplications(status);
+        }
+
+        function filterByUnit() {
+            displayApplications();
+        }
+
+        function filterByTeam() {
+            displayApplications();
+        }
+
+        function filterByRank() {
+            displayMembers();
+        }
+
+        // ============ EMAIL FUNCTIONS ============
+
+        function addAllRecipients() {
+            members.forEach(member => {
+                if (member.email) {
+                    emailRecipients.add(member.email);
+                }
+            });
+            updateEmailRecipients();
+        }
+
+        function addApprovedRecipients() {
+            applications.filter(app => app.status === 'approved').forEach(app => {
+                if (app.email) {
+                    emailRecipients.add(app.email);
+                }
+            });
+            updateEmailRecipients();
+        }
+
+        function addPendingRecipients() {
+            applications.filter(app => app.status === 'pending').forEach(app => {
+                if (app.email) {
+                    emailRecipients.add(app.email);
+                }
+            });
+            updateEmailRecipients();
+        }
+
+        function updateEmailRecipients() {
+            const container = document.getElementById('emailRecipients');
+            container.innerHTML = Array.from(emailRecipients).map(email => `
+                <span class="recipient-tag">
+                    ${email}
+                    <i class="fas fa-times" onclick="removeRecipient('${email}')" style="cursor: pointer;"></i>
+                </span>
+            `).join('');
+        }
+
+        function removeRecipient(email) {
+            emailRecipients.delete(email);
+            updateEmailRecipients();
+        }
+
+        async function sendEmail() {
+            const subject = document.getElementById('emailSubject').value;
+            const body = document.getElementById('emailBody').value;
+            
+            if (emailRecipients.size === 0) {
+                alert('কমপক্ষে একজন প্রাপক নির্বাচন করুন');
+                return;
+            }
+            
+            if (!subject || !body) {
+                alert('বিষয় এবং বিবরণ লিখুন');
+                return;
+            }
+            
+            showLoading();
+            
+            try {
+                // Send to each recipient
+                for (const recipient of emailRecipients) {
+                    await emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', {
+                        to_email: recipient,
+                        subject: subject,
+                        message: body,
+                        from_name: 'GDC Rover Admin'
+                    });
+                }
+                
+                hideLoading();
+                alert('✅ ইমেইল পাঠানো হয়েছে');
+                clearEmail();
+            } catch (error) {
+                console.error('Error sending email:', error);
+                hideLoading();
+                alert('ইমেইল পাঠাতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        function clearEmail() {
+            document.getElementById('emailSubject').value = '';
+            document.getElementById('emailBody').value = '';
+            emailRecipients.clear();
+            updateEmailRecipients();
+        }
+
+        // ============ EXPORT FUNCTIONS ============
+
+        async function exportMembers(type) {
+            showLoading();
+            
+            try {
+                let data = members.map(m => ({
+                    'নাম': m.banglaName || m.fullName,
+                    'ইমেইল': m.email,
+                    'মোবাইল': m.mobile,
+                    'র‍্যাঙ্ক': m.rank || 'সদস্য',
+                    'ইউনিট': getUnitName(m.unit),
+                    'উপদল': getTeamName(m.team),
+                    'ব্যাজ': m.badges ? m.badges.join(', ') : '',
+                    'রক্তের গ্রুপ': m.bloodGroup,
+                    'জন্ম তারিখ': m.dob
+                }));
+
+                if (type === 'csv') {
+                    exportToCSV(data, 'members_list.csv');
+                } else if (type === 'excel') {
+                    exportToExcel(data, 'members_list.xlsx');
+                } else if (type === 'pdf') {
+                    await exportToPDF(data, 'members_list.pdf');
+                }
+                
+                hideLoading();
+            } catch (error) {
+                console.error('Error exporting members:', error);
+                hideLoading();
+                alert('এক্সপোর্ট করতে সমস্যা হয়েছে: ' + error.message);
+            }
+        }
+
+        async function exportData(collection, type) {
+            let data = [];
+            
+            if (collection === 'members') {
+                data = members;
+            } else if (collection === 'applications') {
+                data = applications;
+            }
+            
+            const formattedData = data.map(item => {
+                const formatted = {};
+                Object.keys(item).forEach(key => {
+                    if (key !== 'photo' && key !== 'timestamp') {
+                        formatted[key] = item[key];
+                    }
+                });
+                return formatted;
+            });
+
+            if (type === 'csv') {
+                exportToCSV(formattedData, `${collection}.csv`);
+            } else if (type === 'excel') {
+                exportToExcel(formattedData, `${collection}.xlsx`);
+            } else if (type === 'pdf') {
+                await exportToPDF(formattedData, `${collection}.pdf`);
+            }
+        }
+
+        function exportToCSV(data, filename) {
+            const headers = Object.keys(data[0] || {});
+            const csvContent = [
+                headers.join(','),
+                ...data.map(row => headers.map(h => JSON.stringify(row[h] || '')).join(','))
+            ].join('\n');
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function exportToExcel(data, filename) {
+            const ws = XLSX.utils.json_to_sheet(data);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            XLSX.writeFile(wb, filename);
+        }
+
+        async function exportToPDF(data, filename) {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            let y = 20;
+            doc.setFontSize(16);
+            doc.text(filename.replace('.pdf', ''), 20, y);
+            y += 10;
+            
+            data.slice(0, 20).forEach((item, index) => {
+                if (y > 270) {
+                    doc.addPage();
+                    y = 20;
+                }
+                
+                doc.setFontSize(10);
+                const keys = Object.keys(item).slice(0, 5);
+                const line = `${index + 1}. ${keys.map(k => item[k]).join(' | ')}`;
+                doc.text(line.substring(0, 80), 20, y);
+                y += 7;
+            });
+            
+            doc.save(filename);
+        }
+
+        async function exportProfileAsPNG(memberId) {
+            const member = members.find(m => m.id === memberId) || applications.find(a => a.id === memberId);
+            if (!member) return;
+            
+            // Create a temporary div for the profile card
+            const card = document.createElement('div');
+            card.style.width = '400px';
+            card.style.padding = '20px';
+            card.style.background = '#16213e';
+            card.style.borderRadius = '10px';
+            card.style.color = 'white';
+            card.innerHTML = `
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <img src="${member.photo || 'https://via.placeholder.com/100'}" style="width: 100px; height: 100px; border-radius: 10px; border: 3px solid #e94560;">
+                    <h2 style="margin-top: 10px;">${member.banglaName || member.fullName}</h2>
+                    <p>${member.rank || 'সদস্য'}</p>
+                </div>
+                <div style="margin-bottom: 10px;">
+                    <p><i class="fas fa-envelope"></i> ${member.email || 'N/A'}</p>
+                    <p><i class="fas fa-phone"></i> ${member.mobile || 'N/A'}</p>
+                    <p><i class="fas fa-tint"></i> ${member.bloodGroup || 'N/A'}</p>
+                </div>
+                <div>
+                    <h3>ব্যাজ সমূহ</h3>
+                    <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+                        ${(member.badges || []).map(b => `<span style="background: #e94560; padding: 5px 10px; border-radius: 20px;">${b}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+            
+            document.body.appendChild(card);
+            
+            try {
+                const canvas = await html2canvas(card);
+                const link = document.createElement('a');
+                link.download = `profile_${memberId}.png`;
+                link.href = canvas.toDataURL();
+                link.click();
+            } catch (error) {
+                console.error('Error exporting PNG:', error);
+                alert('PNG এক্সপোর্ট করতে সমস্যা হয়েছে');
+            } finally {
+                document.body.removeChild(card);
+            }
+        }
+
+        async function exportProfileCards() {
+            showLoading();
+            
+            for (const member of members.slice(0, 5)) { // Limit to 5 for demo
+                await exportProfileAsPNG(member.id);
+            }
+            
+            hideLoading();
+            alert('প্রোফাইল কার্ড এক্সপোর্ট করা হয়েছে');
+        }
+
+        // ============ CHARTS ============
+
+        function initializeCharts() {
+            // Dashboard Chart
+            const dashboardCtx = document.getElementById('dashboardChart').getContext('2d');
+            charts.dashboard = new Chart(dashboardCtx, {
+                type: 'line',
+                data: {
+                    labels: ['জানু', 'ফেব্রু', 'মার্চ', 'এপ্রিল', 'মে', 'জুন'],
+                    datasets: [{
+                        label: 'আবেদন',
+                        data: [12, 19, 3, 5, 2, 3],
+                        borderColor: '#e94560',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#0f3460' },
+                            ticks: { color: 'white' }
+                        },
+                        x: {
+                            grid: { color: '#0f3460' },
+                            ticks: { color: 'white' }
+                        }
+                    }
+                }
+            });
+
+            // Unit Chart
+            const unitCtx = document.getElementById('unitChart').getContext('2d');
+            charts.unit = new Chart(unitCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['ইউনিট ১', 'ইউনিট ২', 'ইউনিট ৩', 'ইউনিট ৪'],
+                    datasets: [{
+                        data: [0, 0, 0, 0],
+                        backgroundColor: ['#e94560', '#3498db', '#27ae60', '#f39c12']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    }
+                }
+            });
+
+            // Rank Chart
+            const rankCtx = document.getElementById('rankChart').getContext('2d');
+            charts.rank = new Chart(rankCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['সহচর', 'সদস্য', 'রোভার মেট', 'সহকারী', 'সিনিয়র'],
+                    datasets: [{
+                        label: 'সদস্য সংখ্যা',
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: '#e94560'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            grid: { color: '#0f3460' },
+                            ticks: { color: 'white' }
+                        },
+                        x: {
+                            grid: { color: '#0f3460' },
+                            ticks: { color: 'white' }
+                        }
+                    }
+                }
+            });
+
+            // Badge Chart
+            const badgeCtx = document.getElementById('badgeChart').getContext('2d');
+            charts.badge = new Chart(badgeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['সহচর', 'সদস্য', 'প্রশিক্ষণ', 'সেবা', 'প্রেসিডেন্ট'],
+                    datasets: [{
+                        data: [0, 0, 0, 0, 0],
+                        backgroundColor: ['#e94560', '#3498db', '#27ae60', '#f39c12', '#9b59b6']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: { color: 'white' }
+                        }
+                    }
+                }
+            });
+        }
+
+        function updateCharts() {
+            if (!charts.unit) return;
+            
+            // Update unit chart
+            const unitCounts = [0, 0, 0, 0];
+            members.forEach(m => {
+                const unitIndex = parseInt(m.unit?.replace('unit', '') || '1') - 1;
+                if (unitIndex >= 0 && unitIndex < 4) unitCounts[unitIndex]++;
+            });
+            charts.unit.data.datasets[0].data = unitCounts;
+            charts.unit.update();
+
+            // Update rank chart
+            const rankCounts = {
+                'সহচর': 0,
+                'সদস্য': 0,
+                'রোভার মেট': 0,
+                'সহকারী রোভার মেট': 0,
+                'সিনিয়র রোভার মেট': 0
+            };
+            members.forEach(m => {
+                if (rankCounts[m.rank] !== undefined) rankCounts[m.rank]++;
+                else rankCounts['সদস্য']++;
+            });
+            charts.rank.data.datasets[0].data = Object.values(rankCounts);
+            charts.rank.update();
+
+            // Update badge chart
+            const badgeCounts = [0, 0, 0, 0, 0];
+            members.forEach(m => {
+                if (m.badges) {
+                    if (m.badges.includes('সহচর স্তর')) badgeCounts[0]++;
+                    if (m.badges.includes('সদস্য স্তর')) badgeCounts[1]++;
+                    if (m.badges.includes('প্রশিক্ষণ স্তর')) badgeCounts[2]++;
+                    if (m.badges.includes('সেবা স্তর')) badgeCounts[3]++;
+                    if (m.badges.includes('প্রেসিডেন্ট\'স রোভার স্কাউট')) badgeCounts[4]++;
+                }
+            });
+            charts.badge.data.datasets[0].data = badgeCounts;
+            charts.badge.update();
+        }
+
+        // ============ SETTINGS ============
+
+        function loadUnitSettings() {
+            const unitSettings = document.getElementById('unitSettings');
+            unitSettings.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <label>ইউনিট ১ এর নাম</label>
+                    <input type="text" class="login-input" value="প্রথম ইউনিট">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>ইউনিট ২ এর নাম</label>
+                    <input type="text" class="login-input" value="দ্বিতীয় ইউনিট">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>ইউনিট ৩ এর নাম</label>
+                    <input type="text" class="login-input" value="তৃতীয় ইউনিট">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>ইউনিট ৪ এর নাম</label>
+                    <input type="text" class="login-input" value="চতুর্থ ইউনিট">
+                </div>
+            `;
+
+            const rankSettings = document.getElementById('rankSettings');
+            rankSettings.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <label>সহচর পদবির নাম</label>
+                    <input type="text" class="login-input" value="সহচর">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>সদস্য পদবির নাম</label>
+                    <input type="text" class="login-input" value="সদস্য">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>রোভার মেট পদবির নাম</label>
+                    <input type="text" class="login-input" value="রোভার মেট">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>সহকারী রোভার মেট পদবির নাম</label>
+                    <input type="text" class="login-input" value="সহকারী রোভার মেট">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>সিনিয়র রোভার মেট পদবির নাম</label>
+                    <input type="text" class="login-input" value="সিনিয়র রোভার মেট">
+                </div>
+            `;
+
+            const badgeSettings = document.getElementById('badgeSettings');
+            badgeSettings.innerHTML = `
+                <div style="margin-bottom: 15px;">
+                    <label>সহচর স্তর ব্যাজের নাম</label>
+                    <input type="text" class="login-input" value="সহচর স্তর">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>সদস্য স্তর ব্যাজের নাম</label>
+                    <input type="text" class="login-input" value="সদস্য স্তর">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>প্রশিক্ষণ স্তর ব্যাজের নাম</label>
+                    <input type="text" class="login-input" value="প্রশিক্ষণ স্তর">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>সেবা স্তর ব্যাজের নাম</label>
+                    <input type="text" class="login-input" value="সেবা স্তর">
+                </div>
+                <div style="margin-bottom: 15px;">
+                    <label>প্রেসিডেন্ট'স রোভার স্কাউট ব্যাজের নাম</label>
+                    <input type="text" class="login-input" value="প্রেসিডেন্ট'স রোভার স্কাউট">
+                </div>
+            `;
+        }
+
+        function saveSettings() {
+            alert('সেটিংস সেভ করা হয়েছে');
+        }
+
+        // ============ UTILITY FUNCTIONS ============
+
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(`${section}Section`).classList.add('active');
+            event.currentTarget.classList.add('active');
+            
+            // Update charts if needed
+            if (section === 'analytics') {
+                updateCharts();
+            }
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('collapsed');
+            document.getElementById('mainContent').classList.toggle('expanded');
+        }
+
+        function closeModal() {
+            document.getElementById('applicationModal').classList.remove('active');
+            document.getElementById('profileModal').classList.remove('active');
+            document.getElementById('unitAssignmentModal').classList.remove('active');
+        }
+
+        function showLoading() {
+            document.getElementById('loadingOverlay').classList.add('active');
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingOverlay').classList.remove('active');
+        }
+
+        // ============ INITIALIZATION ============
+
+        // Check auth state
+        auth.onAuthStateChanged((user) => {
+            if (user && user.email === 'admin@gdgcrover.com') {
+                currentAdmin = user;
+                document.getElementById('loginContainer').classList.remove('active');
+                document.getElementById('adminPanel').style.display = 'flex';
+                document.getElementById('adminEmail').textContent = currentAdmin.email;
+                initializeAdminPanel();
+            }
+        });
+
+        // Make functions globally available
+        window.handleAdminLogin = handleAdminLogin;
+        window.handleAdminLogout = handleAdminLogout;
+        window.showSection = showSection;
+        window.toggleSidebar = toggleSidebar;
+        window.filterApplications = filterApplications;
+        window.searchApplications = searchApplications;
+        window.searchMembers = searchMembers;
+        window.searchForBadge = searchForBadge;
+        window.filterByUnit = filterByUnit;
+        window.filterByTeam = filterByTeam;
+        window.filterByRank = filterByRank;
+        window.viewApplication = viewApplication;
+        window.viewMemberProfile = viewMemberProfile;
+        window.approveApplication = approveApplication;
+        window.rejectApplication = rejectApplication;
+        window.deleteApplication = deleteApplication;
+        window.toggleSelectAll = toggleSelectAll;
+        window.toggleApplicationSelect = toggleApplicationSelect;
+        window.approveSelected = approveSelected;
+        window.rejectSelected = rejectSelected;
+        window.deleteSelected = deleteSelected;
+        window.assignRank = assignRank;
+        window.setMemberRank = setMemberRank;
+        window.toggleBadge = toggleBadge;
+        window.addAllRecipients = addAllRecipients;
+        window.addApprovedRecipients = addApprovedRecipients;
+        window.addPendingRecipients = addPendingRecipients;
+        window.removeRecipient = removeRecipient;
+        window.sendEmail = sendEmail;
+        window.clearEmail = clearEmail;
+        window.exportMembers = exportMembers;
+        window.exportData = exportData;
+        window.exportProfileAsPNG = exportProfileAsPNG;
+        window.exportProfileCards = exportProfileCards;
+        window.exportAllProfiles = exportProfileCards;
+        window.saveSettings = saveSettings;
+        window.closeModal = closeModal;
+        
+        // Unit Management Functions
+        window.openUnitAssignmentModal = openUnitAssignmentModal;
+        window.closeUnitAssignmentModal = closeUnitAssignmentModal;
+        window.updateMemberUnit = updateMemberUnit;
+        window.updateTeamOptions = updateTeamOptions;
+        window.searchAssignmentMembers = searchAssignmentMembers;
+        window.editMemberUnit = editMemberUnit;
+        window.getUnitName = getUnitName;
+        window.getTeamName = getTeamName;
+    </script>
+</body>
+</html>
